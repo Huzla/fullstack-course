@@ -1,3 +1,8 @@
 ### 0.4
-![Alt text](./exercise4.svg)
-<img src="./exercise4.png">
+![Tehtävän 0.4 kaavio](./exercise4.png)
+
+### 0.5
+![Tehtvänä 0.5 kaavio](./exercise5.png)
+
+### 0.6
+![Tehtävän 0.6 kaavio](./exercise6.png)
