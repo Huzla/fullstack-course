@@ -8,27 +8,27 @@ import './index.css';
 
 const App = () => {
   const course = 'Half Stack application development'
-  const part1 = {
-   name: 'Fundamentals of React',
-   exercises: 10
-  }
-  const part2 = {
-   name: 'Using props to pass data',
-   exercises: 7
-  }
-  const part3 = {
-   name: 'State of a component',
-   exercises: 14
-  }
-
-  let allParts = {part1, part2, part3};
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }
+  ];
 
   return (
     //Note: ES6 and Babel required!
     <div>
       <Header course={course}/>
-      <Content parts={allParts} />
-      <Total parts={allParts} />
+      <Content parts={parts} />
+      <Total parts={parts} />
     </div>
   );
 }
