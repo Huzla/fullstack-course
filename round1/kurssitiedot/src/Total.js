@@ -7,17 +7,20 @@ class Total extends React.Component {
   }
 
   componentDidMount() {
-
-
   }
 
   componentWillUnmount() {
   }
 
+  arraySum(total, next) {
+    //Note: Only works correctly with integers!
+    return total + next;
+  }
+
   render() {
 
     return (
-      <p>Number of exercises {"TODO"}</p>
+      <p>Number of exercises {this.props.exercises.reduce(this.arraySum, 0)}</p>
     );
   }
 }
