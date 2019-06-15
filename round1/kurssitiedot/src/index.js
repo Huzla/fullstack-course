@@ -16,9 +16,10 @@ const App = () => {
   const exercises3 = 14;
 
   return (
+    //Note: ES6 and Babel required!
     <div>
       <Header course={course}/>
-      <Content exercisesPerPart = {{part1: exercises1, part2: exercises2, part3: exercises3}} />
+      <Content exercisesPerPart = {{[part1]: exercises1, [part2]: exercises2, [part3]: exercises3}} />
       <Total exercises={[exercises1, exercises2, exercises3]} />
     </div>
   );
