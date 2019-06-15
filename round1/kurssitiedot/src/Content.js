@@ -1,5 +1,5 @@
 import React from 'react';
-import ContentPart from './ContentPart.js';
+import Part from './Part.js';
 
 class Content extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class Content extends React.Component {
     let result = [];
 
     for (let key in this.props.exercisesPerPart) {
-      result.push(<ContentPart name={key} exercises={this.props.exercisesPerPart[key]}/>);
+      result.push(<Part name={key} exercises={this.props.exercisesPerPart[key]}/>);
     }
     return (result);
   }
