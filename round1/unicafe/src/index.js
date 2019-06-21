@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -67,15 +67,20 @@ const App = () => {
   const handlerBuilder = (value, func) => {
     return () => {
       func(value + 1);
+      setAll(all + 1);
     };
   }
 
+  useEffect(() => {
+    if (all > 0) {
+      setAvg((good - bad)/all);
+      setPos((good)/all*100 + '%');
+    }
+  }, [all]);
+
  const handlers = {"good": handlerBuilder(good, setGood),
                   "neutral": handlerBuilder(neutral, setNeutral),
-                  "bad": handlerBuilder(bad, setBad),
-                  "all": handlerBuilder(all, setAll),
-                  "average": handlerBuilder(average, setAvg),
-                  "positive": handlerBuilder(positive, setPos)
+                  "bad": handlerBuilder(bad, setBad)
                   };
 
   return (
