@@ -25,6 +25,11 @@ ul li span {
   display: table-cell;
 }
 
+h2 {
+  color: #00a2bc;
+  margin-top: 5em;
+}
+
 .divider {
   height: 4em;
   background-color: #00a2bc;

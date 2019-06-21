@@ -31,6 +31,11 @@ const FeedbackOption = ({name, handleClick}) => (
 )
 
 const StatsContainer = ({ stats }) => {
+  if (!stats.all)
+    return (
+      <h2>Be the first to give feedback!</h2>
+    )
+
   let list = [];
   let index = 0;
 
@@ -62,7 +67,7 @@ const App = () => {
   const [bad, setBad] = useState(0);
   const [all, setAll] = useState(0);
   const [average, setAvg] = useState(0.0);
-  const [positive, setPos] = useState(0.0);
+  const [positive, setPos] = useState('0%');
 
   const handlerBuilder = (value, func) => {
     return () => {
@@ -76,7 +81,7 @@ const App = () => {
       setAvg((good - bad)/all);
       setPos((good)/all*100 + '%');
     }
-  }, [all]);
+  }, [all, good, bad]);
 
  const handlers = {"good": handlerBuilder(good, setGood),
                   "neutral": handlerBuilder(neutral, setNeutral),
