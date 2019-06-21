@@ -2,13 +2,31 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const App = (props) => {
-  const [selected, setSelected] = useState(0)
+const Button = ({ handler }) => (
+  <button onClick={ handler }>Next piece of wisdom</button>
+)
+
+const Anecdote = ({ str }) => (
+  <h1>{ str }</h1>
+);
+
+const App = ({ anecdotes }) => {
+  const [selected, setSelected] = useState(0);
+
+  //source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+  const getRandomIndex = () => {
+    return Math.floor(Math.random() * (anecdotes.length));
+  }
+
+  const handleClick = () => {
+    setSelected(getRandomIndex());
+  }
 
   return (
-    <div>
-      {props.anecdotes[selected]}
-    </div>
+    <>
+      <Anecdote str={ anecdotes[selected] } />
+      <Button handler={ handleClick } />
+    </>
   )
 }
 
@@ -22,6 +40,6 @@ const anecdotes = [
 ]
 
 ReactDOM.render(
-  <App anecdotes={anecdotes} />,
+  <App anecdotes={ anecdotes } />,
   document.getElementById('root')
 )
