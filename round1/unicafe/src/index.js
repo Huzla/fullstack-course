@@ -4,10 +4,27 @@ import './index.css';
 
 const Header = () => (
   <header>
+  <div id="logo">LOGO</div>
   <h1>Feedback is appreciated!</h1>
   <div class='divider'></div>
   </header>
 );
+
+const ControlPanel = () => {
+
+}
+
+const FeedbackOption = () => {
+  
+}
+
+const Stats = () => {
+
+}
+
+const StatElement = () => {
+
+}
 
 const App = () => {
 
