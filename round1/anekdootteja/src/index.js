@@ -6,8 +6,12 @@ const Button = ({ handler, text }) => (
   <button onClick={ handler }>{ text || 'button'}</button>
 )
 
-const Anecdote = ({ str }) => (
-  <h1>{ str }</h1>
+const Anecdote = ({ header,  text, votes}) => (
+  <div className="anecdote">
+    <h2>{ header }</h2>
+    <p>{ text } </p>
+    <Votes num={ votes }/>
+  </div>
 );
 
 const Votes = ({ num }) => (
@@ -21,6 +25,8 @@ const App = ({ anecdotes }) => {
   const length = anecdotes.length;
   const [votes, setVotes] = useState(new Array(length).fill(0));
 
+  const ofTheDayHeader = "Anecdote of the day";
+  const mostVotesHeader = "Anecdote with the most votes";
   //source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
   const getRandomIndex = () => {
     return Math.floor(Math.random() * (length));
@@ -40,8 +46,7 @@ const App = ({ anecdotes }) => {
 
   return (
     <>
-      <Anecdote str={ anecdotes[selected] } />
-      <Votes num={ votes[selected] } />
+      <Anecdote header={ ofTheDayHeader } text={ anecdotes[selected] } votes={ votes[selected] } />
       <Button handler={ nextAnecdote } text="Next piece of wisdom" />
       <Button handler={ voteForCurrent } text="Vote" />
     </>
