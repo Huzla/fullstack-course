@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -22,6 +22,7 @@ const Votes = ({ num }) => (
 
 const App = ({ anecdotes }) => {
   const [selected, setSelected] = useState(0);
+  const [most, setMost] = useState(0);
   const length = anecdotes.length;
   const [votes, setVotes] = useState(new Array(length).fill(0));
 
@@ -42,10 +43,17 @@ const App = ({ anecdotes }) => {
     setVotes(copy);
   }
 
+  useEffect(() => {
+    if (votes[selected] > votes[most]) {
+      setMost(selected);
+    }
+  }, [votes, most, selected]);
+
 
 
   return (
     <>
+      <Anecdote header={ mostVotesHeader } text={ anecdotes[most] } votes={ votes[most] } />
       <Anecdote header={ ofTheDayHeader } text={ anecdotes[selected] } votes={ votes[selected] } />
       <Button handler={ nextAnecdote } text="Next piece of wisdom" />
       <Button handler={ voteForCurrent } text="Vote" />
