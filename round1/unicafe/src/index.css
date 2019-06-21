@@ -11,20 +11,26 @@ header {
   height: 12em;
 }
 
-ul {
+table {
+  margin-top: 1em;
+  width: 100%;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+}
+
+td {
   display: inline-block;
-  text-align: left;
-  list-style: none;
+  width: 20%;
 }
 
-ul li {
-  display: table-row;
+tr:nth-child(even) {
+  background: #00a2bc7F;
 }
 
-ul li span {
-  display: table-cell;
+caption {
+  color: #00a2bc;
 }
-
 h2 {
   color: #00a2bc;
   margin-top: 5em;
@@ -36,7 +42,6 @@ h2 {
 }
 
 .amount {
-  padding-left: 1em;
   color: green;
   text-decoration: underline;
 }

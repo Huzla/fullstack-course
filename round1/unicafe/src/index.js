@@ -45,18 +45,21 @@ const Statistics = ({ stats }) => {
   }
 
   return (
-    <ul>
+    <table>
+      <caption>Statistics</caption>
+      <tbody>
       { list }
-    </ul>
+      </tbody>
+    </table>
   )
 
 }
 
 const Statistic = ({comment, amount}) => (
-  <li>
-    <span className="comment">{ comment } </span>
-    <span className="amount">{ amount } </span>
-  </li>
+  <tr>
+    <td className="comment">{ comment } </td>
+    <td className="amount">{ amount } </td>
+  </tr>
 )
 
 const App = () => {
