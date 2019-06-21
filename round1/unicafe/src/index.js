@@ -10,19 +10,30 @@ const Header = () => (
   </header>
 );
 
-const ControlPanel = () => {
+const ControlPanel = ( {options} ) => {
+  let list = [];
+  let index = 0;
 
+
+  for (let name in options) {
+    list = list.concat(<FeedbackOption key={index++} name={name} handleClick={options[name]}/>);
+  }
+
+  return (
+    <div id="ControlPanel">
+      { list }
+    </div>
+  )
 }
 
-const FeedbackOption = () => {
-
-}
+const FeedbackOption = ({name, handleClick}) => (
+  <button onClick={ handleClick }>{ name }</button>
+)
 
 const StatsContainer = ({ stats }) => {
   let list = [];
   let index = 0;
 
-  console.log(stats);
 
   for (let comment in stats) {
     list = list.concat(<StatElement key={index++} comment={comment} amount={stats[comment]}/>);
@@ -50,10 +61,21 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
+  const handlerBuilder = (value, func) => {
+    return () => {
+      func(value + 1);
+    };
+  }
+
+ const handlers = {"good": handlerBuilder(good, setGood),
+                  "neutral": handlerBuilder(neutral, setNeutral),
+                  "bad": handlerBuilder(bad, setBad)
+                  }
 
   return (
     <>
       <Header />
+      <ControlPanel options={ handlers }/>
       <StatsContainer stats={{good, neutral, bad}}/>
     </>
   )
