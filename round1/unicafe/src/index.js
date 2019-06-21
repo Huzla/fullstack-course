@@ -27,7 +27,7 @@ const ControlPanel = ( {options} ) => {
 }
 
 const FeedbackOption = ({name, handleClick}) => (
-  <button onClick={ handleClick }>{ name }</button>
+  <button className="option" onClick={ handleClick }>{ name }</button>
 )
 
 const StatsContainer = ({ stats }) => {
@@ -57,9 +57,12 @@ const StatElement = ({comment, amount}) => (
 const App = () => {
 
   // tallenna napit omaan tilaansa
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+  const [all, setAll] = useState(0);
+  const [average, setAvg] = useState(0.0);
+  const [positive, setPos] = useState(0.0);
 
   const handlerBuilder = (value, func) => {
     return () => {
@@ -69,14 +72,17 @@ const App = () => {
 
  const handlers = {"good": handlerBuilder(good, setGood),
                   "neutral": handlerBuilder(neutral, setNeutral),
-                  "bad": handlerBuilder(bad, setBad)
+                  "bad": handlerBuilder(bad, setBad),
+                  "all": handlerBuilder(all, setAll),
+                  "average": handlerBuilder(average, setAvg),
+                  "positive": handlerBuilder(positive, setPos)
                   };
 
   return (
     <>
       <Header />
       <ControlPanel options={ handlers }/>
-      <StatsContainer stats={{good, neutral, bad}}/>
+      <StatsContainer stats={{good, neutral, bad, all, average, positive}}/>
     </>
   )
 }

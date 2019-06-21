@@ -36,8 +36,18 @@ ul li span {
   text-decoration: underline;
 }
 
+.option {
+  margin: 0;
+}
+
 #root {
   height: 100%;
+}
+
+#ControlPanel {
+  display: grid;
+  grid-template-columns: 10% 10% 10%;
+  justify-content: center;
 }
 
 #logo {
