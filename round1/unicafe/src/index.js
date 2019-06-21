@@ -70,7 +70,7 @@ const App = () => {
  const handlers = {"good": handlerBuilder(good, setGood),
                   "neutral": handlerBuilder(neutral, setNeutral),
                   "bad": handlerBuilder(bad, setBad)
-                  }
+                  };
 
   return (
     <>
