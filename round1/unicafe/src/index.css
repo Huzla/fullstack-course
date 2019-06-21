@@ -1,0 +1,19 @@
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  text-align: center;
+}
+
+#root {
+  height: 100%;
+}
+
+header {
+  height: 12em;
+}
+.divider {
+  height: 4em;
+  background-color: #00a2bc;
+}
