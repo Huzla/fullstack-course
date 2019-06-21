@@ -16,7 +16,7 @@ const ControlPanel = ( {options} ) => {
 
 
   for (let name in options) {
-    list = list.concat(<FeedbackOption key={index++} name={name} handleClick={options[name]}/>);
+    list = list.concat(<Button key={index++} name={name} handleClick={options[name]}/>);
   }
 
   return (
@@ -26,11 +26,11 @@ const ControlPanel = ( {options} ) => {
   )
 }
 
-const FeedbackOption = ({name, handleClick}) => (
+const Button = ({name, handleClick}) => (
   <button className="option" onClick={ handleClick }>{ name }</button>
 )
 
-const StatsContainer = ({ stats }) => {
+const Statistics = ({ stats }) => {
   if (!stats.all)
     return (
       <h2>Be the first to give feedback!</h2>
@@ -41,7 +41,7 @@ const StatsContainer = ({ stats }) => {
 
 
   for (let comment in stats) {
-    list = list.concat(<StatElement key={index++} comment={comment} amount={stats[comment]}/>);
+    list = list.concat(<Statistic key={index++} comment={comment} amount={stats[comment]}/>);
   }
 
   return (
@@ -52,7 +52,7 @@ const StatsContainer = ({ stats }) => {
 
 }
 
-const StatElement = ({comment, amount}) => (
+const Statistic = ({comment, amount}) => (
   <li>
     <span className="comment">{ comment } </span>
     <span className="amount">{ amount } </span>
@@ -92,7 +92,7 @@ const App = () => {
     <>
       <Header />
       <ControlPanel options={ handlers }/>
-      <StatsContainer stats={{good, neutral, bad, all, average, positive}}/>
+      <Statistics stats={{good, neutral, bad, all, average, positive}}/>
     </>
   )
 }
