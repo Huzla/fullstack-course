@@ -2,30 +2,48 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const Button = ({ handler }) => (
-  <button onClick={ handler }>Next piece of wisdom</button>
+const Button = ({ handler, text }) => (
+  <button onClick={ handler }>{ text || 'button'}</button>
 )
 
 const Anecdote = ({ str }) => (
   <h1>{ str }</h1>
 );
 
+const Votes = ({ num }) => (
+  <div id="votes">
+    This anecdote has <strong> { num } </strong> votes.
+  </div>
+)
+
 const App = ({ anecdotes }) => {
   const [selected, setSelected] = useState(0);
+  const length = anecdotes.length;
+  const [votes, setVotes] = useState(new Array(length).fill(0));
 
   //source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
   const getRandomIndex = () => {
-    return Math.floor(Math.random() * (anecdotes.length));
+    return Math.floor(Math.random() * (length));
   }
 
-  const handleClick = () => {
+  const nextAnecdote = () => {
     setSelected(getRandomIndex());
   }
+
+  const voteForCurrent = () => {
+    let copy = [...votes];
+    copy[selected] += 1;
+    setVotes(copy);
+  }
+
+
 
   return (
     <>
       <Anecdote str={ anecdotes[selected] } />
-      <Button handler={ handleClick } />
+      <Votes num={ votes[selected] } />
+      <Button handler={ nextAnecdote } text="Next piece of wisdom" />
+      <Button handler={ voteForCurrent } text="Vote" />
     </>
   )
 }
