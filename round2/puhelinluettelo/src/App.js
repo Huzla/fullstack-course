@@ -5,9 +5,15 @@ import Form from './components/Form.js';
 const App = () => {
   const [ persons, setPersons] = useState([
     { name: 'Arto Hellas', num: "040123567" }
-  ])
+  ]);
+
+  const [ newSearch, setNewSearch ] = useState('');
   const [ newName, setNewName ] = useState('');
   const [ newNum, setNewNum ] = useState('');
+
+  const visibleNumbers = (newSearch === '') ? persons : persons.filter(p => p.name.toUpperCase().includes(newSearch.toUpperCase()));
+
+
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -15,6 +21,10 @@ const App = () => {
 
   const handleNumChange = (event) => {
     setNewNum(event.target.value);
+  }
+
+  const handleSearch = (event) => {
+    setNewSearch(event.target.value);
   }
 
   const handleSubmit = (event) => {
@@ -38,10 +48,13 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <label htmlFor="search">Filter based on name: </label>
+      <input name="search" onChange={ handleSearch }/>
+      <h2>Add new</h2>
       <Form handlers={ {handleSubmit, handleNumChange, handleNameChange} } values={ {newNum, newName} } />
       <h2>Numbers</h2>
-      <Content parts={ persons } />
+      <Content parts={ visibleNumbers } />
     </div>
   )
 
