@@ -7,7 +7,7 @@ const Course = ({course}) => {
 
   return (
     < >
-      <Header course={ course.name }/>
+      <Header level={2} course={ course.name }/>
       <Content parts={ course.parts }/>
       <Total parts={ course.parts }/>
     < />

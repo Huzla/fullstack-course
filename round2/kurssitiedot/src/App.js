@@ -1,5 +1,5 @@
 import React from 'react';
-import Course from './components/Course.js';
+import Curriculum from './components/Curriculum.js';
 import Header from './components/Header.js';
 
 const App = () => {
@@ -50,8 +50,8 @@ const App = () => {
 
   return (
     <div>
-      <Header level=1 course={ title } />
-      <Course course={course} />
+      <Header level={1} course={ title } />
+      <Curriculum courses={courses} />
     </div>
   )
 }
