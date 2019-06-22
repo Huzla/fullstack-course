@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-DIR=/home/huzla/fullstack-course/round
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )""/../round"
+
 
 # Get the round and number of exercises.
 echo Please give the round index and number of exercises
