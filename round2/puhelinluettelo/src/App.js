@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Content from './components/Content.js';
 import Form from './components/Form.js';
+import Search from './components/Search.js';
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -49,8 +50,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <label htmlFor="search">Filter based on name: </label>
-      <input name="search" onChange={ handleSearch }/>
+      <Search value={ newSearch } handler={ handleSearch } />
       <h2>Add new</h2>
       <Form handlers={ {handleSubmit, handleNumChange, handleNameChange} } values={ {newNum, newName} } />
       <h2>Numbers</h2>
