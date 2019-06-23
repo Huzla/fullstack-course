@@ -25,7 +25,7 @@ function App() {
     })
     .then(function(data) {
       setCountries(data.map(obj => {
-        obj.fullRender = 0;
+        obj.fullRender = false;
         return obj;
       }));
     });
@@ -41,13 +41,20 @@ function App() {
     setSearch(e.target.value);
   }
 
+  const handleButtonClick = (e) => {
+    //TODO: Think of a better way to do this.
+    let copy = [...countries ];
+    let index = copy.findIndex(c => c.name === e.target.parentElement.firstChild.innerText );
+    copy[index].fullRender = !copy[index].fullRender;
 
+    setCountries(copy);
+  }
 
 
   return (
     <div className="App">
       <Search value={ newSearch } handler={ handleSearch }/>
-      <Countries countries={ exactMatch ? [exactMatch] : suitableCountries } />
+      <Countries handler={ handleButtonClick } countries={ exactMatch ? [exactMatch] : suitableCountries } />
     </div>
   );
 }

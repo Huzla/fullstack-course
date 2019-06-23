@@ -1,26 +1,25 @@
 import React from 'react';
 import Country from './Country';
 
-const Countries = ({countries}) => {
+const Countries = ({countries, handler}) => {
 
   let result = "Too many matches. Please specify.";
 
   const renderFullCountry = (country) => {
-    let copy = country;
-    copy.fullRender = 2;
 
-    return <Country key={ copy.name } { ...copy }/>;
+    return <Country key={ country.name } handler={ handler } { ...country }/>;
   };
 
-  const renderName = (country) => {
-    if (country.fullRender)
-      return renderFullCountry(country);
+  const renderOneCountry = (country) => {
+    let copy = Object.assign({}, country);
+    copy.fullRender = null;
 
-    return <Country key={ country.name }  name={ country.name } />;
-  };
+    return renderFullCountry(copy);
+  }
+
 
   if (countries.length < 10) {
-    result = countries.map( (countries.length === 1) ? renderFullCountry : renderName);
+    result = countries.map( (countries.length === 1) ? renderOneCountry : renderFullCountry);
   }
 
   return (
