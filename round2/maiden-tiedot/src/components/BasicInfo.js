@@ -5,7 +5,7 @@ const BasicInfo = (props) => {
 
   for (let key in props) {
     if (props[key])
-      info = info.concat(<p key={ key }>{ key }: { props[key] }</p>)
+      info = info.concat(<p key={ key }>{ key }: <strong>{ props[key] }</strong></p>)
   }
 
   return (
