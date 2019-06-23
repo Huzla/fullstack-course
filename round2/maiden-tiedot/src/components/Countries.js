@@ -7,7 +7,7 @@ const Countries = ({countries}) => {
 
   return (
     <div id="countries">
-      TODO
+      { countries.length }
     </div>
   );
 }

@@ -7,8 +7,29 @@ function App() {
   const [countries, setCountries] = useState([]);
 
   const suitableCountries = (newSearch === '') ? countries : countries.filter(c => c.name.toUpperCase().includes(newSearch.toUpperCase()));
+
 //-------------------------------------------------------------------------------------------------------
 
+  useEffect(() => {
+    let promise = fetch('https://restcountries.eu/rest/v2/all');
+
+    promise
+    .catch(function(err) {
+      alert(`${err.message}`);
+    });
+
+    promise
+    .then(function(res) {
+      return res.json();
+    })
+    .then(function(data) {
+      setCountries(data);
+    });
+  }, []);
+
+  useEffect(() => {
+
+  }, [countries])
 
 //------------------------------------------------------------------------------------------------------
 
