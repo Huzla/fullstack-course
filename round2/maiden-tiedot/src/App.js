@@ -12,7 +12,8 @@ function App() {
 //-------------------------------------------------------------------------------------------------------
   //NOTE: json-server is also available.
   useEffect(() => {
-    let promise = fetch('http://localhost:3001/all');
+    //let promise = fetch('http://localhost:3001/all');
+    let promise = fetch('https://restcountries.eu/rest/v2/all');
 
     promise
     .catch(function(err) {
