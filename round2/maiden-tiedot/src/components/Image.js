@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Flag = ({altText, url}) => {
+const Image = ({altText, url}) => {
   let result = (<></>);
 
   if (url)
@@ -13,4 +13,4 @@ const Flag = ({altText, url}) => {
   );
 }
 
-export default Flag
+export default Image

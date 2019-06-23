@@ -1,7 +1,7 @@
 import React from 'react';
 import BasicInfo from './BasicInfo.js';
 import Languages from './Languages.js';
-import Flag from './Flag.js';
+import Image from './Flag.js';
 import Button from './Button.js';
 
 const Country = (props) => {
@@ -13,9 +13,10 @@ const Country = (props) => {
   }
 
   if (props.fullRender !== false) {
+
     info = info.concat(<BasicInfo key="basic" Population={ props.population } Capital={ props.capital } />)
                 .concat(<Languages key="langs" langs={ props.languages } />)
-                .concat(<Flag key="flag" {...{altText: `The flag of ${props.name}`, url: props.flag}} />);
+                .concat(<Image key="flag" {...{altText: `The flag of ${props.name}`, url: props.flag}} />);
   }
 
   return (
