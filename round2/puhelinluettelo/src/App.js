@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Content from './components/Content.js';
 import Form from './components/Form.js';
 import Search from './components/Search.js';
 
 const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', num: "040123567" }
-  ]);
+  const [ persons, setPersons] = useState([]);
+
 
   const [ newSearch, setNewSearch ] = useState('');
   const [ newName, setNewName ] = useState('');
@@ -14,6 +13,27 @@ const App = () => {
 
   const visibleNumbers = (newSearch === '') ? persons : persons.filter(p => p.name.toUpperCase().includes(newSearch.toUpperCase()));
 
+//---------------------------------------------------------------------------------------------------------------------------------
+
+  //Fetch data for initial render.
+  useEffect(() => {
+    let promise = fetch('http://localhost:3001/persons');
+
+    promise
+    .catch(function(err) {
+      alert(`${err.message}\nPlease check that the test server is running.`);
+    });
+
+    promise
+    .then(function(res) {
+      return res.json();
+    })
+    .then(function(data) {
+      setPersons(data);
+    });
+  }, []);
+
+//----------------------------------------------------------------------------------------------------------------------------------
 
 
   const handleNameChange = (event) => {
@@ -46,6 +66,8 @@ const App = () => {
 
     setPersons(persons.concat(newPerson));
   }
+
+//-------------------------------------------------------------------------------------------------------------------------------------
 
   return (
     <div>
