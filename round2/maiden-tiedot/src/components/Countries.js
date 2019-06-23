@@ -6,11 +6,17 @@ const Countries = ({countries}) => {
   let result = "Too many matches. Please specify.";
 
   const renderFullCountry = (country) => {
-    return <Country key={ country.name } { ...country }/>;
+    let copy = country;
+    copy.fullRender = 2;
+
+    return <Country key={ copy.name } { ...copy }/>;
   };
 
   const renderName = (country) => {
-    return <Country key={ country.name } name={ country.name } />;
+    if (country.fullRender)
+      return renderFullCountry(country);
+
+    return <Country key={ country.name }  name={ country.name } />;
   };
 
   if (countries.length < 10) {

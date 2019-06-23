@@ -7,12 +7,12 @@ function App() {
   const [countries, setCountries] = useState([]);
 
   const suitableCountries = (newSearch === '') ? countries : countries.filter(c => c.name.toUpperCase().includes(newSearch.toUpperCase()));
-  const exactMatch = suitableCountries.find(c => c.name.toUpperCase() === newSearch.toUpperCase());
+  const exactMatch = suitableCountries ? suitableCountries.find(c => c.name.toUpperCase() === newSearch.toUpperCase()) : null;
 
 //-------------------------------------------------------------------------------------------------------
-
+  //NOTE: json-server is also available.
   useEffect(() => {
-    let promise = fetch('https://restcountries.eu/rest/v2/all');
+    let promise = fetch('http://localhost:3001/all');
 
     promise
     .catch(function(err) {
@@ -24,7 +24,10 @@ function App() {
       return res.json();
     })
     .then(function(data) {
-      setCountries(data);
+      setCountries(data.map(obj => {
+        obj.fullRender = 0;
+        return obj;
+      }));
     });
   }, []);
 
