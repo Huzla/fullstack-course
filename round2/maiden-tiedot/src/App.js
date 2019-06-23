@@ -7,6 +7,7 @@ function App() {
   const [countries, setCountries] = useState([]);
 
   const suitableCountries = (newSearch === '') ? countries : countries.filter(c => c.name.toUpperCase().includes(newSearch.toUpperCase()));
+  const exactMatch = suitableCountries.find(c => c.name.toUpperCase() === newSearch.toUpperCase());
 
 //-------------------------------------------------------------------------------------------------------
 
@@ -43,7 +44,7 @@ function App() {
   return (
     <div className="App">
       <Search value={ newSearch } handler={ handleSearch }/>
-      <Countries countries={ suitableCountries } />
+      <Countries countries={ exactMatch ? [exactMatch] : suitableCountries } />
     </div>
   );
 }
