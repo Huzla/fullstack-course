@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Search from './components/Search.js';
+import Countries from './components/Countries.js';
 
 function App() {
   const [newSearch, setSearch] = useState('');
@@ -21,6 +22,7 @@ function App() {
   return (
     <div className="App">
       <Search value={ newSearch } handler={ handleSearch }/>
+      <Countries countries={ suitableCountries } />
     </div>
   );
 }
