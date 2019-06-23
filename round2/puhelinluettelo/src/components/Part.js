@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Part = ({name, num}) => (
+const Part = ({name, number}) => (
   <>
-  <p>{name} {num}</p>
+  <p>{name} {number}</p>
   </>
 )
 
