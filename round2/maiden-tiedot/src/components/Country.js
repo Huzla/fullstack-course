@@ -1,7 +1,7 @@
 import React from 'react';
 import BasicInfo from './BasicInfo.js';
 import Languages from './Languages.js';
-import Image from './Flag.js';
+import Image from './Image.js';
 import Button from './Button.js';
 
 const Country = (props) => {
