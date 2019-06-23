@@ -1,7 +1,7 @@
 import React from 'react';
 import Country from './Country';
 
-const Countries = ({countries, handler}) => {
+const Countries = ({countries, handler, weather}) => {
 
   let result = "Too many matches. Please specify.";
 
@@ -13,6 +13,7 @@ const Countries = ({countries, handler}) => {
   const renderOneCountry = (country) => {
     let copy = Object.assign({}, country);
     copy.fullRender = null;
+    copy.weather = weather;
 
     return renderFullCountry(copy);
   }
