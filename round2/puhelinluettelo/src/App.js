@@ -55,17 +55,23 @@ const App = () => {
         .catch(errorHandler);
   }
 
+  const personIsListed = (person) => persons.find(p => p.name === person.name);
+
   const addNewPerson = (newPerson) => {
 
-    serverInterface
-      .addPerson(newPerson)
-      .then(people => {
-        setNewName('');
-        setNewNum('');
+    if (!personIsListed(newPerson))
+      serverInterface
+        .addPerson(newPerson)
+        .then(people => {
+          setNewName('');
+          setNewNum('');
 
-        setPersons(persons.concat(people));
-      })
-      .catch(errorHandler);
+          setPersons(persons.concat(people));
+        })
+        .catch(errorHandler);
+    else {
+      alert(`${newPerson.name} has already been added to the phonebook!`);
+    }
   }
 
   const handleSubmit = (event) => {
