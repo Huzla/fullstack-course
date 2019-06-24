@@ -21,7 +21,14 @@ const addPerson = (addMe) => {
     .then(data => data);
 }
 
+const removePerson = (id) => {
+  return fetch(`${db}/${id}`, {
+    method: 'DELETE'
+  });
+}
+
 export default {
   getPeople,
-  addPerson
+  addPerson,
+  removePerson
 }

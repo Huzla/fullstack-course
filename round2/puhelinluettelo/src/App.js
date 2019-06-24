@@ -22,14 +22,15 @@ const App = () => {
     serverInterface
       .getPeople()
       .then(peopleFromServer => setPersons(peopleFromServer))
-      .catch(function(err) {
-        alert(`${err.message}\nPlease check that the test server is running.`);
-      });
+      .catch(errorHandler);
 
   }, []);
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
+  const errorHandler = (err) => {
+    alert(err.message);
+  }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -43,10 +44,15 @@ const App = () => {
     setNewSearch(event.target.value);
   }
 
-  const handleRemoval = id => {
-    const person = persons.find(p => p.id === id);
+  const handleRemoval = person => {
 
-    console.log(person);
+    if (window.confirm(`Do you really want to remove ${person.name}`))
+      serverInterface
+        .removePerson(person.id)
+        .then(() => {
+          setPersons(persons.filter(p => p.id !== person.id));
+        })
+        .catch(errorHandler);
   }
 
   const addNewPerson = (newPerson) => {
@@ -59,9 +65,7 @@ const App = () => {
 
         setPersons(persons.concat(people));
       })
-      .catch(err => {
-        alert(err.message);
-      });
+      .catch(errorHandler);
   }
 
   const handleSubmit = (event) => {
