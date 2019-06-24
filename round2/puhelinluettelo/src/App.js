@@ -48,7 +48,6 @@ const App = () => {
     serverInterface
       .addPerson(newPerson)
       .then(people => {
-
         setNewName('');
         setNewNum('');
 

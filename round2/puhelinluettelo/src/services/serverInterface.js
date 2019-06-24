@@ -10,9 +10,15 @@ const getPeople = () => {
 }
 
 const addPerson = (addMe) => {
-  return new Promise((resolve) => {
-    return resolve(addMe)
-  });
+  return fetch(db, {
+    method: 'POST',
+    body: JSON.stringify(addMe),
+    headers:{
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => res.json())
+    .then(data => data);
 }
 
 export default {
