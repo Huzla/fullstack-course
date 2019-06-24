@@ -1,9 +1,9 @@
 import React from 'react';
 import Part from './Part.js';
 
-const Content = ({parts}) => {
+const Content = ({parts, buttonHandler}) => {
 
-  let result = parts.map((part) => <Part key={part.name} {...part}/>);
+  let result = parts.map((part) => <Part key={part.id} {...part} handler={ () => buttonHandler(part.id) }/>);
 
   return (result);
 }

@@ -43,6 +43,12 @@ const App = () => {
     setNewSearch(event.target.value);
   }
 
+  const handleRemoval = id => {
+    const person = persons.find(p => p.id === id);
+
+    console.log(person);
+  }
+
   const addNewPerson = (newPerson) => {
 
     serverInterface
@@ -78,7 +84,7 @@ const App = () => {
       <h2>Add new</h2>
       <Form handlers={ {handleSubmit, handleNumChange, handleNameChange} } values={ {newNum, newName} } />
       <h2>Numbers</h2>
-      <Content parts={ visibleNumbers } />
+      <Content parts={ visibleNumbers } buttonHandler={ handleRemoval } />
     </div>
   )
 
