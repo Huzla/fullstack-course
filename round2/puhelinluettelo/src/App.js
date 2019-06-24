@@ -57,20 +57,35 @@ const App = () => {
 
   const personIsListed = (person) => persons.find(p => p.name === person.name);
 
-  const addNewPerson = (newPerson) => {
+  const resetInput = () => {
+    setNewName('');
+    setNewNum('');
+  }
 
-    if (!personIsListed(newPerson))
+  const addNewPerson = (newPerson) => {
+    let existingPerson = personIsListed(newPerson);
+
+    if (!existingPerson)
       serverInterface
         .addPerson(newPerson)
-        .then(people => {
-          setNewName('');
-          setNewNum('');
+        .then(person => {
+          resetInput();
 
-          setPersons(persons.concat(people));
+          setPersons(persons.concat(person));
         })
         .catch(errorHandler);
     else {
-      alert(`${newPerson.name} has already been added to the phonebook!`);
+      let copy = {...existingPerson, number: newPerson.number};
+
+      if (window.confirm(`${newPerson.name} has already been added to the phonebook!\nWould you like to replace their number with the new one?`))
+        serverInterface
+          .changeNumber(copy)
+          .then(person => {
+            resetInput();
+
+            setPersons(persons.map(p => p.id !== person.id ? p : person));
+          })
+          .catch(errorHandler);
     }
   }
 
@@ -79,7 +94,7 @@ const App = () => {
 
     let newPerson = {
       name: newName,
-      num: newNum
+      number: newNum
     };
 
     addNewPerson(newPerson);

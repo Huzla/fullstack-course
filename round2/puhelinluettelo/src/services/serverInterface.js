@@ -1,5 +1,15 @@
 const db = "http://localhost:3001/persons";
 
+const jsonMessageOptions = (method, data) => {
+  return {
+    method: method,
+    body: JSON.stringify(data),
+    headers:{
+      'Content-Type': 'application/json'
+    }
+  };
+}
+
 const getPeople = () => {
 
   return fetch(db)
@@ -10,13 +20,7 @@ const getPeople = () => {
 }
 
 const addPerson = (addMe) => {
-  return fetch(db, {
-    method: 'POST',
-    body: JSON.stringify(addMe),
-    headers:{
-      'Content-Type': 'application/json'
-    }
-  })
+  return fetch(db, jsonMessageOptions('POST', addMe))
     .then(res => res.json())
     .then(data => data);
 }
@@ -27,8 +31,15 @@ const removePerson = (id) => {
   });
 }
 
+const changeNumber = (person) => {
+  return fetch(`${db}/${person.id}`, jsonMessageOptions('PUT', person))
+    .then(res => res.json())
+    .then(data => data);
+}
+
 export default {
   getPeople,
   addPerson,
-  removePerson
+  removePerson,
+  changeNumber
 }
