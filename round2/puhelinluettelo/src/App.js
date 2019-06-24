@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Content from './components/Content.js';
 import Form from './components/Form.js';
 import Search from './components/Search.js';
+import serverInterface from './services/serverInterface.js';
 
 const App = () => {
   const [ persons, setPersons] = useState([]);
@@ -17,20 +18,14 @@ const App = () => {
 
   //Fetch data for initial render.
   useEffect(() => {
-    let promise = fetch('http://localhost:3001/persons');
 
-    promise
-    .catch(function(err) {
-      alert(`${err.message}\nPlease check that the test server is running.`);
-    });
+    serverInterface
+      .getPeople()
+      .then(peopleFromServer => setPersons(peopleFromServer))
+      .catch(function(err) {
+        alert(`${err.message}\nPlease check that the test server is running.`);
+      });
 
-    promise
-    .then(function(res) {
-      return res.json();
-    })
-    .then(function(data) {
-      setPersons(data);
-    });
   }, []);
 
 //----------------------------------------------------------------------------------------------------------------------------------
@@ -48,6 +43,22 @@ const App = () => {
     setNewSearch(event.target.value);
   }
 
+  const addNewPerson = (newPerson) => {
+
+    serverInterface
+      .addPerson(newPerson)
+      .then(people => {
+
+        setNewName('');
+        setNewNum('');
+
+        setPersons(persons.concat(people));
+      })
+      .catch(err => {
+        alert(err.message);
+      });
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -56,15 +67,7 @@ const App = () => {
       num: newNum
     };
 
-    setNewName('');
-    setNewNum('');
-
-    if (persons.find(p => p.name === newPerson.name)) {
-      alert(`${newPerson.name} has already been added to the phonebook!`);
-      return;
-    }
-
-    setPersons(persons.concat(newPerson));
+    addNewPerson(newPerson);
   }
 
 //-------------------------------------------------------------------------------------------------------------------------------------
