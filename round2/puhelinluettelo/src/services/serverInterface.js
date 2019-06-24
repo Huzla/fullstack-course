@@ -25,15 +25,24 @@ const addPerson = (addMe) => {
     .then(data => data);
 }
 
-const removePerson = (id) => {
-  return fetch(`${db}/${id}`, {
+const removePerson = (person) => {
+  return fetch(`${db}/${person.id}`, {
     method: 'DELETE'
+  })
+  .then(res => {
+    if (!res.ok)
+      throw Error(`${person.name} already removed`);
   });
 }
 
 const changeNumber = (person) => {
   return fetch(`${db}/${person.id}`, jsonMessageOptions('PUT', person))
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok)
+        return res.json()
+
+      throw Error(`${person.name} already removed!`);
+    })
     .then(data => data);
 }
 
