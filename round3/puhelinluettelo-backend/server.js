@@ -7,10 +7,7 @@ const port = 3000;
 
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-  res.send("Hello");
-});
-
+app.use('/', routes.general);
 app.use('/api/persons', routes.api);
 
 app.listen(port, () => console.log(`Server listening on port ${port}`))
