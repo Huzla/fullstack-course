@@ -1,13 +1,15 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const morgan = require('morgan');
+const logger = require('./utils/logger.js');
 const routes = require('./routes');
 
 const port = 3000;
 
 app.use(bodyParser.json());
-app.use(morgan('tiny'));
+
+//See utils/logger.js for morgan related exercises.
+app.use(logger);
 
 app.use('/', routes.general);
 app.use('/api/persons', routes.api);
