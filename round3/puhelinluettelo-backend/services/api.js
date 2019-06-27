@@ -18,7 +18,11 @@ const removePerson = (id) => {
 };
 
 const addPerson = (person) => {
+  if (db.find((p) => p.name === person.name))
+    return false;
+
   db.push(person);
+  return true;
 }
 
 const fetchEveryone = () => {

@@ -37,12 +37,14 @@ const postPerson = (req, res) => {
     let number = req.body.number;
 
     if ( !(name && number) )
-      return res.status(400).end();
+      return res.status(400).send("Please include both a name and a number.");
 
     let newPerson = { name, number, id: getRandomInt(0, 1000000) };
-    services.addPerson( newPerson );
 
-    res.status(201).end();
+    if ( services.addPerson( newPerson ) )
+      return res.status(201).end();
+
+    res.status(400).send("Name must be unique.");
   }
   catch (err) {
     handleError(req, res, err);
