@@ -7,7 +7,7 @@ router.get('/', controllers.getEveryone);
 router.get('/:id', controllers.getPerson);
 
 //---------------POST---------------------------
-
+router.post('/', controllers.postPerson);
 
 //--------------DELETE--------------------------
 

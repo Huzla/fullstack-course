@@ -1,20 +1,55 @@
 const services = require('../services/api.js');
+const { getRandomInt } = require('../utils/random.js');
 
+const handleError = (req, res, err) => {
+  console.log(err.stack);
+  res.status(500).end();
+}
+
+//----------------------------------GET------------------------------------
 const getPerson = (req, res) => {
   try {
     let person = services.findPerson(Number(req.params.id));
 
     if (person)
-    return res.json( person);
+      return res.json( person);
 
     res.status(404).end();
   }
   catch (err) {
-    console.log(err.stack);
-    res.status(500).end();
+    handleError(req, res, err);
   }
 }
 
+const getEveryone = (req, res) => {
+  try {
+    return res.json( services.fetchEveryone() );
+  }
+  catch (err) {
+    handleError(req, res, err);
+  }
+}
+
+//------------------------------POST---------------------------------------
+const postPerson = (req, res) => {
+  try {
+    let name = req.body.name;
+    let number = req.body.number;
+
+    if ( !(name && number) )
+      return res.status(400).end();
+
+    let newPerson = { name, number, id: getRandomInt(0, 1000000) };
+    services.addPerson( newPerson );
+
+    res.status(201).end();
+  }
+  catch (err) {
+    handleError(req, res, err);
+  }
+}
+
+//------------------------------DELETE--------------------------------------
 const deletePerson = (req, res) => {
   try {
     let status = 500;
@@ -24,28 +59,14 @@ const deletePerson = (req, res) => {
     res.status(status).end();
   }
   catch (err) {
-    console.log(err.stack);
-    res.status(500).end();
+    handleError(req, res, err);
   }
 }
 
-const getEveryone = (req, res) => {
-  try {
-    let everyone = services.fetchEveryone();
-
-    if (everyone)
-    return res.json( everyone );
-
-    res.status(500).end();
-  }
-  catch (err) {
-    console.log(err.stack);
-    res.status(500).end();
-  }
-}
 
 module.exports = {
   getPerson,
   getEveryone,
-  deletePerson
+  deletePerson,
+  postPerson
 }
