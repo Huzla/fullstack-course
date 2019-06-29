@@ -1,4 +1,4 @@
-let db = require('../db/db.js');
+let { Person } = require('../db/models');
 
 //-------------------------------------------------------
 

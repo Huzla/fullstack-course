@@ -1,3 +1,5 @@
+require('dotenv').config();
+const db = require('./db');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -19,4 +21,4 @@ app.use('/', routes.general);
 app.use('/api/persons', routes.api);
 
 
-app.listen(port, () => console.log(`Server listening on port ${port}`))
+app.listen(port, () => console.log(`Server listening on port ${port}`));

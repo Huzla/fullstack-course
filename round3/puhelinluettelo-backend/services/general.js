@@ -1,7 +1,8 @@
-const db = require('../db/db.js');
+let { Person } = require('../db/models');
 
 const countPeople = (id) => {
-  return db.length;
+  return Person.find({})
+        .then(people => people.length);
 }
 
 module.exports = {
