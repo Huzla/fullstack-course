@@ -1,6 +1,9 @@
 #dependencies
 /node_modules
 
+#environment
+.env
+
 # misc
 
 npm-debug.log*
