@@ -41,20 +41,24 @@ const postPerson = (req, res, next) => {
 //------------------------------PUT----------------------------------------
 const putPerson = (req, res, next) => {
   try {
-    let person = services.findPerson(Number(req.params.id));
     let name = req.body.name;
     let number = req.body.number;
-
-    if ( !(name === person.name) )
-      return res.status(400).json({message: "Id does not match the person in the database."});
 
     if ( !number )
       return res.status(400).json({message: "Please give a valid number."});
 
-    if ( services.changePerson(person.id, number) )
-      return res.status(204).end();
+    services.findPerson(req.params.id)
+    .then(person => {
+      if ( !person )
+        return res.status(404).end();
 
-    return res.status(404).end();
+      if ( !(name === person.name) )
+        return res.status(400).json({message: "Id does not match the person in the database."});
+
+      services.changePerson(person.id, number)
+      .then(alteredPerson => res.status(204).end());
+    })
+    .catch(next);
 
   }
   catch (err) {

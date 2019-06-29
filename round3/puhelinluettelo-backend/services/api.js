@@ -1,22 +1,23 @@
 let { Person } = require('../db/models');
 
+//Handle errors caused by casting ids to ObjectID.
+const handleCastingError = err => {
+  if (err.message.includes('Cast'))
+    return null
+  throw err;
+}
+
 //-------------------------------------------------------
 
 const findPerson = (id) => {
   return Person.findById(id)
     .then( person => person)
-    .catch(err => null);
+    .catch(handleCastingError);
 };
 
 const removePerson = (id) => {
-  let index = db.findIndex((p) => p.id === id);
-
-  if (index < 0)
-    return false;
-
-  db.splice(index, 1);
-
-  return true;
+  return Person.deleteOne({_id: id}).exec()
+    .catch(handleCastingError);
 };
 
 const addPerson = (person) => {
