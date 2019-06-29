@@ -31,10 +31,7 @@ const postPerson = (req, res, next) => {
 
     services.addPerson( { name, number } )
     .then( newPerson => res.status(201).json( newPerson.toJSON() ))
-    .catch(err => {
-        //res.status(400).json({message: "Name must be unique."});
-        next(err);
-    });
+    .catch(next(err));
 
 }
 

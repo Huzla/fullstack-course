@@ -3,7 +3,7 @@ let { Person } = require('../db/models');
 //Handle errors caused by casting ids to ObjectID.
 const handleCastingError = err => {
   if (err.message.includes('Cast'))
-    return null
+    err.code = 100;
   throw err;
 }
 
