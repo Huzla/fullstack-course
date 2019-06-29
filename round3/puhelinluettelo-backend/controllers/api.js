@@ -1,13 +1,8 @@
 const services = require('../services/api.js');
 const { getRandomInt } = require('../utils/random.js');
 
-const handleError = (req, res, err) => {
-  console.log(err.stack);
-  res.status(500).end();
-}
-
 //----------------------------------GET------------------------------------
-const getPerson = (req, res) => {
+const getPerson = (req, res, next) => {
   services.findPerson(req.params.id)
     .then(person => {
       if (person)
@@ -15,19 +10,19 @@ const getPerson = (req, res) => {
 
       res.status(404).end();
     })
-    .catch(err => handleError(req, res, err));
+    .catch(next);
 }
 
 const getEveryone = (req, res) => {
 
     services.fetchEveryone()
     .then(people => res.json( people.map( p => p.toJSON() ) ))
-    .catch(err => handleError(req, res, err));
+    .catch(next);
 
 }
 
 //------------------------------POST---------------------------------------
-const postPerson = (req, res) => {
+const postPerson = (req, res, next) => {
   try {
     let name = req.body.name;
     let number = req.body.number;
@@ -43,12 +38,12 @@ const postPerson = (req, res) => {
     res.status(400).json({message: "Name must be unique."});
   }
   catch (err) {
-    handleError(req, res, err);
+    next(err);
   }
 }
 
 //------------------------------PUT----------------------------------------
-const putPerson = (req, res) => {
+const putPerson = (req, res, next) => {
   try {
     let person = services.findPerson(Number(req.params.id));
     let name = req.body.name;
@@ -67,12 +62,12 @@ const putPerson = (req, res) => {
 
   }
   catch (err) {
-    handleError(req, res, err);
+    next(err);
   }
 }
 
 //------------------------------DELETE--------------------------------------
-const deletePerson = (req, res) => {
+const deletePerson = (req, res, next) => {
   try {
     let status = 500;
 
@@ -81,7 +76,7 @@ const deletePerson = (req, res) => {
     res.status(status).end();
   }
   catch (err) {
-    handleError(req, res, err);
+    next(err);
   }
 }
 
