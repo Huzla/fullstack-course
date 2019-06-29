@@ -68,16 +68,13 @@ const putPerson = (req, res, next) => {
 
 //------------------------------DELETE--------------------------------------
 const deletePerson = (req, res, next) => {
-  try {
-    let status = 500;
+    services.removePerson(req.params.id)
+    .then(removed => {
+      const code = removed.deletedCount ? 204 : 404;
 
-    services.removePerson(Number(req.params.id)) ? status = 204 : status = 404;
-
-    res.status(status).end();
-  }
-  catch (err) {
-    next(err);
-  }
+      return res.status(code).end();
+    })
+    .catch(next);
 }
 
 
