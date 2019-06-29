@@ -8,26 +8,22 @@ const handleError = (req, res, err) => {
 
 //----------------------------------GET------------------------------------
 const getPerson = (req, res) => {
-  try {
-    let person = services.findPerson(Number(req.params.id));
+  services.findPerson(req.params.id)
+    .then(person => {
+      if (person)
+        return res.json( person.toJSON() );
 
-    if (person)
-      return res.json( person);
-
-    res.status(404).end();
-  }
-  catch (err) {
-    handleError(req, res, err);
-  }
+      res.status(404).end();
+    })
+    .catch(err => handleError(req, res, err));
 }
 
 const getEveryone = (req, res) => {
-  try {
-    return res.json( services.fetchEveryone() );
-  }
-  catch (err) {
-    handleError(req, res, err);
-  }
+
+    services.fetchEveryone()
+    .then(people => res.json( people.map( p => p.toJSON() ) ))
+    .catch(err => handleError(req, res, err));
+
 }
 
 //------------------------------POST---------------------------------------

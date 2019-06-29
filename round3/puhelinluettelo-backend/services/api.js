@@ -3,7 +3,7 @@ let { Person } = require('../db/models');
 //-------------------------------------------------------
 
 const findPerson = (id) => {
-  return db.find((p) => p.id === id);
+  return Person.findById(id).exec();
 };
 
 const removePerson = (id) => {
@@ -26,7 +26,7 @@ const addPerson = (person) => {
 }
 
 const fetchEveryone = () => {
-  return db;
+  return Person.find({}).exec();
 };
 
 const changePerson = (id, number) => {
