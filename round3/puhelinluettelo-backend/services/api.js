@@ -3,7 +3,9 @@ let { Person } = require('../db/models');
 //-------------------------------------------------------
 
 const findPerson = (id) => {
-  return Person.findById(id).exec();
+  return Person.findById(id)
+    .then( person => person)
+    .catch(err => null);
 };
 
 const removePerson = (id) => {
@@ -26,13 +28,11 @@ const fetchEveryone = () => {
 };
 
 const changePerson = (id, number) => {
-  try {
-    findPerson(id).number = number;
-    return true;
-  }
-  catch (err) {
-    return false;
-  }
+    return findPerson(id)
+      .then(person => {
+        person.number = number;
+        person.save()
+      });
 };
 
 
