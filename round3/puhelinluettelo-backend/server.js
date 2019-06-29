@@ -5,7 +5,7 @@ const cors = require('cors');
 const logger = require('./utils/logger.js');
 const routes = require('./routes');
 
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 app.use(bodyParser.json());
 app.use(cors());
