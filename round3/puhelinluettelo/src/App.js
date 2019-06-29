@@ -57,7 +57,7 @@ const App = () => {
       .changeNumber(copy)
       .then(person => {
         resetInput();
-
+        console.log('Making changes');
         setPersons(persons.map(p => p.id !== person.id ? p : person));
         successHandler(`Changed ${person.name}'s number to ${person.number}'!`);
       })

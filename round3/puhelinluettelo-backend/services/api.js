@@ -29,10 +29,21 @@ const fetchEveryone = () => {
   return db;
 };
 
+const changePerson = (id, number) => {
+  try {
+    findPerson(id).number = number;
+    return true;
+  }
+  catch (err) {
+    return false;
+  }
+};
+
 
 module.exports = {
   findPerson,
   fetchEveryone,
   removePerson,
-  addPerson
+  addPerson,
+  changePerson
 }

@@ -33,7 +33,6 @@ const getEveryone = (req, res) => {
 //------------------------------POST---------------------------------------
 const postPerson = (req, res) => {
   try {
-    console.log('Post person reached.');
     let name = req.body.name;
     let number = req.body.number;
 
@@ -52,6 +51,29 @@ const postPerson = (req, res) => {
   }
 }
 
+//------------------------------PUT----------------------------------------
+const putPerson = (req, res) => {
+  try {
+    let person = services.findPerson(Number(req.params.id));
+    let name = req.body.name;
+    let number = req.body.number;
+
+    if ( !(name === person.name) )
+      return res.status(400).json({message: "Id does not match the person in the database."});
+
+    if ( !number )
+      return res.status(400).json({message: "Please give a valid number."});
+
+    if ( services.changePerson(person.id, number) )
+      return res.status(204).end();
+
+    return res.status(404).end();
+
+  }
+  catch (err) {
+    handleError(req, res, err);
+  }
+}
 
 //------------------------------DELETE--------------------------------------
 const deletePerson = (req, res) => {
@@ -72,5 +94,6 @@ module.exports = {
   getPerson,
   getEveryone,
   deletePerson,
-  postPerson
+  postPerson,
+  putPerson
 }

@@ -22,7 +22,7 @@ const getPeople = () => {
 const addPerson = (addMe) => {
   return fetch(db, jsonMessageOptions('POST', addMe))
     .then(res => {
-      if (res.status === 201 || res.status === 4000)
+      if (res.status === 201 || res.status === 400)
         return res.json()
                 .then(data => {
                   if (data.message)
@@ -49,10 +49,17 @@ const removePerson = (person) => {
 const changeNumber = (person) => {
   return fetch(`${db}/${person.id}`, jsonMessageOptions('PUT', person))
     .then(res => {
-      if (res.ok)
-        return res.json()
-
-      throw Error(`${person.name} already removed!`);
+      switch (res.status) {
+        case 204:
+          return person;
+        case 400:
+          return res.json()
+                  .then(err => {throw Error(err.message)});
+        case 404:
+          throw Error(`${person.name} already removed!`);
+        default:
+          throw Error('Could not remove person.');
+      }
     })
     .then(data => data);
 }
