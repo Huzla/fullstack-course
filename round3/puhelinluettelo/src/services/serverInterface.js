@@ -1,4 +1,4 @@
-const db = "http://localhost:3001/persons";
+const db = "http://localhost:4000/api/persons";
 
 const jsonMessageOptions = (method, data) => {
   return {
@@ -21,8 +21,19 @@ const getPeople = () => {
 
 const addPerson = (addMe) => {
   return fetch(db, jsonMessageOptions('POST', addMe))
-    .then(res => res.json())
-    .then(data => data);
+    .then(res => {
+      if (res.status === 201 || res.status === 4000)
+        return res.json()
+                .then(data => {
+                  if (data.message)
+                    throw Error(data.message);
+
+                  //Received new person.
+                  return data;
+                });
+
+      throw Error("Could not add person")
+    });
 }
 
 const removePerson = (person) => {

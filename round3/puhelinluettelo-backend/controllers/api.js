@@ -33,23 +33,25 @@ const getEveryone = (req, res) => {
 //------------------------------POST---------------------------------------
 const postPerson = (req, res) => {
   try {
+    console.log('Post person reached.');
     let name = req.body.name;
     let number = req.body.number;
 
     if ( !(name && number) )
-      return res.status(400).send("Please include both a name and a number.");
+      return res.status(400).json({message: "Please include both a name and a number."});
 
     let newPerson = { name, number, id: getRandomInt(0, 1000000) };
 
     if ( services.addPerson( newPerson ) )
-      return res.status(201).end();
+      return res.status(201).json(newPerson);
 
-    res.status(400).send("Name must be unique.");
+    res.status(400).json({message: "Name must be unique."});
   }
   catch (err) {
     handleError(req, res, err);
   }
 }
+
 
 //------------------------------DELETE--------------------------------------
 const deletePerson = (req, res) => {
