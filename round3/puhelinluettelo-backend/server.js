@@ -10,10 +10,13 @@ const port = process.env.PORT || 4000;
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use(express.static('build'));
+
 //See utils/logger.js for morgan related exercises.
 app.use(logger);
 
 app.use('/', routes.general);
 app.use('/api/persons', routes.api);
+
 
 app.listen(port, () => console.log(`Server listening on port ${port}`))

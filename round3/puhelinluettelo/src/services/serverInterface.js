@@ -1,4 +1,4 @@
-const db = "http://localhost:4000/api/persons";
+const db = "/api/persons";
 
 const jsonMessageOptions = (method, data) => {
   return {
