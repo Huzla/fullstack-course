@@ -13,7 +13,7 @@ const getPerson = (req, res, next) => {
     .catch(next);
 }
 
-const getEveryone = (req, res) => {
+const getEveryone = (req, res, next) => {
 
     services.fetchEveryone()
     .then(people => res.json( people.map( p => p.toJSON() ) ))
@@ -23,23 +23,19 @@ const getEveryone = (req, res) => {
 
 //------------------------------POST---------------------------------------
 const postPerson = (req, res, next) => {
-  try {
     let name = req.body.name;
     let number = req.body.number;
 
     if ( !(name && number) )
-      return res.status(400).json({message: "Please include both a name and a number."});
+      return res.status(400).json({ message: "Please include both a name and a number." });
 
-    let newPerson = { name, number, id: getRandomInt(0, 1000000) };
+    services.addPerson( { name, number } )
+    .then( newPerson => res.status(201).json( newPerson.toJSON() ))
+    .catch(err => {
+        //res.status(400).json({message: "Name must be unique."});
+        next(err);
+    });
 
-    if ( services.addPerson( newPerson ) )
-      return res.status(201).json(newPerson);
-
-    res.status(400).json({message: "Name must be unique."});
-  }
-  catch (err) {
-    next(err);
-  }
 }
 
 //------------------------------PUT----------------------------------------
