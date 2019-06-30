@@ -4,11 +4,17 @@ const Form = ({handlers, values}) => {
   return (
     <form onSubmit={ handlers.handleSubmit }>
     <div>
-      <label htmlFor="name">name: </label>
-      <input name="name" value={ values.newName } onChange={ handlers.handleNameChange }/>
+    
+      <div>
+        <label htmlFor="name">name: </label>
+        <input name="name" value={ values.newName } onChange={ handlers.handleNameChange }/>
+      </div>
 
-      <label htmlFor="number">number: </label>
-      <input name="number" value={ values.newNum } onChange={ handlers.handleNumChange }/>
+      <div>
+        <label htmlFor="number">number: </label>
+        <input name="number" value={ values.newNum } onChange={ handlers.handleNumChange }/>
+      </div>
+
     </div>
     <div>
       <button type="submit">add</button>
