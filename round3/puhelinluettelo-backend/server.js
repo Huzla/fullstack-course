@@ -5,7 +5,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const logger = require('./utils/logger.js');
-const ErrorHandler = require('./utils/ErrorHandler.js');
+const { ErrorHandler } = require('./errors');
 const routes = require('./routes');
 
 const port = process.env.PORT || 4000;
