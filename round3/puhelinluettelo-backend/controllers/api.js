@@ -35,23 +35,18 @@ const postPerson = (req, res, next) => {
 
 //------------------------------PUT----------------------------------------
 const putPerson = (req, res, next) => {
-  try {
-    let number = req.body.number;
+  let number = req.body.number;
 
-    services.findPerson(req.params.id)
-      .then(person => {
-        if ( !person )
-          throw NotFoundError("person");
+  services.findPerson(req.params.id)
+    .then(person => {
+      if ( !person )
+        throw NotFoundError("person");
 
-        return services.changePerson(person.id, number);
-      })
-      .then(() => res.status(204).end())
-      .catch(next);
+      return services.changePerson(person.id, number);
+    })
+    .then(() => res.status(204).end())
+    .catch(next);
 
-  }
-  catch (err) {
-    next(err);
-  }
 };
 
 //------------------------------DELETE--------------------------------------
