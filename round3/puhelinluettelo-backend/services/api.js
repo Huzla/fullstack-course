@@ -1,4 +1,4 @@
-let { Person } = require('../db/models');
+let { Person } = require("../db/models");
 
 //-------------------------------------------------------
 
@@ -8,23 +8,23 @@ const findPerson = (id) => {
 };
 
 const removePerson = (id) => {
-  return Person.deleteOne({_id: id}).exec();
+  return Person.deleteOne({ _id: id }).exec();
 };
 
 const addPerson = (person) => {
   return new Person( person ).save();
-}
+};
 
 const fetchEveryone = () => {
   return Person.find({}).exec();
 };
 
 const changePerson = (id, number) => {
-    return findPerson(id)
-      .then(person => {
-        person.number = number;
-        return person.save();
-      });
+  return findPerson(id)
+    .then(person => {
+      person.number = number;
+      return person.save();
+    });
 };
 
 
@@ -34,4 +34,4 @@ module.exports = {
   removePerson,
   addPerson,
   changePerson
-}
+};

@@ -1,10 +1,10 @@
-let { Person } = require('../db/models');
+let { Person } = require("../db/models");
 
-const countPeople = (id) => {
+const countPeople = () => {
   return Person.find({})
-        .then(people => people.length);
-}
+    .then(people => people.length);
+};
 
 module.exports = {
   countPeople
-}
+};

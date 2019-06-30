@@ -1,2 +1,2 @@
-exports.ErrorHandler = require('./ErrorHandler.js');
-exports.NotFoundError = require('./NotFoundError.js');
+exports.ErrorHandler = require("./ErrorHandler.js");
+exports.NotFoundError = require("./NotFoundError.js");

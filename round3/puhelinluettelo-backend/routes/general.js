@@ -1,6 +1,6 @@
-const router = require('express').Router();
-const controllers = require('../controllers/general.js');
+const router = require("express").Router();
+const controllers = require("../controllers/general.js");
 
-router.get('/info', controllers.getInfo);
+router.get("/info", controllers.getInfo);
 
 module.exports = router;

@@ -1,1 +1,1 @@
-exports.Person = require('./person');
+exports.Person = require("./person");
