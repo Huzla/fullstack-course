@@ -1,23 +1,14 @@
 let { Person } = require('../db/models');
 
-//Handle errors caused by casting ids to ObjectID.
-const handleCastingError = err => {
-  if (err.message.includes('Cast'))
-    err.code = 100;
-  throw err;
-}
-
 //-------------------------------------------------------
 
+//All functions should return Promises so use exec() to get rid off Queries.
 const findPerson = (id) => {
-  return Person.findById(id)
-    .then( person => person)
-    .catch(handleCastingError);
+  return Person.findById(id).exec();
 };
 
 const removePerson = (id) => {
-  return Person.deleteOne({_id: id}).exec()
-    .catch(handleCastingError);
+  return Person.deleteOne({_id: id}).exec();
 };
 
 const addPerson = (person) => {
@@ -32,7 +23,7 @@ const changePerson = (id, number) => {
     return findPerson(id)
       .then(person => {
         person.number = number;
-        person.save()
+        return person.save();
       });
 };
 
