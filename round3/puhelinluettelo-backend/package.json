@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "watch": "nodemon server.js",
-    "build:gui": "./scripts/build.sh"
+    "build:gui": "./scripts/build.sh",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
