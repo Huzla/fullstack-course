@@ -1,23 +1,13 @@
 const router = require("express").Router();
-//const controllers = require("../controllers/api.js");
-const Blog = require("../../models").blog;
+const controllers = require("../../controllers").apiBlogs;
 
-router.get("/", (request, response) => {
-  Blog
-    .find({})
-    .then(blogs => {
-      response.json(blogs)
-    });
-});
+//----------------------------------GET-------------------------------------
+router.get("/", controllers.getBlogs);
 
-router.post("/", (request, response) => {
-  const blog = new Blog(request.body)
+//---------------------------------POST-------------------------------------
+router.post("/", controllers.postBlog);
 
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    });
-});
+//----------------------------------PUT-------------------------------------
 
+//--------------------------------DELETE-------------------------------------
 module.exports = router;
