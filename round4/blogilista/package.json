@@ -17,6 +17,7 @@
     "mongoose": "^5.6.3"
   },
   "devDependencies": {
+    "jist": "^1.0.6",
     "nodemon": "^1.19.1"
   }
 }
