@@ -1,21 +1,19 @@
-const Blog = require("../../models").blog;
+const services = require("../../services").apiBlogs;
 
-const getBlogs = (request, response) => {
-  Blog
-    .find({})
+const getBlogs = (request, response, next) => {
+  services.allBlogs()
     .then(blogs => {
       response.json(blogs)
-    });
+    })
+    .catch(next);
 };
 
-const postBlog = (request, response) => {
-  const blog = new Blog(request.body)
-
-  blog
-    .save()
+const postBlog = async (request, response, next) => {
+  servicess.newBlog(request.body)
     .then(result => {
       response.status(201).json(result)
-    });
+    })
+    .catch(next);
 };
 
 module.exports = {
