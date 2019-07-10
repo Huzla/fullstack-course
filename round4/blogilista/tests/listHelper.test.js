@@ -102,27 +102,25 @@ describe("favorite blog", () => {
 describe("most blogs", () => {
 
   test("empty list has no favorite and returns falsy", () => {
-    expect(listHelper.favoriteBlog([])).toBeFalsy();
+    expect(listHelper.mostBlogs([])).toBeFalsy();
   });
 
   test("when list has only one blog that is the favorite", () => {
     const correct = {
-      title: "Go To Statement Considered Harmful",
       author: "Edsger W. Dijkstra",
-      likes: 5,
+      blogs: 1,
     };
 
-    expect(listHelper.favoriteBlog(listWithOneBlog)).toEqual(correct);
+    expect(listHelper.mostBlogs(listWithOneBlog)).toEqual(correct);
   });
 
   test("in a list with many blogs the favorite has most likes", () => {
     const correct = {
-      title: "Testaajan käsikirja",
       author: "Teppo Testaaja",
-      likes: 999
+      blogs: 3
     };
 
-    expect(listHelper.favoriteBlog(listWithManyBlogs)).toEqual(correct)
+    expect(listHelper.mostBlogs(listWithManyBlogs)).toEqual(correct)
   });
 });
 
