@@ -12,11 +12,13 @@ const getBlogs = async (req, res, next) => {
 };
 
 const postBlog = async (req, res, next) => {
-  servicess.newBlog(req.body)
-    .then(result => {
-      res.status(201).json(result)
-    })
-    .catch(next);
+  try {
+    const result = await services.newBlog(req.body);
+    res.status(201).json(result);
+  }
+  catch (err) {
+    next(err);
+  }
 };
 
 module.exports = {

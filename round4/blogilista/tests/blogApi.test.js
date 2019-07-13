@@ -24,6 +24,33 @@ describe("GET tests", () => {
   });
 });
 
+describe("POST tests", () => {
+  const validTestBlogLiked = {
+    title: "Testaaja",
+    author: "Tauno Testaaja",
+    url: "testi.com",
+    likes: 1
+  };
+
+  test("a valid blog is added", async () => {
+    const res = await api
+      .post('/api/blogs')
+      .send(validTestBlogLiked)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd.length).toBe(helper.initialNumOfBlogs() + 1);
+
+    const blogsWithoutId = blogsAtEnd.map(blog => {
+      delete blog.id;
+      return blog;
+    });
+
+    expect(blogsWithoutId).toContainEqual(validTestBlogLiked);
+  });
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
