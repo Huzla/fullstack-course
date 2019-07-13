@@ -10,7 +10,12 @@ beforeEach(async () => {
   await helper.initDb();
 });
 
-test("all blogs are returned", async () => {
+describe("GET tests", () => {
+  test("all blogs are returned", async () => {
+    const res = await api.get("/api/blogs");
+
+    expect(res.body.length).toBe(helper.initialNumOfBlogs());
+  });
 });
 
 afterAll(() => {

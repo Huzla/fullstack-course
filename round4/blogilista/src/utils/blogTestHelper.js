@@ -38,6 +38,10 @@ const initDb = async () => {
   }
 };
 
+const initialNumOfBlogs = () => {
+  return initialBlogs.length;
+};
+
 const blogsInDb = async () => {
   try {
     const blogs = await Blog.find({});
@@ -50,5 +54,6 @@ const blogsInDb = async () => {
 
 module.exports = {
   initDb,
-  blogsInDb
+  blogsInDb,
+  initialNumOfBlogs
 }
