@@ -1,17 +1,20 @@
 const services = require("../../services").apiBlogs;
 
-const getBlogs = (request, response, next) => {
-  services.allBlogs()
-    .then(blogs => {
-      response.json(blogs)
-    })
-    .catch(next);
+
+
+const getBlogs = async (req, res, next) => {
+  try {
+    res.json(await services.allBlogs());
+  }
+  catch (err) {
+    next(err);
+  }
 };
 
-const postBlog = async (request, response, next) => {
-  servicess.newBlog(request.body)
+const postBlog = async (req, res, next) => {
+  servicess.newBlog(req.body)
     .then(result => {
-      response.status(201).json(result)
+      res.status(201).json(result)
     })
     .catch(next);
 };
