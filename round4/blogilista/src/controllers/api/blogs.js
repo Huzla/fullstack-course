@@ -40,8 +40,23 @@ const deleteBlog = async (req, res, next) => {
 
 //-------------------------------------------PUT----------------------------------------
 
+const putBlog = async (req, res, next) => {
+  try {
+    const blog = await services.changeBlog(req.params.id, req.body.likes);
+
+    if (!blog)
+      throw NotFoundError("blog");
+
+    res.status(204).end();
+  }
+  catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getBlogs,
   postBlog,
-  deleteBlog
+  deleteBlog,
+  putBlog
 };

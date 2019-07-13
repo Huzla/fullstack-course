@@ -133,6 +133,54 @@ describe("DELETE tests", () => {
   });
 });
 
+describe("PUT tests", () => {
+  test("Invalid id returns 400", async () => {
+    const testBlogRemoved = (await helper.blogsInDb())[0].id;
+
+    const res = await api
+      .put('/api/blogs/TESTIID')
+      .send(testBlogRemoved)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+  });
+
+  test("If resource is not found returns 404", async () => {
+    const testBlogRemoved = (await helper.blogsInDb())[0];
+
+    const deleteRes = await api
+      .delete(`/api/blogs/${ testBlogRemoved.id }`)
+      .expect(204);
+
+    const putRes = await api
+      .put(`/api/blogs/${ testBlogRemoved.id }`)
+      .send(testBlogRemoved)
+      .expect(404);
+  });
+
+  test("Successful operation returns 204", async () => {
+    const testBlogExisting = (await helper.blogsInDb())[0];
+
+    const putRes = await api
+      .put(`/api/blogs/${ testBlogExisting.id }`)
+      .send(testBlogExisting)
+      .expect(204);
+  });
+
+  test("Successful operation applies changes", async () => {
+    const testBlogExisting = (await helper.blogsInDb())[0];
+
+    const putRes = await api
+      .put(`/api/blogs/${ testBlogExisting.id }`)
+      .send({ likes: 555 })
+      .expect(204);
+
+    const target = (await helper.blogsInDb()).find(blog => blog.id === testBlogExisting.id);
+
+    expect(target).not.toEqual(testBlogExisting);
+    expect(target).toEqual({ ...testBlogExisting, likes: 555 });
+  });
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });

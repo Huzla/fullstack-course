@@ -9,6 +9,8 @@ router.post("/", controllers.postBlog);
 
 //----------------------------------PUT-------------------------------------
 
+router.put("/:id", controllers.putBlog);
+
 //--------------------------------DELETE-------------------------------------
 
 router.delete("/:id", controllers.deleteBlog);

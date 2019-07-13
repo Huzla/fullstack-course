@@ -1,5 +1,6 @@
 
 const ErrorHandler = (err, req, res, next) => {
+
   const sendError = (code) => {
     const errors = err.errors;
     let message = err.message;

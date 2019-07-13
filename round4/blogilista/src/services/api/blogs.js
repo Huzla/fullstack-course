@@ -14,8 +14,19 @@ const removeBlog = (_id) => {
   return Blog.deleteOne({ _id }).exec();
 };
 
+const changeBlog = async (id, likes) => {
+    const blog = await Blog.findById(id).exec();
+
+    if (!blog)
+      return null;
+
+    blog.likes = likes;
+    return blog.save();
+};
+
 module.exports = {
   allBlogs,
   newBlog,
-  removeBlog
+  removeBlog,
+  changeBlog
 };
