@@ -32,7 +32,13 @@ describe("POST tests", () => {
     likes: 1
   };
 
-  test("a valid blog is added", async () => {
+  const validTestBlogNoLikes = {
+    title: "Testauksen alkeet",
+    author: "Tiina Testaaja",
+    url: "testi.com"
+  };
+
+  test("a valid blog with likes is added", async () => {
     const res = await api
       .post('/api/blogs')
       .send(validTestBlogLiked)
@@ -48,6 +54,24 @@ describe("POST tests", () => {
     });
 
     expect(blogsWithoutId).toContainEqual(validTestBlogLiked);
+  });
+
+  test("a valid blog without likes is added and likes is set to 0", async () => {
+    const res = await api
+      .post('/api/blogs')
+      .send(validTestBlogNoLikes)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd.length).toBe(helper.initialNumOfBlogs() + 1);
+
+    const blogsWithoutId = blogsAtEnd.map(blog => {
+      delete blog.id;
+      return blog;
+    });
+
+    expect(blogsWithoutId).toContainEqual({ ...validTestBlogNoLikes, likes: 0 });
   });
 });
 
