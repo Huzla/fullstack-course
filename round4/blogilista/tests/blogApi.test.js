@@ -91,9 +91,17 @@ describe("POST tests", () => {
       .expect(400)
       .expect('Content-Type', /application\/json/);
 
-    console.log(res.body);
-
     expect(res.body.message).toBe("Path `url` is required.")
+  });
+
+  test("a blog without a title is a bad request", async () => {
+    const res = await api
+      .post('/api/blogs')
+      .send(invalidTestBlogWithoutTitle)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(res.body.message).toBe("Path `title` is required.")
   });
 
 });
