@@ -38,6 +38,16 @@ describe("POST tests", () => {
     url: "testi.com"
   };
 
+  const invalidTestBlogWithoutUrl = {
+    title: "Testauksen alkeet",
+    author: "Tiina Testaaja"
+  };
+
+  const invalidTestBlogWithoutTitle = {
+    author: "Tiina Testaaja",
+    url: "testi.com"
+  };
+
   test("a valid blog with likes is added", async () => {
     const res = await api
       .post('/api/blogs')
@@ -73,6 +83,19 @@ describe("POST tests", () => {
 
     expect(blogsWithoutId).toContainEqual({ ...validTestBlogNoLikes, likes: 0 });
   });
+
+  test("a blog without a url is a bad request", async () => {
+    const res = await api
+      .post('/api/blogs')
+      .send(invalidTestBlogWithoutUrl)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    console.log(res.body);
+
+    expect(res.body.message).toBe("Path `url` is required.")
+  });
+
 });
 
 afterAll(() => {
