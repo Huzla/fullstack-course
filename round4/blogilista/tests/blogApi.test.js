@@ -16,6 +16,12 @@ describe("GET tests", () => {
 
     expect(res.body.length).toBe(helper.initialNumOfBlogs());
   });
+
+  test("id field should be set", async () => {
+    const res = await api.get("/api/blogs");
+
+    res.body.map(blog => blog.id).forEach(b => expect(b).toBeDefined());
+  });
 });
 
 afterAll(() => {
