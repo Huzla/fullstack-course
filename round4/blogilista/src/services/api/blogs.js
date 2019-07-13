@@ -10,7 +10,12 @@ const newBlog = (body) => {
   return blog.save();
 };
 
+const removeBlog = (_id) => {
+  return Blog.deleteOne({ _id }).exec();
+};
+
 module.exports = {
   allBlogs,
-  newBlog
+  newBlog,
+  removeBlog
 };

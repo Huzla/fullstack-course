@@ -10,4 +10,6 @@ router.post("/", controllers.postBlog);
 //----------------------------------PUT-------------------------------------
 
 //--------------------------------DELETE-------------------------------------
+
+router.delete("/:id", controllers.deleteBlog);
 module.exports = router;

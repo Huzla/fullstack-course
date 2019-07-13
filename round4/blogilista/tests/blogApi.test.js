@@ -91,7 +91,7 @@ describe("POST tests", () => {
       .expect(400)
       .expect('Content-Type', /application\/json/);
 
-    expect(res.body.message).toBe("Path `url` is required.")
+    expect(res.body.message).toBe("Path `url` is required.");
   });
 
   test("a blog without a title is a bad request", async () => {
@@ -101,9 +101,36 @@ describe("POST tests", () => {
       .expect(400)
       .expect('Content-Type', /application\/json/);
 
-    expect(res.body.message).toBe("Path `title` is required.")
+    expect(res.body.message).toBe("Path `title` is required.");
   });
 
+});
+
+describe("DELETE tests", () => {
+  test("Invalid id returns 400", async () => {
+    const res = await api
+      .delete('/api/blogs/TESTIID')
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+  });
+
+  test("Successful removal returns 204", async () => {
+    const id = (await helper.blogsInDb())[0].id;
+
+    const res = await api
+      .delete(`/api/blogs/${ id }`)
+      .expect(204);
+  });
+
+  test("Successful removal removes resource", async () => {
+    const blog = (await helper.blogsInDb())[0];
+
+    const res = await api
+      .delete(`/api/blogs/${ blog.id }`)
+      .expect(204);
+
+    expect(await helper.blogsInDb()).not.toContainEqual({ blog });
+  });
 });
 
 afterAll(() => {

@@ -1,7 +1,7 @@
 const services = require("../../services").apiBlogs;
+const { NotFoundError } = require("../../errors");
 
-
-
+//-------------------------------------------GET-------------------------------------
 const getBlogs = async (req, res, next) => {
   try {
     res.json(await services.allBlogs());
@@ -11,6 +11,7 @@ const getBlogs = async (req, res, next) => {
   }
 };
 
+//----------------------------------------POST------------------------------------------
 const postBlog = async (req, res, next) => {
   try {
     const result = await services.newBlog(req.body);
@@ -21,7 +22,26 @@ const postBlog = async (req, res, next) => {
   }
 };
 
+//----------------------------------------DELETE----------------------------------------
+
+const deleteBlog = async (req, res, next) => {
+  try {
+    const removed = await services.removeBlog(req.params.id);
+
+    if (removed.deletedCount)
+      return res.status(204).end();
+
+    throw NotFoundError("blog");
+  }
+  catch (err) {
+    next(err);
+  }
+};
+
+//-------------------------------------------PUT----------------------------------------
+
 module.exports = {
   getBlogs,
-  postBlog
+  postBlog,
+  deleteBlog
 };
