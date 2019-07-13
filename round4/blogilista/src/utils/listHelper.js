@@ -24,8 +24,52 @@ const favoriteBlog = (blogs) => {
   return result;
 };
 
+const mostBlogs = (blogs) => {
+  if (!blogs.length)
+    return false;
+
+    let tally = {};
+
+    blogs.forEach(blog => tally[blog.author] = (tally[blog.author] || 0) + 1);
+
+    const numOfBlogs = Object.values(tally);
+    const names = Object.keys(tally);
+    const max = Math.max(...numOfBlogs);
+    const index = numOfBlogs.indexOf(max);
+
+    const result = {
+      author: names[index],
+      blogs: max
+    };
+
+    return result;
+};
+
+const mostLikes = (blogs) => {
+  if (!blogs.length)
+    return false;
+
+  let tally = {};
+
+  blogs.forEach(blog => tally[blog.author] = (tally[blog.author] || 0) + blog.likes);
+
+  const likes = Object.values(tally);
+  const names = Object.keys(tally);
+  const max = Math.max(...likes);
+  const index = likes.indexOf(max);
+
+  const result = {
+    author: names[index],
+    likes: max
+  };
+
+  return result;
+};
+
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs,
+  mostLikes
 };
