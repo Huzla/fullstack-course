@@ -1,7 +1,7 @@
 
 const ErrorHandler = (err, req, res, next) => {
-  console.log(err.stack);
-  
+  console.log(err.message);
+
   const sendError = (code) => {
     const errors = err.errors;
     let message = err.message;

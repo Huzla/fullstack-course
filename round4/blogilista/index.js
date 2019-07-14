@@ -21,6 +21,11 @@ server.on("close", () => {
   console.log("Server closes");
 });
 
+process.on("uncaughtException", (err) => {
+  console.log(err.stack);
+  process.kill(process.pid, "SIGINT");
+});
+
 process.on("SIGINT", () => {
   server.close(() => process.exit(0));
 });

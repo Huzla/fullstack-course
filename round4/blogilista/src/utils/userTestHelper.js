@@ -40,7 +40,7 @@ const initDb = async () => {
     await User.deleteMany({});
 
     const saltRounds = 10
-    const usersWithHash = await Promise.all(testUsers.map(async user => { return { ...user, pass: await bcrypt.hash(user.pass, saltRounds) } }));
+    const usersWithHash = await Promise.all(testUsers.map(async user => { return { ...user, password: await bcrypt.hash(user.pass, saltRounds) } }));
 
     await Promise.all(initialBlogs.map(blog => new Blog(blog).save()));
     await Promise.all(usersWithHash.map(user => User(user).save()));

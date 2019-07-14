@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const supertest = require("supertest");
 const app = require("../src/utils/app.js");
 const { Blog, User } = require("../src/models");
+const { PASS_LENGTH, USERID_LENGTH } = require("../src/utils/config.js");
 const helper= require("../src/utils/userTestHelper.js");
 const bcrypt = require('bcrypt');
 
@@ -20,7 +21,7 @@ describe("GET tests", () => {
 
   test("password should be correct", async () => {
     const res = await api.get("/api/users");
-    const hashAndPass = res.body.map(user => { return { hash: user.pass, password: helper.testUsers.find(tu => tu.userId === user.userId).pass } });
+    const hashAndPass = res.body.map(user => { return { hash: user.password, password: helper.testUsers.find(tu => tu.userId === user.userId).password } });
     hashAndPass.forEach(async ({ hash, password }) => expect(await bcrypt.compare(password, hash)).toBeTruthy());
   });
 });
@@ -36,7 +37,73 @@ describe("POST tests", () => {
     password: "secret"
   };
 
+  test("invalid user with no userId is not added", async () => {
+    const invalidUser = { ...validUser };
+    delete invalidUser.userId;
+
+    const res = await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(res.body.message).toBe("user id should be at least 3 characters long")
+  });
+
+  test("invalid user with no password is not added", async () => {
+    const invalidUser = { ...validUser };
+    delete invalidUser.password;
+
+    const res = await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(res.body.message).toBe("password should be at least 3 characters long")
+  });
+
+  test("invalid user with too short password is not added", async () => {
+    const invalidUser = { ...validUser };
+    invalidUser.password = "a".repeat(PASS_LENGTH - 1);
+
+    const res = await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(res.body.message).toBe("password should be at least 3 characters long")
+  });
+
+  test("invalid user with too short userId is not added", async () => {
+    const invalidUser = { ...validUser };
+    invalidUser.userId = "a".repeat(USERID_LENGTH - 1);
+
+    const res = await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(res.body.message).toBe("user id should be at least 3 characters long")
+  });
+
+  test("invalid user with duplicate userId is not added", async () => {
+    const invalidUser = { ...validUser };
+    invalidUser.userId = helper.testUsers[0].userId;
+
+    const res = await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(res.body.message).toBe("Error, expected `userId` to be unique. Value: `Teppo123`")
+  });
+
   test("a valid user is added", async () => {
+
     const res = await api
       .post('/api/users')
       .send(validUser)
@@ -56,14 +123,10 @@ describe("POST tests", () => {
 
     const usersAtEnd = await helper.usersInDb();
 
-    console.log("TEST", usersAtEnd);
-
     const validUserInDb = usersAtEnd.find(user => user.userId === validUser.userId);
 
-    console.log("TEST", validUserInDb);
-
     expect(validUserInDb).toBeDefined();
-    expect(await bcrypt.compare(validUser.password, validUserInDb.pass)).toBeTruthy();
+    expect(await bcrypt.compare(validUser.password, validUserInDb.password)).toBeTruthy();
 
   });
 });

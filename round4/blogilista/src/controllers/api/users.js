@@ -1,5 +1,6 @@
 const services = require("../../services").apiUsers;
-const { NotFoundError } = require("../../errors");
+const { NotFoundError, ValidationError } = require("../../errors");
+const { PASS_LENGTH, USERID_LENGTH } = require("../../utils/config.js");
 const bcrypt = require('bcrypt');
 
 //-------------------------------------------GET-------------------------------------
@@ -15,12 +16,20 @@ const getUsers = async (req, res, next) => {
 //----------------------------------------POST------------------------------------------
 const postUser = async (req, res, next) => {
   try {
+    const body = req.body;
+
+    if (!body.password || body.password.length < PASS_LENGTH)
+      throw ValidationError(`password should be at least ${ PASS_LENGTH } characters long`, "password");
+
+    if (!body.userId || body.userId.length < USERID_LENGTH)
+      throw ValidationError(`user id should be at least ${ USERID_LENGTH } characters long`, "userId");
+
     const saltRounds = 10
-    const pass = await bcrypt.hash(req.body.password, saltRounds);
+    const password = await bcrypt.hash(body.password, saltRounds);
 
-    delete req.body.password;
+    delete body.password;
 
-    const newUser = await services.newUser({ ...req.body, pass });
+    const newUser = await services.newUser({ ...body, password });
 
     res.status(201).json(newUser);
   }
