@@ -8,11 +8,11 @@ const newUser = (body) => {
   return null;
 };
 
-const removeser = (userId) => {
+const removeUser = (userId) => {
   return null;
 };
 
-const changeser = async (userId) => {
+const changeUser = async (userId) => {
   return null;
 };
 

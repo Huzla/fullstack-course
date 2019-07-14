@@ -1,5 +1,6 @@
 const services = require("../../services").apiUsers;
 const { NotFoundError } = require("../../errors");
+const bcrypt = require('bcrypt');
 
 //-------------------------------------------GET-------------------------------------
 const getUsers = async (req, res, next) => {

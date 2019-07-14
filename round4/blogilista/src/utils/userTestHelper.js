@@ -1,4 +1,5 @@
 const { Blog, User } = require("../models");
+const bcrypt = require('bcrypt');
 
 const initialBlogs = [
   {
@@ -38,8 +39,11 @@ const initDb = async () => {
     await Blog.deleteMany({});
     await User.deleteMany({});
 
+    const saltRounds = 10
+    const usersWithHash = await Promise.all(testUsers.map(async user => { return { ...user, pass: await bcrypt.hash(user.pass, saltRounds) } }));
+
     await Promise.all(initialBlogs.map(blog => new Blog(blog).save()));
-    new Promise.all(testUsers.map(user => User(user).save()));
+    await Promise.all(usersWithHash.map(user => User(user).save()));
   }
   catch (err) {
     throw err;
@@ -64,7 +68,7 @@ const blogsInDb = async () => {
   }
 };
 
-const usersInDb = () => {
+const usersInDb = async () => {
   try {
     const users = await User.find({});
     return users.map(user => user.toJSON());

@@ -15,12 +15,16 @@ describe("GET tests", () => {
   test("all user are returned", async () => {
     const res = await api.get("/api/users");
 
-    expect(res.body.length).toBe(helper.initialNumOfUsers);
+    expect(res.body.length).toBe(helper.initialNumOfUsers());
   });
 
   test("password should be hashed", async () => {
     const res = await api.get("/api/users");
-    const hashAndPass = res.body.map(user => { hash: user.pass, password: helper.testUsers.find(tu => tu.userId === user.userId).pass });
-    hashAndPass.forEach(async { hash, password } => expect(await bcrypt.compare(body.password, user.passwordHash)).toBeTruthy());
+    const hashAndPass = res.body.map(user => { return { hash: user.pass, password: helper.testUsers.find(tu => tu.userId === user.userId).pass } });
+    hashAndPass.forEach(async ({ hash, password }) => expect(await bcrypt.compare(body.password, user.passwordHash)).toBeTruthy());
   });
+});
+
+afterAll(() => {
+  mongoose.connection.close();
 });
