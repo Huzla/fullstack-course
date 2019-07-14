@@ -5,7 +5,7 @@ const allUsers = () => {
 };
 
 const newUser = (body) => {
-  return null;
+  return new User(body).save();
 };
 
 const removeUser = (userId) => {
