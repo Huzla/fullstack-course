@@ -18,6 +18,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/api/blogs/", routes.apiBlogs);
+app.use("/api/users/", routes.apiUsers);
 
 app.use(ErrorHandler);
 
