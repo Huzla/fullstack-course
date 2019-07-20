@@ -5,6 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const { MONGO_URI } = require("./").config;
 const { ErrorHandler } = require("../errors");
+const middleware = require('./middleware.js');
 const routes = require("../routes");
 
 mongoose.connect(MONGO_URI, { useNewUrlParser: true, useCreateIndex: true })
@@ -16,6 +17,7 @@ mongoose.connect(MONGO_URI, { useNewUrlParser: true, useCreateIndex: true })
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(middleware.getTokenFrom);
 
 app.use("/api/blogs/", routes.apiBlogs);
 app.use("/api/users/", routes.apiUsers);
