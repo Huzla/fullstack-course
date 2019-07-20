@@ -18,12 +18,6 @@ describe("GET tests", () => {
 
     expect(res.body.length).toBe(helper.initialNumOfUsers());
   });
-
-  test("password should be correct", async () => {
-    const res = await api.get("/api/users");
-    const hashAndPass = res.body.map(user => { return { hash: user.password, password: helper.testUsers.find(tu => tu.userId === user.userId).password } });
-    hashAndPass.forEach(async ({ hash, password }) => expect(await bcrypt.compare(password, hash)).toBeTruthy());
-  });
 });
 
 describe("POST tests", () => {
