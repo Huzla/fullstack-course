@@ -36,7 +36,14 @@ const postBlog = async (req, res, next) => {
 
 const deleteBlog = async (req, res, next) => {
   try {
-    const removed = await services.removeBlog(req.params.id);
+    const token = req.token;
+    const decodedToken = jwt.verify(token, TOKEN_SECRET);
+
+    if (!token || !decodedToken.userId) {
+      throw JsonWebTokenError("Token missing or invalid.");
+    };
+
+    const removed = await services.removeBlog(req.params.id, decodedToken.userId);
 
     if (removed.deletedCount)
       return res.status(204).end();

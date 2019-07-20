@@ -1,5 +1,5 @@
 const { Blog, User } = require("../../models");
-const { NotFoundError } = require("../../errors");
+const { NotFoundError, JsonWebTokenError } = require("../../errors");
 const allBlogs = () => {
   return Blog.find({})
     .populate("user", { name: 1, userId: 1, _id: 1 })
@@ -26,8 +26,16 @@ const newBlog = async (body, userId) => {
   }
 };
 
-const removeBlog = (_id) => {
-  return Blog.deleteOne({ _id }).exec();
+const removeBlog = async (_id, userId) => {
+
+  const blog = await Blog.findById(_id)
+    .populate("user")
+    .exec();
+
+  if (blog.user.toString() !== userId.toString())
+    return Blog.deleteOne({ _id }).exec();
+
+  throw JsonWebTokenError("Invalid user");
 };
 
 const changeBlog = async (id, likes) => {

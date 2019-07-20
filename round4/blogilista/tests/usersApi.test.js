@@ -14,9 +14,26 @@ beforeEach(async () => {
 
 describe("GET tests", () => {
   test("all user are returned", async () => {
-    const res = await api.get("/api/users");
+    const res = await api.get("/api/users")
+      .expect('Content-Type', /application\/json/);
 
     expect(res.body.length).toBe(helper.initialNumOfUsers());
+  });
+
+  test("blogs field is set", async () => {
+    const res = await api.get("/api/users")
+      .expect('Content-Type', /application\/json/);
+
+    res.body.map(user => user.blogs).forEach(b => expect(b).toBeDefined());
+  });
+
+  test("blogs field contains url, title, author and id", async () => {
+    const res = await api.get("/api/users")
+      .expect('Content-Type', /application\/json/);
+
+      const expectedKeys = ["url", "title", "author", "id"].sort();
+
+    res.body.map(user => user.blogs.map(blog => Object.keys(blog))).forEach(blogLists => blogLists.forEach(keys => expect(keys.sort()).toEqual(expectedKeys)));
   });
 
 });

@@ -3,7 +3,7 @@ const supertest = require("supertest");
 const app = require("../src/utils/app.js");
 const Blog = require("../src/models/blog.js");
 const helper= require("../src/utils/blogTestHelper.js");
-const { TOKEN_SECRET } = require("./src/utils/config.js");
+const { TOKEN_SECRET } = require("../src/utils/config.js");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -13,7 +13,7 @@ beforeEach(async () => {
   await helper.initDb();
 });
 
-describe("GET tests", () => {
+describe("GET blog tests", () => {
   test("all blogs are returned", async () => {
     const res = await api.get("/api/blogs");
 
@@ -24,6 +24,18 @@ describe("GET tests", () => {
     const res = await api.get("/api/blogs");
 
     res.body.map(blog => blog.id).forEach(b => expect(b).toBeDefined());
+  });
+
+  test("user field should be set", async () => {
+    const res = await api.get("/api/blogs");
+
+    res.body.map(blog => blog.user).forEach(b => expect(b).toBeDefined());
+  });
+
+  test("user field should contain userid, name and id", async () => {
+    const res = await api.get("/api/blogs");
+
+    res.body.map(blog => blog.user).forEach(b => expect(b).toBeDefined());
   });
 });
 
@@ -68,6 +80,7 @@ describe("POST tests", () => {
 
     const blogsWithoutId = blogsAtEnd.map(blog => {
       delete blog.id;
+      delete blog.user;
       return blog;
     });
 
@@ -87,6 +100,7 @@ describe("POST tests", () => {
 
     const blogsWithoutId = blogsAtEnd.map(blog => {
       delete blog.id;
+      delete blog.user;
       return blog;
     });
 
@@ -122,16 +136,28 @@ describe("POST tests", () => {
       .expect(401)
       .expect('Content-Type', /application\/json/);
 
-    expect(res.body.message).toBe("Token missing or invalid.");
+    expect(res.body.message).toBe("jwt must be provided");
   });
 
 });
 
 describe("DELETE tests", () => {
+  const testUser = helper.testUsers[0];
+
+  const testingToken = jwt.sign({ userId: testUser.userId }, TOKEN_SECRET);
+
   test("Invalid id returns 400", async () => {
     const res = await api
       .delete('/api/blogs/TESTIID')
+      .set('Authorization', `Bearer ${ testingToken }`)
       .expect(400)
+      .expect('Content-Type', /application\/json/);
+  });
+
+  test("Invalid token results in unauthorized", async () => {
+    const res = await api
+      .delete('/api/blogs/TESTIID')
+      .expect(401)
       .expect('Content-Type', /application\/json/);
   });
 
@@ -140,6 +166,7 @@ describe("DELETE tests", () => {
 
     const res = await api
       .delete(`/api/blogs/${ id }`)
+      .set('Authorization', `Bearer ${ testingToken }`)
       .expect(204);
   });
 
@@ -148,6 +175,7 @@ describe("DELETE tests", () => {
 
     const res = await api
       .delete(`/api/blogs/${ blog.id }`)
+      .set('Authorization', `Bearer ${ testingToken }`)
       .expect(204);
 
     expect(await helper.blogsInDb()).not.toContainEqual({ blog });
@@ -155,6 +183,10 @@ describe("DELETE tests", () => {
 });
 
 describe("PUT tests", () => {
+  const testUser = helper.testUsers[0];
+
+  const testingToken = jwt.sign({ userId: testUser.userId }, TOKEN_SECRET);
+  
   test("Invalid id returns 400", async () => {
     const testBlogRemoved = (await helper.blogsInDb())[0].id;
 
@@ -170,6 +202,7 @@ describe("PUT tests", () => {
 
     const deleteRes = await api
       .delete(`/api/blogs/${ testBlogRemoved.id }`)
+      .set('Authorization', `Bearer ${ testingToken }`)
       .expect(204);
 
     const putRes = await api
@@ -202,6 +235,6 @@ describe("PUT tests", () => {
   });
 });
 
-afterAll(() => {
-  mongoose.connection.close();
+afterAll(async () => {
+  await mongoose.disconnect();
 });
