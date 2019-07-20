@@ -18,6 +18,7 @@ describe("GET tests", () => {
 
     expect(res.body.length).toBe(helper.initialNumOfUsers());
   });
+
 });
 
 describe("POST tests", () => {

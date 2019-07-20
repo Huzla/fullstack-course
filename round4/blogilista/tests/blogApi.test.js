@@ -3,6 +3,9 @@ const supertest = require("supertest");
 const app = require("../src/utils/app.js");
 const Blog = require("../src/models/blog.js");
 const helper= require("../src/utils/blogTestHelper.js");
+const { TOKEN_SECRET } = require("./src/utils/config.js");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const api = supertest(app);
 
@@ -25,6 +28,10 @@ describe("GET tests", () => {
 });
 
 describe("POST tests", () => {
+  const testUser = helper.testUsers[0];
+
+  const testingToken = jwt.sign({ userId: testUser.userId }, TOKEN_SECRET);
+
   const validTestBlogLiked = {
     title: "Testaaja",
     author: "Tauno Testaaja",
@@ -51,6 +58,7 @@ describe("POST tests", () => {
   test("a valid blog with likes is added", async () => {
     const res = await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${ testingToken }`)
       .send(validTestBlogLiked)
       .expect(201)
       .expect('Content-Type', /application\/json/);
@@ -69,6 +77,7 @@ describe("POST tests", () => {
   test("a valid blog without likes is added and likes is set to 0", async () => {
     const res = await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${ testingToken }`)
       .send(validTestBlogNoLikes)
       .expect(201)
       .expect('Content-Type', /application\/json/);
@@ -87,6 +96,7 @@ describe("POST tests", () => {
   test("a blog without a url is a bad request", async () => {
     const res = await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${ testingToken }`)
       .send(invalidTestBlogWithoutUrl)
       .expect(400)
       .expect('Content-Type', /application\/json/);
@@ -97,11 +107,22 @@ describe("POST tests", () => {
   test("a blog without a title is a bad request", async () => {
     const res = await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${ testingToken }`)
       .send(invalidTestBlogWithoutTitle)
       .expect(400)
       .expect('Content-Type', /application\/json/);
 
     expect(res.body.message).toBe("Path `title` is required.");
+  });
+
+  test("request without token is unauthorized", async () => {
+    const res = await api
+      .post('/api/blogs')
+      .send(invalidTestBlogWithoutTitle)
+      .expect(401)
+      .expect('Content-Type', /application\/json/);
+
+    expect(res.body.message).toBe("Token missing or invalid.");
   });
 
 });
