@@ -2,23 +2,16 @@ const services = require("../../services").apiUsers;
 const { NotFoundError, ValidationError } = require("../../errors");
 const { PASS_LENGTH, USERID_LENGTH, TOKEN_SECRET } = require("../../utils/config.js");
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
-/*
-const getTokenFrom = (req) => {
-  const authorization = req.get('authorization');
-
-  if (authorization && authorization.toLowerCase().startsWith('bearer '))
-    return authorization.substring(7);
-
-  return null;
-};
-*/
 
 //-------------------------------------------GET-------------------------------------
 const getUsers = async (req, res, next) => {
   try {
-    res.json((await services.allUsers()).map(user => { return { name: user.name, userId: user.userId }; }));
+    const users = (await services.allUsers()).map(user => {
+      delete user.password;
+      return user;
+    });
+
+    res.json(users);
   }
   catch (err) {
     next(err);

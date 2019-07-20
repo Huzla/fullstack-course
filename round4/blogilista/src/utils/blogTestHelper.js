@@ -46,8 +46,8 @@ const initDb = async () => {
     const blogs = initialBlogs.map(blog => new Blog({ ...blog, user: users[0]._id }));
     users[0].blogs = blogs.map(blog => blog._id);
 
-    await Promise.all(user.map(user => user.save()));
-    await Promise.all(blogs.save());
+    await Promise.all(users.map(user => user.save()));
+    await Promise.all(blogs.map(blog => blog.save()));
   }
   catch (err) {
     throw err;

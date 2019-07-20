@@ -42,8 +42,12 @@ const initDb = async () => {
     const saltRounds = 10
     const usersWithHash = await Promise.all(testUsers.map(async user => { return { ...user, password: await bcrypt.hash(user.password, saltRounds) } }));
 
-    await Promise.all(initialBlogs.map(blog => new Blog(blog).save()));
-    await Promise.all(usersWithHash.map(user => User(user).save()));
+    const users = usersWithHash.map(user => User(user));
+    const blogs = initialBlogs.map(blog => new Blog({ ...blog, user: users[0]._id }));
+    users[0].blogs = blogs.map(blog => blog._id);
+
+    await Promise.all(users.map(user => user.save()));
+    await Promise.all(blogs.map(blog => blog.save()));
   }
   catch (err) {
     throw err;

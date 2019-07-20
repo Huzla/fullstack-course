@@ -1,13 +1,29 @@
-const { Blog } = require("../../models");
-
+const { Blog, User } = require("../../models");
+const { NotFoundError } = require("../../errors");
 const allBlogs = () => {
-  return Blog.find({}).exec();
+  return Blog.find({})
+    .populate("user", { name: 1, userId: 1, _id: 1 })
+    .exec();
 };
 
-const newBlog = (body) => {
-  const blog = new Blog(body)
+const newBlog = async (body, userId) => {
+  try {
 
-  return blog.save();
+    const user = await User.findOne({ userId }).exec();
+
+    if (!user)
+      throw NotFoundError("user");
+
+    const blog = new Blog({ ...body, user: user._id });
+
+    user.blogs.push(blog._id);
+
+    await user.save();
+    return blog.save();
+  }
+  catch (err) {
+    throw err;
+  }
 };
 
 const removeBlog = (_id) => {

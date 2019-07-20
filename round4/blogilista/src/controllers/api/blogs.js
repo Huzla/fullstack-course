@@ -1,5 +1,7 @@
 const services = require("../../services").apiBlogs;
-const { NotFoundError } = require("../../errors");
+const { NotFoundError, JsonWebTokenError } = require("../../errors");
+const { TOKEN_SECRET } = require("../../utils/config.js");
+const jwt = require('jsonwebtoken');
 
 //-------------------------------------------GET-------------------------------------
 const getBlogs = async (req, res, next) => {
@@ -14,7 +16,15 @@ const getBlogs = async (req, res, next) => {
 //----------------------------------------POST------------------------------------------
 const postBlog = async (req, res, next) => {
   try {
-    const result = await services.newBlog(req.body);
+
+    const token = req.token;
+    const decodedToken = jwt.verify(token, TOKEN_SECRET);
+
+    if (!token || !decodedToken.userId) {
+      throw JsonWebTokenError("Token missing or invalid.");
+    };
+
+    const result = await services.newBlog(req.body, decodedToken.userId);
     res.status(201).json(result);
   }
   catch (err) {

@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const blogSchema = mongoose.Schema({
   title: { type: String, required: true },
   author: String,
+  user: { type: ObjectId, ref: "User", required: true },
   url: { type: String, required: true },
   likes: { type: Number, required: true, default: 0 }
 });
