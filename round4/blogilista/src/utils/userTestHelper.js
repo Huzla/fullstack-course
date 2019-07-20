@@ -31,7 +31,7 @@ const initialBlogs = [
 const testUsers = [{
   name: "Teppo Testaaja",
   userId: "Teppo123",
-  pass: "salasana"
+  password: "salasana"
 }];
 
 const initDb = async () => {
@@ -40,7 +40,7 @@ const initDb = async () => {
     await User.deleteMany({});
 
     const saltRounds = 10
-    const usersWithHash = await Promise.all(testUsers.map(async user => { return { ...user, password: await bcrypt.hash(user.pass, saltRounds) } }));
+    const usersWithHash = await Promise.all(testUsers.map(async user => { return { ...user, password: await bcrypt.hash(user.password, saltRounds) } }));
 
     await Promise.all(initialBlogs.map(blog => new Blog(blog).save()));
     await Promise.all(usersWithHash.map(user => User(user).save()));

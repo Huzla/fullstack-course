@@ -18,6 +18,8 @@ const ErrorHandler = (err, req, res, next) => {
     return sendError(400);
   case "NoResourceError":
     return sendError(404);
+  case "CredentialsError":
+    return sendError(401);
   case "CastError":
     return sendError(400);
   default:

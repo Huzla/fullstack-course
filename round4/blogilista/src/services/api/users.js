@@ -1,12 +1,10 @@
 const { Blog, User } = require("../../models");
 
-const allUsers = () => {
-  return User.find({}).exec();
-};
+const allUsers = () => User.find({}).exec();
 
-const newUser = (body) => {
-  return new User(body).save();
-};
+const newUser = (body) => new User(body).save();
+
+const getUser = async (userId) => User.findOne({ userId }).exec();
 
 const removeUser = (userId) => {
   return null;
@@ -16,9 +14,11 @@ const changeUser = async (userId) => {
   return null;
 };
 
+
 module.exports = {
   allUsers,
   newUser,
   removeUser,
-  changeUser
+  changeUser,
+  getUser
 };

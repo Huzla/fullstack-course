@@ -24,7 +24,7 @@ describe("POST tests", () => {
       .post('/login')
       .send(invalidUser)
       .expect(401)
-      .expect('Content-Type', /apdelete plication\/json/);
+      .expect('Content-Type', /application\/json/);
 
     expect(res.body.message).toBe("Incorrect userid or password")
   });
@@ -46,7 +46,7 @@ describe("POST tests", () => {
 
     const res = await api
       .post('/login')
-      .send(validdUser)
+      .send(validUser)
       .expect(200)
       .expect('Content-Type', /application\/json/);
 
@@ -54,7 +54,7 @@ describe("POST tests", () => {
 
     try {
       result = jwt.verify(res.body.token, TOKEN_SECRET);
-      result = result.name === validUser.name && result.userId === validdUser.userId;
+      result = result.userId === validUser.userId;
     }
     catch (err) {
       result = false;
