@@ -1,4 +1,5 @@
-const Blog = require("../models/blog.js");
+const { Blog, User } = require("../models");
+const bcrypt = require('bcrypt');
 
 const initialBlogs = [
   {
@@ -27,11 +28,26 @@ const initialBlogs = [
   }
 ];
 
+const testUsers = [{
+  name: "Teppo Testaaja",
+  userId: "Teppo123",
+  password: "salasana"
+}];
+
 const initDb = async () => {
   try {
     await Blog.deleteMany({});
+    await User.deleteMany({});
 
-    await Promise.all(initialBlogs.map(blog => new Blog(blog).save()));
+    const saltRounds = 10
+    const usersWithHash = await Promise.all(testUsers.map(async user => { return { ...user, password: await bcrypt.hash(user.password, saltRounds) } }));
+
+    const users = usersWithHash.map(user => User(user));
+    const blogs = initialBlogs.map(blog => new Blog({ ...blog, user: users[0]._id }));
+    users[0].blogs = blogs.map(blog => blog._id);
+
+    await Promise.all(user.map(user => user.save()));
+    await Promise.all(blogs.save());
   }
   catch (err) {
     throw err;
@@ -56,5 +72,6 @@ module.exports = {
   initDb,
   blogsInDb,
   initialNumOfBlogs,
-  initialBlogs
+  initialBlogs,
+  testUsers
 }
