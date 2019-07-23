@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import blogService from './services/blogs.js';
 import loginService from "./services/login.js";
-import LoginForm from './components/LoginView/LoginForm';
+import LoginForm from './components/LoginView/LoginForm.js';
+import BlogList from "./components/BlogView/BlogList.js";
 
 function App() {
   const [blogs, setblogs] = useState([]);
@@ -16,6 +17,11 @@ function App() {
       const user = JSON.parse(userJSON);
       setUser(user);
     }
+  }, []);
+
+  useEffect(async () => {
+    const blogs = await blogService.getAll();
+    setblogs(blogs);
   }, []);
 
   const handleLogin = async (event) => {
@@ -43,7 +49,10 @@ function App() {
     return (
       <div className="App">
       { (user) ?
-          <div><button onClick={ handleLogout }>Logout</button></div> :
+          <div>
+            <button onClick={ handleLogout }>Logout</button>
+            <BlogList blogs={ blogs }/>
+          </div> :
           <LoginForm username={ username } password={ password } setPassword={ setPassword } setUsername={ setUsername } handleLogin={ handleLogin }/>
       }
       </div>
