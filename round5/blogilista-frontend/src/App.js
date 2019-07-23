@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import blogService from './services/blogs.js';
+import loginService from "./services/login.js";
 import LoginForm from './components/LoginView/LoginForm';
 
 function App() {
@@ -11,7 +12,18 @@ function App() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    console.log("login");
+    try {
+      const user = await loginService.login({
+        username, password,
+      });
+
+      setUser(user)
+      setUsername('')
+      setPassword('')
+    }
+    catch (err) {
+      alert("Incorrect credentials!");
+    }
   };
 
   if (user === null) {
