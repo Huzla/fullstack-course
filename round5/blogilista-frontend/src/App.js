@@ -19,6 +19,7 @@ function App() {
 
     if (userJSON) {
       const user = JSON.parse(userJSON);
+      blogService.setToken(user.token);
       setUser(user);
     }
   }, []);
@@ -55,7 +56,15 @@ function App() {
 
   const handleBlogSubmit = async (event) => {
     event.preventDefault();
-    console.log("todo");
+
+    try {
+      const newBlog = await blogService.create({ title, author, url });
+
+      setblogs(blogs.concat(newBlog));
+    }
+    catch (err) {
+      alert(err.message);
+    }
   };
 
     return (
@@ -67,7 +76,7 @@ function App() {
               <span>Logged in as <strong>{ user.name }</strong></span>
               <button onClick={ handleLogout }>Logout</button>
             </div>
-            <BlogForm values={ { title, author, url } } setter={ { setTitle, setAuthor, setUrl } } handleSubmit={ handleBlogSubmit }/>
+            <BlogForm values={ { title, author, url } } setters={ { setTitle, setAuthor, setUrl } } handleSubmit={ handleBlogSubmit }/>
             <BlogList blogs={ blogs }/>
           </div> :
           <LoginForm username={ username } password={ password } setPassword={ setPassword } setUsername={ setUsername } handleLogin={ handleLogin }/>
