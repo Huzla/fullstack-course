@@ -19,9 +19,11 @@ function App() {
     }
   }, []);
 
-  useEffect(async () => {
-    const blogs = await blogService.getAll();
-    setblogs(blogs);
+  useEffect(() => {
+    (async function () {
+      const blogs = await blogService.getAll();
+      setblogs(blogs);
+    })()
   }, []);
 
   const handleLogin = async (event) => {
@@ -50,10 +52,10 @@ function App() {
       <div className="App">
       { (user) ?
           <div>
-            <button onClick={ handleLogout }>Logout</button>
             <div>
               <h2>Blogs</h2>
               <p>Logged in as <strong>{ user.name }</strong></p>
+              <button onClick={ handleLogout }>Logout</button>
               <BlogList blogs={ blogs }/>
             </div>
           </div> :
