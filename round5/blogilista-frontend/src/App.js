@@ -51,6 +51,7 @@ function App() {
       { (user) ?
           <div>
             <button onClick={ handleLogout }>Logout</button>
+            <p>Logged in as <strong>{ user.name }</strong></p>
             <BlogList blogs={ blogs }/>
           </div> :
           <LoginForm username={ username } password={ password } setPassword={ setPassword } setUsername={ setUsername } handleLogin={ handleLogin }/>
