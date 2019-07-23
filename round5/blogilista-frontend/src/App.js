@@ -33,9 +33,10 @@ function App() {
         userId: username, password,
       });
 
-      setUser(user)
-      setUsername('')
-      setPassword('')
+      blogService.setToken(user.token);
+      setUser(user);
+      setUsername('');
+      setPassword('');
     }
     catch (err) {
       alert("Incorrect credentials!");
