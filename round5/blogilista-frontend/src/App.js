@@ -4,6 +4,7 @@ import loginService from "./services/login.js";
 import LoginForm from './components/LoginView/LoginForm.js';
 import BlogList from "./components/BlogView/BlogList.js";
 import BlogForm from "./components/BlogView/BlogForm.js";
+import Notification from './components/Notification/Notification.js';
 
 function App() {
   const [blogs, setblogs] = useState([]);
@@ -13,6 +14,8 @@ function App() {
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
   const [user, setUser] = useState(null);
+  const [ notification, setNotification ] = useState({});
+  const [ notificationTimer, setNotificationTimer ] = useState();
 
   useEffect(() => {
     const userJSON = window.localStorage.getItem("loggedBlogAppUser");
@@ -31,6 +34,24 @@ function App() {
     })()
   }, []);
 
+  const showMessage = (type, message) => {
+    setNotification({type, message});
+    setNotificationTimer(setTimeout(clearMessage, 3000));
+  };
+
+  const clearMessage = () => {
+    setNotificationTimer(clearTimeout(notificationTimer));
+    setNotification({});
+  };
+
+  const handleError = (err) => {
+    showMessage("error", err.message);
+  };
+
+  const handleSuccess = (message) => {
+    showMessage("success", message);
+  };
+
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -42,9 +63,10 @@ function App() {
       setUser(user);
       setUsername('');
       setPassword('');
+      handleSuccess("Logged in");
     }
     catch (err) {
-      alert("Incorrect credentials!");
+      handleError({ message: "Incorrect password or username" });
     }
   };
 
@@ -52,6 +74,7 @@ function App() {
     event.preventDefault();
     loginService.logout();
     setUser(null);
+    handleSuccess("Logged out");
   };
 
   const handleBlogSubmit = async (event) => {
@@ -61,14 +84,19 @@ function App() {
       const newBlog = await blogService.create({ title, author, url });
 
       setblogs(blogs.concat(newBlog));
+      setTitle('');
+      setAuthor('');
+      setUrl('');
+      handleSuccess(`New blog ${ newBlog.title } by ${ newBlog.author } added.`);
     }
     catch (err) {
-      alert(err.message);
+      handleError(err.message);
     }
   };
 
     return (
       <div className="App">
+      <Notification { ...notification }/>
       { (user) ?
           <div>
             <h2>Blogs</h2>
