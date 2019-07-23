@@ -52,12 +52,12 @@ function App() {
       <div className="App">
       { (user) ?
           <div>
+            <h2>Blogs</h2>
             <div>
-              <h2>Blogs</h2>
-              <p>Logged in as <strong>{ user.name }</strong></p>
+              <span>Logged in as <strong>{ user.name }</strong></span>
               <button onClick={ handleLogout }>Logout</button>
-              <BlogList blogs={ blogs }/>
             </div>
+            <BlogList blogs={ blogs }/>
           </div> :
           <LoginForm username={ username } password={ password } setPassword={ setPassword } setUsername={ setUsername } handleLogin={ handleLogin }/>
       }
