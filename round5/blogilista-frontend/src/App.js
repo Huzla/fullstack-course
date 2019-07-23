@@ -9,12 +9,20 @@ function App() {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    const userJSON = window.localStorage.getItem("loggedBlogAppUser");
+
+    if (userJSON) {
+      const user = JSON.parse(userJSON);
+      setUser(user);
+    }
+  }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
       const user = await loginService.login({
-        username, password,
+        userId: username, password,
       });
 
       setUser(user)
@@ -26,20 +34,20 @@ function App() {
     }
   };
 
-  if (user === null) {
+  const handleLogout = async (event) => {
+    event.preventDefault();
+    loginService.logout();
+    setUser(null);
+  };
+
     return (
       <div className="App">
-        <h2>Please login</h2>
-        <LoginForm username={ username } password={ password } setPassword={ setPassword } setUsername={ setUsername } handleLogin={ handleLogin }/>
+      { (user) ?
+          <div><button onClick={ handleLogout }>Logout</button></div> :
+          <LoginForm username={ username } password={ password } setPassword={ setPassword } setUsername={ setUsername } handleLogin={ handleLogin }/>
+      }
       </div>
     );
-  }
-
-  return (
-    <div className="App">
-
-    </div>
-  );
 };
 
 export default App;
