@@ -17,7 +17,7 @@ const create = async newObject => {
   };
 
   const res = await axios.post(baseUrl, newObject, config);
-  return res.data'
+  return res.data;
 };
 
 

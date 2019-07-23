@@ -3,11 +3,15 @@ import blogService from './services/blogs.js';
 import loginService from "./services/login.js";
 import LoginForm from './components/LoginView/LoginForm.js';
 import BlogList from "./components/BlogView/BlogList.js";
+import BlogForm from "./components/BlogView/BlogForm.js";
 
 function App() {
   const [blogs, setblogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [url, setUrl] = useState('');
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -49,6 +53,11 @@ function App() {
     setUser(null);
   };
 
+  const handleBlogSubmit = async (event) => {
+    event.preventDefault();
+    console.log("todo");
+  };
+
     return (
       <div className="App">
       { (user) ?
@@ -58,6 +67,7 @@ function App() {
               <span>Logged in as <strong>{ user.name }</strong></span>
               <button onClick={ handleLogout }>Logout</button>
             </div>
+            <BlogForm values={ { title, author, url } } setter={ { setTitle, setAuthor, setUrl } } handleSubmit={ handleBlogSubmit }/>
             <BlogList blogs={ blogs }/>
           </div> :
           <LoginForm username={ username } password={ password } setPassword={ setPassword } setUsername={ setUsername } handleLogin={ handleLogin }/>
