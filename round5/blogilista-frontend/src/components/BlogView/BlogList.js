@@ -22,4 +22,11 @@ const BlogList = ({ blogs, likeHandler, removeHandler, userId }) => {
   return (result);
 };
 
+BlogList.propTypes = {
+  blogs: PropTypes.array.isRequired,
+  likeHandler: PropTypes.func.isRequired,
+  removeHandler: PropTypes.func.isRequired,
+  userId: PropTypes.string.isRequired
+};
+
 export default BlogList;
