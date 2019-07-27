@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import blogService from './services/blogs.js';
+import React, { useState, useEffect } from "react";
+import blogService from "./services/blogs.js";
 import loginService from "./services/login.js";
-import Togglable from "./components/Utils/Togglable.js"
-import LoginForm from './components/LoginView/LoginForm.js';
+import Togglable from "./components/Utils/Togglable.js";
+import LoginForm from "./components/LoginView/LoginForm.js";
 import BlogList from "./components/BlogView/BlogList.js";
 import BlogForm from "./components/BlogView/BlogForm.js";
-import Notification from './components/Notification/Notification.js';
+import Notification from "./components/Notification/Notification.js";
 
 function App() {
   const [blogs, setblogs] = useState([]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [url, setUrl] = useState("");
   const [user, setUser] = useState(null);
   const [ notification, setNotification ] = useState({});
   const [ notificationTimer, setNotificationTimer ] = useState();
@@ -32,11 +32,12 @@ function App() {
     (async function () {
       const blogs = await blogService.getAll();
       setblogs(blogs);
-    })()
+    })();
+
   }, []);
 
   const showMessage = (type, message) => {
-    setNotification({type, message});
+    setNotification({ type, message });
     setNotificationTimer(setTimeout(clearMessage, 3000));
   };
 
@@ -62,8 +63,8 @@ function App() {
 
       blogService.setToken(user.token);
       setUser(user);
-      setUsername('');
-      setPassword('');
+      setUsername("");
+      setPassword("");
       handleSuccess("Logged in");
     }
     catch (err) {
@@ -85,9 +86,9 @@ function App() {
       const newBlog = await blogService.create({ title, author, url });
 
       setblogs(blogs.concat(newBlog));
-      setTitle('');
-      setAuthor('');
-      setUrl('');
+      setTitle("");
+      setAuthor("");
+      setUrl("");
       handleSuccess(`New blog ${ newBlog.title } by ${ newBlog.author } added.`);
     }
     catch (err) {
@@ -120,25 +121,25 @@ function App() {
     }
   };
 
-    return (
-      <div className="App">
+  return (
+    <div className="App">
       <Notification { ...notification }/>
       { (user) ?
+        <div>
+          <h2>Blogs</h2>
           <div>
-            <h2>Blogs</h2>
-            <div>
-              <span>Logged in as <strong>{ user.name }</strong></span>
-              <button onClick={ handleLogout }>Logout</button>
-            </div>
-            <Togglable buttonLabel="add blog">
-              <BlogForm values={ { title, author, url } } setters={ { setTitle, setAuthor, setUrl } } handleSubmit={ handleBlogSubmit }/>
-            </Togglable>
-            <BlogList userId={ user.userId } blogs={ blogs } likeHandler={ likeHandler } removeHandler={ removeHandler }/>
-          </div> :
-          <LoginForm username={ username } password={ password } setPassword={ setPassword } setUsername={ setUsername } handleLogin={ handleLogin }/>
+            <span>Logged in as <strong>{ user.name }</strong></span>
+            <button onClick={ handleLogout }>Logout</button>
+          </div>
+          <Togglable buttonLabel="add blog">
+            <BlogForm values={ { title, author, url } } setters={ { setTitle, setAuthor, setUrl } } handleSubmit={ handleBlogSubmit }/>
+          </Togglable>
+          <BlogList userId={ user.userId } blogs={ blogs } likeHandler={ likeHandler } removeHandler={ removeHandler }/>
+        </div> :
+        <LoginForm username={ username } password={ password } setPassword={ setPassword } setUsername={ setUsername } handleLogin={ handleLogin }/>
       }
-      </div>
-    );
-};
+    </div>
+  );
+}
 
 export default App;
