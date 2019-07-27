@@ -1,5 +1,6 @@
-import React from 'react';
-import Blog from './Blog.js';
+import PropTypes from "prop-types";
+import React from "react";
+import Blog from "./Blog.js";
 
 const BlogList = ({ blogs, likeHandler, removeHandler, userId }) => {
   const copy = [...blogs];
@@ -11,14 +12,14 @@ const BlogList = ({ blogs, likeHandler, removeHandler, userId }) => {
     removable={ blog.user.userId === userId }
     handleLike={ (event) => {
       event.stopPropagation();
-      likeHandler(blog)
+      likeHandler(blog);
     } }
     handleRemove={ (event) => {
       event.stopPropagation();
-      removeHandler(blog)
+      removeHandler(blog);
     } } />);
 
   return (result);
-}
+};
 
-export default BlogList
+export default BlogList;
