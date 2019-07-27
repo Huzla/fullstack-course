@@ -1,0 +1,13 @@
+.blog-item {
+  padding: 3px;
+  border: 1px solid black;
+  margin: 2px;
+}
+
+.blog-item:hover {
+  background-color: rgba(255,255,0,0.2);
+}
+
+.blog-item:active {
+  background-color: rgba(255,255,0,0.5);
+}
