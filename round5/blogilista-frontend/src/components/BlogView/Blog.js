@@ -1,5 +1,6 @@
-import React,{ useState } from 'react';
-import './css/Blog.css';
+import PropTypes from "prop-types";
+import React,{ useState } from "react";
+import "./css/Blog.css";
 
 const Blog = ({ blog, handleLike, handleRemove, removable }) => {
   const [showFull, setShowFull] = useState(false);
@@ -8,10 +9,10 @@ const Blog = ({ blog, handleLike, handleRemove, removable }) => {
     setShowFull(!showFull);
   };
 
-  const fullBlogElement = () =>(
+  const fullBlogElement = () => (
 
     <div className="blog-item-container">
-      <div onClick={ handleClick } className='blog-item blog-item-bg'>
+      <div onClick={ handleClick } className="blog-item blog-item-bg">
       </div>
       <div>
         <strong>{ blog.title }</strong>
@@ -35,18 +36,18 @@ const Blog = ({ blog, handleLike, handleRemove, removable }) => {
       {
         (removable) ?
           <div>
-          <button onClick={ handleRemove } className="blog-item-button" title="remove">&#9932;</button>
+            <button onClick={ handleRemove } className="blog-item-button" title="remove">&#9932;</button>
           </div>
-        :
+          :
           <></>
       }
     </div>
-);
+  );
 
   const minimizedBlogElement = () => (
-      <div onClick={ handleClick } className='blog-item'>
+    <div onClick={ handleClick } className="blog-item">
       <strong>{ blog.title }</strong> <em>{ blog.author }</em>
-      </div>
+    </div>
   );
 
   return (
@@ -54,6 +55,13 @@ const Blog = ({ blog, handleLike, handleRemove, removable }) => {
     { (showFull) ? fullBlogElement() : minimizedBlogElement() }
   </>
   );
-}
+};
 
-export default Blog
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  handleLike: PropTypes.func.isRequired,
+  handleRemove: PropTypes.func.isRequired,
+  removable: PropTypes.bool.isRequired
+};
+
+export default Blog;
