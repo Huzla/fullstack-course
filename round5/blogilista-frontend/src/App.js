@@ -108,6 +108,18 @@ function App() {
     }
   };
 
+  const removeHandler = async (blog) => {
+    try {
+      if (window.confirm(`Do you really want to remove ${ blog.title } by ${ blog.author }`)) {
+        await blogService.remove(blog.id);
+        setblogs(blogs.filter(b => b.id !== blog.id));
+      }
+    }
+    catch (err) {
+      handleError(err.message);
+    }
+  };
+
     return (
       <div className="App">
       <Notification { ...notification }/>
@@ -121,7 +133,7 @@ function App() {
             <Togglable buttonLabel="add blog">
               <BlogForm values={ { title, author, url } } setters={ { setTitle, setAuthor, setUrl } } handleSubmit={ handleBlogSubmit }/>
             </Togglable>
-            <BlogList blogs={ blogs } likeHandler={ likeHandler }/>
+            <BlogList userId={ user.userId } blogs={ blogs } likeHandler={ likeHandler } removeHandler={ removeHandler }/>
           </div> :
           <LoginForm username={ username } password={ password } setPassword={ setPassword } setUsername={ setUsername } handleLogin={ handleLogin }/>
       }

@@ -1,7 +1,7 @@
 import React,{ useState } from 'react';
 import './css/Blog.css';
 
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, handleRemove, removable }) => {
   const [showFull, setShowFull] = useState(false);
 
   const handleClick = () => {
@@ -32,6 +32,14 @@ const Blog = ({ blog, handleLike }) => {
       <div>
         added by <em>{ blog.user.name }</em>
       </div>
+      {
+        (removable) ?
+          <div>
+          <button onClick={ handleRemove } className="blog-item-button" title="remove">&#9932;</button>
+          </div>
+        :
+          <></>
+      }
     </div>
 );
 
