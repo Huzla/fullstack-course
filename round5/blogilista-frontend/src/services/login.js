@@ -1,11 +1,11 @@
-import axios from 'axios';
-const baseUrl = '/login';
+import axios from "axios";
+const baseUrl = "/login";
 
 const login = async (credentials) => {
   const response = await axios.post(baseUrl, credentials);
 
   window.localStorage.setItem(
-    'loggedBlogAppUser',
+    "loggedBlogAppUser",
     JSON.stringify(response.data)
   );
 
@@ -13,7 +13,7 @@ const login = async (credentials) => {
 };
 
 const logout = () => {
-  window.localStorage.removeItem('loggedBlogAppUser');
+  window.localStorage.removeItem("loggedBlogAppUser");
 };
 
 export default { login, logout };
