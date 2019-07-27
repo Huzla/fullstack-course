@@ -1,7 +1,7 @@
 import React,{ useState } from 'react';
 import './css/Blog.css';
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleLike }) => {
   const [showFull, setShowFull] = useState(false);
 
   const handleClick = () => {
@@ -20,11 +20,11 @@ const Blog = ({ blog }) => {
       </div>
 
       <div>
-        <a href={ blog.url }></a>
+        <a href={ blog.url }>{ blog.url }</a>
       </div>
 
       <div>
-        <span>{ blog.likes }</span> likes <button>Like</button>
+        <span>{ blog.likes }</span> likes <button onClick={ handleLike }>Like</button>
       </div>
 
       <div>

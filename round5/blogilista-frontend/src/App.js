@@ -95,6 +95,19 @@ function App() {
     }
   };
 
+  const likeHandler = async (blog) => {
+    try {
+      const copy = { ...blog };
+      copy.likes += 1;
+      await blogService.replace(copy);
+
+      setblogs(blogs.map(b => b.id !== copy.id ? b : copy));
+    }
+    catch (err) {
+      handleError(err.message);
+    }
+  };
+
     return (
       <div className="App">
       <Notification { ...notification }/>
@@ -108,7 +121,7 @@ function App() {
             <Togglable buttonLabel="add blog">
               <BlogForm values={ { title, author, url } } setters={ { setTitle, setAuthor, setUrl } } handleSubmit={ handleBlogSubmit }/>
             </Togglable>
-            <BlogList blogs={ blogs }/>
+            <BlogList blogs={ blogs } likeHandler={ likeHandler }/>
           </div> :
           <LoginForm username={ username } password={ password } setPassword={ setPassword } setUsername={ setUsername } handleLogin={ handleLogin }/>
       }
