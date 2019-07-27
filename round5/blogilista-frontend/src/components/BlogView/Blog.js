@@ -10,7 +10,9 @@ const Blog = ({ blog, handleLike }) => {
 
   const fullBlogElement = () =>(
 
-    <>
+    <div className="blog-item-container">
+      <div onClick={ handleClick } className='blog-item blog-item-bg'>
+      </div>
       <div>
         <strong>{ blog.title }</strong>
       </div>
@@ -24,25 +26,25 @@ const Blog = ({ blog, handleLike }) => {
       </div>
 
       <div>
-        <span>{ blog.likes }</span> likes <button onClick={ handleLike }>Like</button>
+        <span>{ blog.likes }</span> likes <button className="blog-item-button" onClick={ handleLike }>Like</button>
       </div>
 
       <div>
         added by <em>{ blog.user.name }</em>
       </div>
-    </>
+    </div>
 );
 
   const minimizedBlogElement = () => (
-      <>
+      <div onClick={ handleClick } className='blog-item'>
       <strong>{ blog.title }</strong> <em>{ blog.author }</em>
-      </>
+      </div>
   );
 
   return (
-  <div onClick={ handleClick } className='blog-item'>
+  <>
     { (showFull) ? fullBlogElement() : minimizedBlogElement() }
-  </div>
+  </>
   );
 }
 

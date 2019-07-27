@@ -11,3 +11,23 @@
 .blog-item:active {
   background-color: rgba(255,255,0,0.5);
 }
+
+.blog-item-container {
+  position: relative;
+  padding: 3px;
+  border: 1px solid black;
+  margin: 2px;
+}
+
+.blog-item-bg {
+  position: absolute;
+  padding: 0;
+  border: none;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.blog-item-button {
+  position: relative;
+}
