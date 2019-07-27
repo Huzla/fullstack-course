@@ -30,7 +30,7 @@ const postLogin = async (req, res, next) => {
 
     res
     .status(200)
-    .json({ token, name: user.name });
+    .json({ token, name: user.name, userId: user.userId });
   }
   catch (err) {
     next(err);
