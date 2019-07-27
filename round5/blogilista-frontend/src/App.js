@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import blogService from './services/blogs.js';
 import loginService from "./services/login.js";
+import Togglable from "./components/Utils/Togglable.js"
 import LoginForm from './components/LoginView/LoginForm.js';
 import BlogList from "./components/BlogView/BlogList.js";
 import BlogForm from "./components/BlogView/BlogForm.js";
@@ -104,7 +105,9 @@ function App() {
               <span>Logged in as <strong>{ user.name }</strong></span>
               <button onClick={ handleLogout }>Logout</button>
             </div>
-            <BlogForm values={ { title, author, url } } setters={ { setTitle, setAuthor, setUrl } } handleSubmit={ handleBlogSubmit }/>
+            <Togglable buttonLabel="add blog">
+              <BlogForm values={ { title, author, url } } setters={ { setTitle, setAuthor, setUrl } } handleSubmit={ handleBlogSubmit }/>
+            </Togglable>
             <BlogList blogs={ blogs }/>
           </div> :
           <LoginForm username={ username } password={ password } setPassword={ setPassword } setUsername={ setUsername } handleLogin={ handleLogin }/>
