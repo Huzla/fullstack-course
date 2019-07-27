@@ -59,6 +59,12 @@ const deleteBlog = async (req, res, next) => {
 
 const putBlog = async (req, res, next) => {
   try {
+    const token = req.token;
+    const decodedToken = jwt.verify(token, TOKEN_SECRET);
+
+    if (!token || !decodedToken.userId) {
+      throw JsonWebTokenError("Token missing or invalid.");
+    };
     const blog = await services.changeBlog(req.params.id, req.body.likes);
 
     if (!blog)
