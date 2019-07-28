@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import useField from "./hooks/useField.js";
 import blogService from "./services/blogs.js";
 import loginService from "./services/login.js";
 import Togglable from "./components/Utils/Togglable.js";
@@ -9,13 +10,13 @@ import Notification from "./components/Notification/Notification.js";
 
 function App() {
   const [blogs, setblogs] = useState([]);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const username = useField("text");
+  const password = useField("password");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
   const [user, setUser] = useState(null);
-  const [ notification, setNotification ] = useState({});
+  const [ notification, setNotification ] = useState({ type: "", message: ""  });
   const [ notificationTimer, setNotificationTimer ] = useState();
 
   useEffect(() => {
@@ -58,13 +59,13 @@ function App() {
     event.preventDefault();
     try {
       const user = await loginService.login({
-        userId: username, password,
+        userId: username.value,
+        password: password.value,
       });
 
       blogService.setToken(user.token);
       setUser(user);
-      setUsername("");
-      setPassword("");
+
       handleSuccess("Logged in");
     }
     catch (err) {
@@ -136,7 +137,7 @@ function App() {
           </Togglable>
           <BlogList userId={ user.userId } blogs={ blogs } likeHandler={ likeHandler } removeHandler={ removeHandler }/>
         </div> :
-        <LoginForm username={ username } password={ password } setPassword={ setPassword } setUsername={ setUsername } handleLogin={ handleLogin }/>
+        <LoginForm { ...{ password, username, handleLogin } }/>
       }
     </div>
   );

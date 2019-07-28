@@ -14,6 +14,4 @@ const useField = (type) => {
   };
 };
 
-export default {
-  useField
-};
+export default useField;
