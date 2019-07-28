@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import SimpleBlog from "../SimpleBlog.js";
 
 describe("<SimpleBlog />", () => {
@@ -29,6 +29,14 @@ describe("<SimpleBlog />", () => {
 
   test("displays likes with correct content", () => {
     component.getByText(`blog has ${ info.blog.likes } likes`);
+  });
+
+  test("two like button clicks result in two handler calls", () => {
+    const button = component.container.querySelector(".like-button");
+    fireEvent.click(button);
+    fireEvent.click(button);
+
+    expect(info.onClick.mock.calls.length).toBe(2);
   });
 
 });
