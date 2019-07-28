@@ -1,3 +1,5 @@
+let token = "";
+
 const blogs = [
   {
     id: "5a451df7571c224a31b5c8ce",
@@ -36,4 +38,8 @@ const blogs = [
 
 const getAll = () => new Promise(resolve => resolve(blogs));
 
-export default { getAll };
+const setToken = (token) => {
+  token = token;
+}
+
+export default { getAll, setToken };
