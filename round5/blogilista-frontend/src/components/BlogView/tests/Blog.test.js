@@ -47,13 +47,28 @@ describe("<Blog />", () => {
     expect(div).toContainHTML(`<strong>${ info.blog.title }</strong> <em>${ info.blog.author }</em>`)
   });
 
-/*
-  test("two like button clicks result in two handler calls", () => {
-    const button = component.container.querySelector(".like-button");
-    fireEvent.click(button);
-    fireEvent.click(button);
+  test("clicking minimized item displays maximized item", () => {
+    const minimizedDiv = component.container.querySelector(".blog-item");
+    fireEvent.click(minimizedDiv);
 
-    expect(info.onClick.mock.calls.length).toBe(2);
+    const maximizedContainer = component.container.querySelector(".blog-item-container");
+    const maximizedDiv = component.container.querySelector(".blog-item");
+
+    expect(maximizedContainer).not.toBeNull();
+    expect(maximizedDiv).not.toBeNull();
   });
-*/
+
+  test("maximized item displays correct information", () => {
+    const minimizedDiv = component.container.querySelector(".blog-item");
+    fireEvent.click(minimizedDiv);
+
+    const maximizedDiv = component.container.querySelector(".blog-item-container");
+
+    expect(maximizedDiv).toContainHTML(`<strong>${ info.blog.title }</strong>`);
+    expect(maximizedDiv).toContainHTML(`<em>${ info.blog.author }</em>`);
+    expect(maximizedDiv).toContainHTML(`<a href="${ info.blog.url }">${ info.blog.url }</a>`);
+    expect(maximizedDiv).toContainHTML(`<span>${ info.blog.likes }</span>`);
+    expect(maximizedDiv).toContainHTML(`<div>added by <em>${ info.blog.user.name }</em></div>`);
+
+  });
 });
