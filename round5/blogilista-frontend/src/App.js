@@ -123,6 +123,13 @@ function App() {
     }
   };
 
+  const excludeReset = (field) => {
+    const copy = { ...field };
+    delete copy.reset;
+
+    return copy;
+  };
+
   return (
     <div className="App">
       <Notification { ...notification }/>
@@ -134,11 +141,11 @@ function App() {
             <button onClick={ handleLogout }>Logout</button>
           </div>
           <Togglable buttonLabel="add blog">
-            <BlogForm { ...{ title, author, url, handleBlogSubmit } }/>
+            <BlogForm title={ excludeReset(title) } author={ excludeReset(author) } url={ excludeReset(url) } { ...{ handleBlogSubmit } }/>
           </Togglable>
           <BlogList userId={ user.userId } blogs={ blogs } likeHandler={ likeHandler } removeHandler={ removeHandler }/>
         </div> :
-        <LoginForm { ...{ password, username, handleLogin } }/>
+        <LoginForm password={ excludeReset(password) } username={ excludeReset(username) } { ...{ handleLogin } } />
       }
     </div>
   );
