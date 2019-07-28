@@ -65,7 +65,8 @@ function App() {
 
       blogService.setToken(user.token);
       setUser(user);
-
+      username.reset();
+      password.reset();
       handleSuccess("Logged in");
     }
     catch (err) {
