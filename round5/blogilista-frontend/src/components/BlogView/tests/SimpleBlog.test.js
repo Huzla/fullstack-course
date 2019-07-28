@@ -20,7 +20,7 @@ describe("<SimpleBlog />", () => {
   });
 
   test("renders the component", () => {
-    const div = component.container.querySelector(".log-item");
+    const div = component.container.querySelector(".blog-item");
 
     expect(div).not.toBeNull();
   });
