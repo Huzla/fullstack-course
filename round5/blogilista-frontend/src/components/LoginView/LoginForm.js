@@ -2,10 +2,6 @@ import PropTypes from "prop-types";
 import React from "react";
 
 const LoginForm = ({ username, password, handleLogin }) => {
-  const excludeReset = ({ reset, ...otherFields }) => {
-    return otherFields;
-  };
-
   return (
     <div>
       <h2>Please login</h2>
@@ -13,14 +9,14 @@ const LoginForm = ({ username, password, handleLogin }) => {
         <div>
           username
           <input
-            { ...excludeReset(username) }
+            { ...username }
             name="Username"
           />
         </div>
         <div>
           password
           <input
-            { ...excludeReset(password) }
+            { ...password }
             name="Password"
           />
         </div>

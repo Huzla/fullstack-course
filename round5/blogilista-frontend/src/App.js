@@ -12,9 +12,9 @@ function App() {
   const [blogs, setblogs] = useState([]);
   const username = useField("text");
   const password = useField("password");
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
+  const title = useField("text");
+  const author = useField("text");
+  const url = useField("url");
   const [user, setUser] = useState(null);
   const [ notification, setNotification ] = useState({ type: "", message: ""  });
   const [ notificationTimer, setNotificationTimer ] = useState();
@@ -85,12 +85,12 @@ function App() {
     event.preventDefault();
 
     try {
-      const newBlog = await blogService.create({ title, author, url });
+      const newBlog = await blogService.create({ title: title.value, author: author.value, url: url.value });
 
       setblogs(blogs.concat(newBlog));
-      setTitle("");
-      setAuthor("");
-      setUrl("");
+      title.reset();
+      author.reset();
+      url.reset();
       handleSuccess(`New blog ${ newBlog.title } by ${ newBlog.author } added.`);
     }
     catch (err) {
@@ -134,7 +134,7 @@ function App() {
             <button onClick={ handleLogout }>Logout</button>
           </div>
           <Togglable buttonLabel="add blog">
-            <BlogForm values={ { title, author, url } } setters={ { setTitle, setAuthor, setUrl } } handleSubmit={ handleBlogSubmit }/>
+            <BlogForm { ...{ title, author, url, handleBlogSubmit } }/>
           </Togglable>
           <BlogList userId={ user.userId } blogs={ blogs } likeHandler={ likeHandler } removeHandler={ removeHandler }/>
         </div> :
