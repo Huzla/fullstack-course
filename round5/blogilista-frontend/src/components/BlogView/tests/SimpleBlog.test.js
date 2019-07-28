@@ -20,7 +20,9 @@ describe("<SimpleBlog />", () => {
   });
 
   test("renders the component", () => {
-    component.container.querySelector(".blog-item");
+    const div = component.container.querySelector(".log-item");
+
+    expect(div).not.toBeNull();
   });
 
   test("displays title and author with correct content", () => {
