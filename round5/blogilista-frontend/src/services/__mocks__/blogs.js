@@ -32,10 +32,8 @@ const blogs = [
       name: "Teppo Testaaja"
     }
   }
-]
+];
 
-const getAll = () => {
-  return Promise.resolve(blogs)
-}
+const getAll = () => new Promise(resolve => resolve(blogs));
 
-export default { getAll }
+export default { getAll };
