@@ -21,10 +21,21 @@ const initialState = anecdotesAtStart.map(asObject);
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case "CREATE_ANECDOTE":
+      return [...state, action.data];
+
     case "VOTE":
       return state.map(anec => { return { ...anec, votes: (anec.id === action.data.id) ? anec.votes + 1 : anec.votes } });
+
     default: return state;
   }
+};
+
+export const createAnecdote = (content) => {
+  return {
+    type: "CREATE_ANECDOTE",
+    data: asObject(content)
+  };
 };
 
 export const voteFor = (id) => {

@@ -1,5 +1,6 @@
 import React from "react";
-import AnecdoteList from "./components/AnecdoteList.js"
+import AnecdoteList from "./components/AnecdoteList.js";
+import NewAnecdote from "./components/NewAnecdote.js";
 
 const App = ({ store }) => {
   const anecdotes = store.getState();
@@ -9,10 +10,7 @@ const App = ({ store }) => {
       <h2>Anecdotes</h2>
       <AnecdoteList { ...{ anecdotes, store } } />
       <h2>create new</h2>
-      <form>
-        <div><input /></div>
-        <button>create</button>
-      </form>
+      <NewAnecdote { ...{ store } }/>
     </div>
   );
 };
