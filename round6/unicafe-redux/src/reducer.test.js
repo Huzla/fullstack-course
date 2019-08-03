@@ -62,4 +62,57 @@ describe("unicafe reducer", () => {
       bad: 1
     });
   });
+
+
+  test("everything is zerod", () => {
+    let action = {
+      type: "BAD"
+    };
+
+    let state = initialState;
+
+    deepFreeze(state);
+    let newState = counterReducer(state, action);
+    expect(newState).toEqual({
+      good: 0,
+      ok: 0,
+      bad: 1
+    });
+
+    action = {
+      type: "OK"
+    };
+
+    state = newState;
+
+    deepFreeze(state);
+    newState = counterReducer(state, action);
+    expect(newState).toEqual({
+      good: 0,
+      ok: 1,
+      bad: 1
+    });
+
+    action = {
+      type: "GOOD"
+    };
+    state = newState;
+
+    deepFreeze(state);
+    newState = counterReducer(state, action);
+    expect(newState).toEqual({
+      good: 1,
+      ok: 1,
+      bad: 1
+    });
+
+    action = {
+      type: "ZERO"
+    };
+    state = newState;
+
+    deepFreeze(state);
+    newState = counterReducer(state, action);
+    expect(newState).toEqual(initialState);
+  });
 });

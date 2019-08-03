@@ -19,7 +19,7 @@ const counterReducer = (state = initialState, action) => {
     case "BAD":
       return incrementField(state, "bad");
     case "ZERO":
-      return state;
+      return initialState;
     default: return state;
   };
 
