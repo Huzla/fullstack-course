@@ -3,7 +3,7 @@ import AnecdoteList from "./components/AnecdoteList.js";
 import NewAnecdote from "./components/NewAnecdote.js";
 
 const App = ({ store }) => {
-  const anecdotes = store.getState();
+  const anecdotes = [...store.getState()];
 
   return (
     <div>
