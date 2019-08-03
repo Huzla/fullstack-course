@@ -1,6 +1,6 @@
 import React from "react";
 import AnecdoteList from "./components/AnecdoteList.js";
-import NewAnecdote from "./components/NewAnecdote.js";
+import AnecdoteForm from "./components/AnecdoteForm.js";
 
 const App = ({ store }) => {
   const anecdotes = [...store.getState()];
@@ -10,7 +10,7 @@ const App = ({ store }) => {
       <h2>Anecdotes</h2>
       <AnecdoteList { ...{ anecdotes, store } } />
       <h2>create new</h2>
-      <NewAnecdote { ...{ store } }/>
+      <AnecdoteForm { ...{ store } }/>
     </div>
   );
 };
