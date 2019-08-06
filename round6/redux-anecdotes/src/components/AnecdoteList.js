@@ -1,18 +1,35 @@
 import React from "react";
 import Anecdote from "./Anecdote.js";
+import { connect } from "react-redux";
 import { voteFor } from "../reducers/anecdoteReducer.js";
 import { setNotification, clearNotification } from "../reducers/notificationReducer.js";
 
-const AnecdoteList = ({ store }) => {
-  const { anecdotes, filter } = store.getState();
+const AnecdoteList = ({ anecdotes, filter, voteFor }) => {
 
   return anecdotes.sort((a, b) => a.votes < b.votes)
     .filter(anec => anec.content.toUpperCase().includes(filter.toUpperCase()))
-    .map(anecdote => <Anecdote key={ anecdote.id } { ...anecdote } handleVote={ () => {
-    store.dispatch(voteFor(anecdote.id));
-    store.dispatch(setNotification(`You voted for '${ anecdote.content }'`));
-    setTimeout(() => store.dispatch(clearNotification()), 5000);
-    } } />);
+    .map(anecdote => <Anecdote key={ anecdote.id } { ...anecdote } handleVote={ () => voteFor(anecdote) } />);
 };
 
-export default AnecdoteList;
+const mapStateToProps = (state) => {
+  // joskus on hyödyllistä tulostaa mapStateToProps:ista...
+  return {
+    anecdotes: state.anecdotes,
+    filter: state.filter
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    voteFor: ({ content, id }) => {
+      dispatch(voteFor(id));
+      dispatch(setNotification(`You voted for '${ content }'`));
+      setTimeout(() => dispatch(clearNotification()), 5000);
+    },
+  }
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnecdoteList);
