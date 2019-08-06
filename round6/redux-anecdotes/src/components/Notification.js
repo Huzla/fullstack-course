@@ -4,10 +4,12 @@ const Notification = (props) => {
   const style = {
     border: "solid",
     padding: 10,
-    borderWidth: 1
+    borderWidth: 1,
+    display: (props.store.getState().notification) ? "block" : "none"
   };
+
   return (
-    <div style={style}>
+    <div style={ style }>
       { props.store.getState().notification }
     </div>
   );
