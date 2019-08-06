@@ -4,8 +4,13 @@ import { createStore, combineReducers } from "redux";
 import App from "./App.js";
 import anecdoteReducer from "./reducers/anecdoteReducer.js";
 import notificationReducer from "./reducers/notificationReducer.js";
+import filterReducer from "./reducers/filterReducer.js";
 
-const reducer = combineReducers({  anecdotes: anecdoteReducer,  notification: notificationReducer});
+const reducer = combineReducers({
+  anecdotes: anecdoteReducer,
+  notification: notificationReducer,
+  filter: filterReducer
+});
 
 const store = createStore(reducer);
 
