@@ -5,8 +5,8 @@ import Notification from "./components/Notification.js";
 import Filter from "./components/Filter.js";
 
 const App = () => (
-  //<Notification store={ props.store } />
   <div>
+    <Notification />
     <h2>Anecdotes</h2>
     <Filter />
     <AnecdoteList />
