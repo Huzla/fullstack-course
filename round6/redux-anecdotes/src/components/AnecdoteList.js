@@ -6,16 +6,15 @@ import { setNotification, clearNotification } from "../reducers/notificationRedu
 
 const AnecdoteList = ({ anecdotes, filter, voteFor }) => {
 
-  return anecdotes.sort((a, b) => a.votes < b.votes)
-    .filter(anec => anec.content.toUpperCase().includes(filter.toUpperCase()))
-    .map(anecdote => <Anecdote key={ anecdote.id } { ...anecdote } handleVote={ () => voteFor(anecdote) } />);
+  return anecdotes.map(anecdote => <Anecdote key={ anecdote.id } { ...anecdote } handleVote={ () => voteFor(anecdote) } />);
 };
 
 const mapStateToProps = (state) => {
   // joskus on hyödyllistä tulostaa mapStateToProps:ista...
   return {
-    anecdotes: state.anecdotes,
-    filter: state.filter
+    anecdotes: state.anecdotes.sort((a, b) => a.votes < b.votes)
+      .filter(anec => anec.content.toUpperCase()
+      .includes(state.filter.toUpperCase())),
   };
 };
 
