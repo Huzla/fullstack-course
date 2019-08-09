@@ -47,10 +47,20 @@ export const createAnecdote = (content) => {
   };
 };
 
-export const voteFor = (id) => {
-  return {
-    type: "VOTE",
-    data: { id }
+export const voteFor = (anec) => {
+  return async (dispatch) => {
+    try {
+
+      await anecdoteService.patchAnec(anec.id, anec.votes + 1);
+
+      dispatch({
+        type: "VOTE",
+        data: { id: anec.id }
+      });
+    }
+    catch (err) {
+      throw err;
+    }
   };
 };
 

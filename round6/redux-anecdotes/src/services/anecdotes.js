@@ -13,7 +13,10 @@ const postAnecdote = async (content) => {
   return response.data;
 };
 
+const patchAnec = async (id, votes) => axios.patch(`${ baseUrl }/${ id }`, { votes });
+
 export default {
   getAll,
-  postAnecdote
+  postAnecdote,
+  patchAnec
 };

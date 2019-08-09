@@ -20,9 +20,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    voteFor: ({ content, id }) => {
-      dispatch(voteFor(id));
-      dispatch(setNotification(`You voted for '${ content }'`));
+    voteFor: (anec) => {
+      dispatch(voteFor(anec));
+      dispatch(setNotification(`You voted for '${ anec.content }'`));
       setTimeout(() => dispatch(clearNotification()), 5000);
     },
   }
