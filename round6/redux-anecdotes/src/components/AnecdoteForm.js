@@ -24,7 +24,7 @@ const mapDispatchToProps = dispatch => {
   return {
     createAnecdote: (value) => {
       dispatch(createAnecdote(value));
-      setNotification(`New anecdote '${ value }' added`);
+      dispatch(setNotification(`New anecdote '${ value }' added`));
       setTimeout(() => dispatch(clearNotification()), 5000);
     },
   }
