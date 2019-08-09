@@ -1,3 +1,5 @@
+import anecdoteService from "../services/anecdotes.js";
+
 const anecdoteReducer = (state = [], action) => {
   switch (action.type) {
     case "INIT_ANECDOTES":
@@ -13,17 +15,35 @@ const anecdoteReducer = (state = [], action) => {
   }
 };
 
-export const initAnecdotes = (data) => {
-  return {
-    type: "INIT_ANECDOTES",
-    data
+export const initAnecdotes = () => {
+  return async (dispatch) => {
+    try {
+      const data = await anecdoteService.getAll();
+
+      dispatch({
+        type: "INIT_ANECDOTES",
+        data
+      });
+    }
+    catch (err) {
+      throw err;
+    }
   };
 };
 
-export const createAnecdote = (data) => {
-  return {
-    type: "CREATE_ANECDOTE",
-    data
+export const createAnecdote = (content) => {
+  return async (dispatch) => {
+    try {
+      const data = await anecdoteService.postAnecdote(content);
+
+      dispatch({
+        type: "CREATE_ANECDOTE",
+        data
+      });
+    }
+    catch (err) {
+      throw err;
+    }
   };
 };
 

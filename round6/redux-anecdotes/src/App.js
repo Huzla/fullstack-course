@@ -6,17 +6,17 @@ import AnecdoteList from "./components/AnecdoteList.js";
 import AnecdoteForm from "./components/AnecdoteForm.js";
 import Notification from "./components/Notification.js";
 import Filter from "./components/Filter.js";
-import anecdoteService from "./services/anecdotes.js";
 
 const App = (props) => {
   useEffect(() => {
-    anecdoteService.getAll()
-      .then((anecdotes) => {
-        props.initAnecdotes(anecdotes);
-        props.setNotification("Welcome!");
-        setTimeout(() => props.clearNotification(), 5000);
-      })
-      .catch(err => props.setNotification(err.message));
+    try {
+      props.initAnecdotes();
+      props.setNotification("Welcome!");
+      setTimeout(() => props.clearNotification(), 5000);
+    }
+    catch (err) {
+      props.setNotification(err.message);
+    }
   },[]);
 
   return (
