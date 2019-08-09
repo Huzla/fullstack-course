@@ -2,7 +2,7 @@ import React from "react";
 import Anecdote from "./Anecdote.js";
 import { connect } from "react-redux";
 import { voteFor } from "../reducers/anecdoteReducer.js";
-import { setNotification, clearNotification } from "../reducers/notificationReducer.js";
+import { setNotification } from "../reducers/notificationReducer.js";
 
 const AnecdoteList = ({ anecdotes, filter, voteFor }) => {
 
@@ -22,8 +22,7 @@ const mapDispatchToProps = dispatch => {
   return {
     voteFor: (anec) => {
       dispatch(voteFor(anec));
-      dispatch(setNotification(`You voted for '${ anec.content }'`));
-      setTimeout(() => dispatch(clearNotification()), 5000);
+      dispatch(setNotification(`You voted for '${ anec.content }'`, 5));
     },
   }
 };

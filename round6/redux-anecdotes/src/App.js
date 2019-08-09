@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { initAnecdotes } from "./reducers/anecdoteReducer.js";
-import { setNotification, clearNotification } from "./reducers/notificationReducer.js";
+import { setNotification } from "./reducers/notificationReducer.js";
 import AnecdoteList from "./components/AnecdoteList.js";
 import AnecdoteForm from "./components/AnecdoteForm.js";
 import Notification from "./components/Notification.js";
@@ -11,11 +11,10 @@ const App = (props) => {
   useEffect(() => {
     try {
       props.initAnecdotes();
-      props.setNotification("Welcome!");
-      setTimeout(() => props.clearNotification(), 5000);
+      props.setNotification("Welcome!", 5);
     }
     catch (err) {
-      props.setNotification(err.message);
+      props.setNotification(err.message, 10);
     }
   },[]);
 
@@ -31,4 +30,4 @@ const App = (props) => {
   );
 };
 
-export default connect(null, { initAnecdotes, setNotification, clearNotification })(App)
+export default connect(null, { initAnecdotes, setNotification })(App)
