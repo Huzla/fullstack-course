@@ -8,7 +8,7 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      { anecdotes.map(anecdote => <li key={ anecdote.id } ><Link to={`/${ anecdote.id }`}>{ anecdote.content }</Link></li>) }
+      { anecdotes.map(anecdote => <li key={ anecdote.id } ><Link to={`/anecdotes/${ anecdote.id }`}>{ anecdote.content }</Link></li>) }
     </ul>
   </div>
 );
@@ -50,7 +50,7 @@ const Footer = () => (
   </div>
 );
 
-const CreateNew = (props) => {
+const CreateNew = withRouter((props) => {
   const [content, setContent] = useState("")
   const [author, setAuthor] = useState("")
   const [info, setInfo] = useState("")
@@ -64,6 +64,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     });
+    props.history.push("/");
   };
 
   return (
@@ -87,7 +88,7 @@ const CreateNew = (props) => {
     </div>
   );
 
-};
+});
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -108,10 +109,18 @@ const App = () => {
   ]);
 
   const [notification, setNotification] = useState("");
+  const [timer, setTimer] = useState(null);
+
+  const showNotification = (message) => {
+    setNotification(message);
+    setTimer(clearTimeout(timer));
+    setTimer(setTimeout(() => setNotification(''), 10000));
+  };
 
   const addNew = (anecdote) => {
-    anecdote.id = (Math.random() * 10000).toFixed(0)
-    setAnecdotes(anecdotes.concat(anecdote))
+    anecdote.id = (Math.random() * 10000).toFixed(0);
+    setAnecdotes(anecdotes.concat(anecdote));
+    showNotification(`a new anecdote '${ anecdote.content }' created!`);
   };
 
   const anecdoteById = (id) =>
@@ -136,19 +145,22 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <div>
-      <Router>
-        <div>
+        <Router>
           <div>
-            <Link style={ padding } to="/">anecdotes</Link>
-            <Link style={ padding } to="/new">create new</Link>
-            <Link style={ padding } to="/about">about</Link>
+            <div>
+              <Link style={ padding } to="/">anecdotes</Link>
+              <Link style={ padding } to="/new">create new</Link>
+              <Link style={ padding } to="/about">about</Link>
+            </div>
+            <h4>{ notification }</h4>
+            <Route exact path="/" render={ () => <AnecdoteList anecdotes={ anecdotes } /> } />
+            <Route exact path="/anecdotes/:id" render={ ({ match }) => <Anecdote anecdote={ anecdotes.find(anec => Number(anec.id) === Number(match.params.id)) }/> }/>
+            <Route path="/new" render={ () => <CreateNew addNew={ addNew } /> } />
+            <Route path="/about" render={ () => <About /> } />
           </div>
-          <Route exact path="/" render={ () => <AnecdoteList anecdotes={ anecdotes } /> } />
-          <Route exact path="/:id" render={ ({ match }) => <Anecdote anecdote={ anecdotes.find(anec => Number(anec.id) === Number(match.params.id)) }/> }/>
-          <Route path="/new" render={ () => <CreateNew addNew={ addNew } /> } />
-          <Route path="/about" render={ () => <About /> } />
-        </div>
-      </Router>
+        </Router>
+      </div>
+      <div>
       </div>
       <Footer />
     </div>
