@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer.js";
+import { likeBlog, createBlog, initBlogs } from "./reducers/blogReducer.js";
 import useField from "./hooks/useField.js";
 import blogService from "./services/blogs.js";
 import loginService from "./services/login.js";
@@ -11,7 +12,6 @@ import BlogForm from "./components/BlogView/BlogForm.js";
 import Notification from "./components/Notification/Notification.js";
 
 const App = (props) => {
-  const [blogs, setblogs] = useState([]);
   const username = useField("text");
   const password = useField("password");
   const title = useField("text");
@@ -30,11 +30,12 @@ const App = (props) => {
   }, []);
 
   useEffect(() => {
-    (async function () {
-      const blogs = await blogService.getAll();
-      setblogs(blogs);
-    })();
-
+    try {
+      props.initBlogs();
+    }
+    catch (err) {
+      handleError(err);
+    }
   }, []);
 
   const showMessage = (type, message) => {
@@ -79,13 +80,12 @@ const App = (props) => {
     event.preventDefault();
 
     try {
-      const newBlog = await blogService.create({ title: title.value, author: author.value, url: url.value });
+      props.createBlog({ title: title.value, author: author.value, url: url.value });
 
-      setblogs(blogs.concat(newBlog));
+      handleSuccess(`New blog ${ title.value } by ${ author.value } added.`);
       title.reset();
       author.reset();
       url.reset();
-      handleSuccess(`New blog ${ newBlog.title } by ${ newBlog.author } added.`);
     }
     catch (err) {
       handleError(err.message);
@@ -97,8 +97,6 @@ const App = (props) => {
       const copy = { ...blog };
       copy.likes += 1;
       await blogService.replace(copy);
-
-      setblogs(blogs.map(b => b.id !== copy.id ? b : copy));
     }
     catch (err) {
       handleError(err.message);
@@ -109,7 +107,6 @@ const App = (props) => {
     try {
       if (window.confirm(`Do you really want to remove ${ blog.title } by ${ blog.author }`)) {
         await blogService.remove(blog.id);
-        setblogs(blogs.filter(b => b.id !== blog.id));
       }
     }
     catch (err) {
@@ -137,7 +134,7 @@ const App = (props) => {
           <Togglable buttonLabel="add blog">
             <BlogForm title={ excludeReset(title) } author={ excludeReset(author) } url={ excludeReset(url) } { ...{ handleBlogSubmit } }/>
           </Togglable>
-          <BlogList userId={ user.userId } blogs={ blogs } likeHandler={ likeHandler } removeHandler={ removeHandler }/>
+          <BlogList userId={ user.userId } likeHandler={ likeHandler } removeHandler={ removeHandler }/>
         </div> :
         <LoginForm password={ excludeReset(password) } username={ excludeReset(username) } { ...{ handleLogin } } />
       }
@@ -145,4 +142,4 @@ const App = (props) => {
   );
 };
 
-export default connect(null, { setNotification })(App)
+export default connect(null, { likeBlog, createBlog, initBlogs, setNotification })(App)

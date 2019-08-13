@@ -1,5 +1,6 @@
-import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import React from "react";
+import PropTypes from "prop-types";
 import Blog from "./Blog.js";
 
 const BlogList = ({ blogs, likeHandler, removeHandler, userId }) => {
@@ -29,4 +30,13 @@ BlogList.propTypes = {
   userId: PropTypes.string.isRequired
 };
 
-export default BlogList;
+const mapStateToProps = (state) => {
+  return {
+    blogs: state.blogs
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(BlogList);
