@@ -134,7 +134,7 @@ const App = (props) => {
           <Togglable buttonLabel="add blog">
             <BlogForm title={ excludeReset(title) } author={ excludeReset(author) } url={ excludeReset(url) } { ...{ handleBlogSubmit } }/>
           </Togglable>
-          <BlogList userId={ user.userId } likeHandler={ likeHandler } removeHandler={ removeHandler }/>
+          <BlogList userId={ user.userId }/>
         </div> :
         <LoginForm password={ excludeReset(password) } username={ excludeReset(username) } { ...{ handleLogin } } />
       }
