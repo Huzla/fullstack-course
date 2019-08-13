@@ -48,4 +48,22 @@ export const logout = () => {
   };
 };
 
+export const login = (credentials) => {
+  return async (dispatch) => {
+    try {
+      const user = await loginService.login(credentials);
+
+      blogService.setToken(user.token);
+
+      dispatch({
+        type: "INIT_USER",
+        data: user
+      });
+    }
+    catch (err) {
+      throw err;
+    }
+  };
+};
+
 export default loginReducer;

@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer.js";
 import { likeBlog, createBlog, initBlogs } from "./reducers/blogReducer.js";
-import { initUser, logout } from "./reducers/loginReducer.js";
+import { initUser, logout, login } from "./reducers/loginReducer.js";
 import useField from "./hooks/useField.js";
-import blogService from "./services/blogs.js";
-import loginService from "./services/login.js";
 import Togglable from "./components/Utils/Togglable.js";
 import LoginForm from "./components/LoginView/LoginForm.js";
 import BlogList from "./components/BlogView/BlogList.js";
@@ -47,18 +45,13 @@ const App = (props) => {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      /*
-      const user = await loginService.login({
+      props.login({
         userId: username.value,
         password: password.value,
       });
-
-      blogService.setToken(user.token);
-
       username.reset();
       password.reset();
       handleSuccess("Logged in");
-      */
     }
     catch (err) {
       handleError({ message: "Incorrect password or username" });
@@ -122,4 +115,6 @@ export default connect(({ user }) => { return { user } }, {
   initBlogs,
   setNotification,
   initUser,
-  logout })(App)
+  logout,
+  login
+})(App)
