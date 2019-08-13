@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { setNotification } from "./reducers/notificationReducer.js";
 import useField from "./hooks/useField.js";
 import blogService from "./services/blogs.js";
 import loginService from "./services/login.js";
@@ -8,7 +10,7 @@ import BlogList from "./components/BlogView/BlogList.js";
 import BlogForm from "./components/BlogView/BlogForm.js";
 import Notification from "./components/Notification/Notification.js";
 
-function App() {
+const App = (props) => {
   const [blogs, setblogs] = useState([]);
   const username = useField("text");
   const password = useField("password");
@@ -16,8 +18,6 @@ function App() {
   const author = useField("text");
   const url = useField("url");
   const [user, setUser] = useState(null);
-  const [ notification, setNotification ] = useState({ type: "", message: ""  });
-  const [ notificationTimer, setNotificationTimer ] = useState();
 
   useEffect(() => {
     const userJSON = window.localStorage.getItem("loggedBlogAppUser");
@@ -38,13 +38,7 @@ function App() {
   }, []);
 
   const showMessage = (type, message) => {
-    setNotification({ type, message });
-    setNotificationTimer(setTimeout(clearMessage, 3000));
-  };
-
-  const clearMessage = () => {
-    setNotificationTimer(clearTimeout(notificationTimer));
-    setNotification({});
+    props.setNotification(type, message);
   };
 
   const handleError = (err) => {
@@ -132,7 +126,7 @@ function App() {
 
   return (
     <div className="App">
-      <Notification { ...notification }/>
+      <Notification/>
       { (user) ?
         <div>
           <h2>Blogs</h2>
@@ -149,6 +143,6 @@ function App() {
       }
     </div>
   );
-}
+};
 
-export default App;
+export default connect(null, { setNotification })(App)
