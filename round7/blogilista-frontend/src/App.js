@@ -92,28 +92,6 @@ const App = (props) => {
     }
   };
 
-  const likeHandler = async (blog) => {
-    try {
-      const copy = { ...blog };
-      copy.likes += 1;
-      await blogService.replace(copy);
-    }
-    catch (err) {
-      handleError(err.message);
-    }
-  };
-
-  const removeHandler = async (blog) => {
-    try {
-      if (window.confirm(`Do you really want to remove ${ blog.title } by ${ blog.author }`)) {
-        await blogService.remove(blog.id);
-      }
-    }
-    catch (err) {
-      handleError(err.message);
-    }
-  };
-
   const excludeReset = (field) => {
     const copy = { ...field };
     delete copy.reset;
