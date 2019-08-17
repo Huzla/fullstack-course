@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer.js";
 import { likeBlog, createBlog, initBlogs } from "./reducers/blogReducer.js";
 import { initUser, logout, login } from "./reducers/loginReducer.js";
+import { initUsers } from "./reducers/userReducer.js";
 import {
   BrowserRouter as Router,
   Route, Link, Redirect
@@ -13,6 +14,7 @@ import LoginForm from "./components/LoginView/LoginForm.js";
 import BlogList from "./components/BlogView/BlogList.js";
 import BlogForm from "./components/BlogView/BlogForm.js";
 import Notification from "./components/Notification/Notification.js";
+import UserList from "./components/UserView/UserList.js";
 
 const App = (props) => {
   const username = useField("text");
@@ -28,6 +30,7 @@ const App = (props) => {
   useEffect(() => {
     try {
       props.initBlogs();
+      props.initUsers();
     }
     catch (err) {
       handleError(err);
@@ -100,6 +103,7 @@ const App = (props) => {
         <Router>
           <nav>
             <Link to="/">Blogs</Link>
+            <Link to="/users">Users</Link>
           </nav>
           <h2>Blogs</h2>
           <div>
@@ -116,7 +120,10 @@ const App = (props) => {
             </div>
           ) }
           />
-        </Router> :
+
+          <Route exact path="/users" render={() => <UserList /> } />
+        </Router>
+        :
         <LoginForm password={ excludeReset(password) } username={ excludeReset(username) } { ...{ handleLogin } } />
       }
     </div>
@@ -130,5 +137,6 @@ export default connect(({ user }) => { return { user } }, {
   setNotification,
   initUser,
   logout,
-  login
+  login,
+  initUsers
 })(App)
