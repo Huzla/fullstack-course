@@ -17,6 +17,7 @@ import BlogForm from "./components/BlogView/BlogForm.js";
 import Notification from "./components/Notification/Notification.js";
 import UserList from "./components/UserView/UserList.js";
 import User from "./components/UserView/User.js";
+import "./App.css";
 
 const App = (props) => {
   const username = useField("text");
@@ -106,15 +107,15 @@ const App = (props) => {
           <nav>
             <Link to="/">Blogs</Link>
             <Link to="/users">Users</Link>
+            <span>
+              <span>Logged in as <strong>{ props.user.name }</strong></span>
+              <button onClick={ handleLogout }>Logout</button>
+            </span>
           </nav>
-          <h2>Blogs</h2>
-          <div>
-            <span>Logged in as <strong>{ props.user.name }</strong></span>
-            <button onClick={ handleLogout }>Logout</button>
-          </div>
 
           <Route exact path="/" render={ () =>(
             <div>
+              <h2>Blogs</h2>
               <Togglable buttonLabel="add blog">
               <BlogForm title={ excludeReset(title) } author={ excludeReset(author) } url={ excludeReset(url) } { ...{ handleBlogSubmit } }/>
               </Togglable>
