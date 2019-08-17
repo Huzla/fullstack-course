@@ -98,6 +98,9 @@ const App = (props) => {
 
       { (props.user) ?
         <Router>
+          <nav>
+            <Link to="/">Blogs</Link>
+          </nav>
           <h2>Blogs</h2>
           <div>
             <span>Logged in as <strong>{ props.user.name }</strong></span>
