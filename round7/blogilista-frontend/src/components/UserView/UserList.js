@@ -8,7 +8,7 @@ const UserList = ({ users }) => {
 
   let result = copy.map((user) => <User
     key={ user.id }
-    { ...user }
+    id={ user.id }
      />);
 
   return (

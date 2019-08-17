@@ -6,7 +6,7 @@ import { initUser, logout, login } from "./reducers/loginReducer.js";
 import { initUsers } from "./reducers/userReducer.js";
 import {
   BrowserRouter as Router,
-  Route, Link, Redirect
+  Route, Link
 } from "react-router-dom";
 import useField from "./hooks/useField.js";
 import Togglable from "./components/Utils/Togglable.js";
@@ -15,6 +15,7 @@ import BlogList from "./components/BlogView/BlogList.js";
 import BlogForm from "./components/BlogView/BlogForm.js";
 import Notification from "./components/Notification/Notification.js";
 import UserList from "./components/UserView/UserList.js";
+import User from "./components/UserView/User.js";
 
 const App = (props) => {
   const username = useField("text");
@@ -122,6 +123,8 @@ const App = (props) => {
           />
 
           <Route exact path="/users" render={() => <UserList /> } />
+          <Route exact path="/users/:id" render={ ({ match }) => <User id={ match.params.id } full="true"/> } />
+
         </Router>
         :
         <LoginForm password={ excludeReset(password) } username={ excludeReset(username) } { ...{ handleLogin } } />
