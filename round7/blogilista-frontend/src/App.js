@@ -3,6 +3,10 @@ import { connect } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer.js";
 import { likeBlog, createBlog, initBlogs } from "./reducers/blogReducer.js";
 import { initUser, logout, login } from "./reducers/loginReducer.js";
+import {
+  BrowserRouter as Router,
+  Route, Link, Redirect
+} from "react-router-dom";
 import useField from "./hooks/useField.js";
 import Togglable from "./components/Utils/Togglable.js";
 import LoginForm from "./components/LoginView/LoginForm.js";
@@ -91,18 +95,25 @@ const App = (props) => {
   return (
     <div className="App">
       <Notification/>
+
       { (props.user) ?
-        <div>
+        <Router>
           <h2>Blogs</h2>
           <div>
             <span>Logged in as <strong>{ props.user.name }</strong></span>
             <button onClick={ handleLogout }>Logout</button>
           </div>
-          <Togglable buttonLabel="add blog">
-            <BlogForm title={ excludeReset(title) } author={ excludeReset(author) } url={ excludeReset(url) } { ...{ handleBlogSubmit } }/>
-          </Togglable>
-          <BlogList userId={ props.user.userId }/>
-        </div> :
+
+          <Route exact path="/" render={ () =>(
+            <div>
+              <Togglable buttonLabel="add blog">
+              <BlogForm title={ excludeReset(title) } author={ excludeReset(author) } url={ excludeReset(url) } { ...{ handleBlogSubmit } }/>
+              </Togglable>
+              <BlogList userId={ props.user.userId }/>
+            </div>
+          ) }
+          />
+        </Router> :
         <LoginForm password={ excludeReset(password) } username={ excludeReset(username) } { ...{ handleLogin } } />
       }
     </div>
