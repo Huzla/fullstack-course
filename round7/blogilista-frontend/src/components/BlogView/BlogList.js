@@ -1,25 +1,16 @@
 import { connect } from "react-redux";
-import { likeBlog, removeBlog } from "../../reducers/blogReducer.js";
 import React from "react";
 import PropTypes from "prop-types";
 import Blog from "./Blog.js";
 
-const BlogList = ({ blogs, likeBlog, removeBlog, userId }) => {
+const BlogList = ({ blogs }) => {
   const copy = [...blogs];
   copy.sort((a, b) => b.likes - a.likes);
 
   let result = copy.map((blog) => <Blog
     key={ blog.id }
-    blog={ blog }
-    removable={ blog.user.userId === userId }
-    handleLike={ (event) => {
-      event.stopPropagation();
-      likeBlog(blog);
-    } }
-    handleRemove={ (event) => {
-      event.stopPropagation();
-      removeBlog(blog);
-    } } />);
+    id={ blog.id }
+    />);
 
   return (result);
 };
@@ -36,18 +27,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    likeBlog: (blog) => {
-      dispatch(likeBlog(blog));
-    },
-    removeBlog: (blog) => {
-      dispatch(removeBlog(blog));
-    }
-  }
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(BlogList);

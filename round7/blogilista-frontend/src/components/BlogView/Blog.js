@@ -1,25 +1,19 @@
+import { connect } from "react-redux";
+import { likeBlog, removeBlog } from "../../reducers/blogReducer.js";
 import PropTypes from "prop-types";
-import React,{ useState } from "react";
+import React from "react";
 import "./css/Blog.css";
 
-const Blog = ({ blog, handleLike, handleRemove, removable }) => {
-  const [showFull, setShowFull] = useState(false);
-
-  const handleClick = () => {
-    setShowFull(!showFull);
-  };
+const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
 
   const fullBlogElement = () => (
-
-    <div className="blog-item-container">
-      <div onClick={ handleClick } className="blog-item blog-item-bg">
-      </div>
-      <div>
+    <div>
+      <h2>
         <strong>{ blog.title }</strong>
-      </div>
+      </h2>
 
       <div>
-        <em>{ blog.author }</em>
+        author: <em>{ blog.author }</em>
       </div>
 
       <div>
@@ -27,16 +21,16 @@ const Blog = ({ blog, handleLike, handleRemove, removable }) => {
       </div>
 
       <div>
-        <span>{ blog.likes }</span> likes <button className="blog-item-button" onClick={ handleLike }>Like</button>
+        <span>{ blog.likes }</span> likes <button className="blog-item-button" onClick={ () => likeBlog(blog) }>Like</button>
       </div>
 
       <div>
         added by <em>{ blog.user.name }</em>
       </div>
       {
-        (removable) ?
+        (userId === blog.user.userId) ?
           <div>
-            <button onClick={ handleRemove } className="blog-item-button" title="remove">&#9932;</button>
+            <button onClick={ () => removeBlog(blog) } className="blog-item-button" title="remove">&#9932;</button>
           </div>
           :
           <></>
@@ -45,14 +39,14 @@ const Blog = ({ blog, handleLike, handleRemove, removable }) => {
   );
 
   const minimizedBlogElement = () => (
-    <div onClick={ handleClick } className="blog-item">
+    <a className="blog-item" href={ "/blogs/" + blog.id }>
       <strong>{ blog.title }</strong> <em>{ blog.author }</em>
-    </div>
+    </a>
   );
 
   return (
   <>
-    { (showFull) ? fullBlogElement() : minimizedBlogElement() }
+    { (blog) ? (full) ? fullBlogElement() : minimizedBlogElement() : null }
   </>
   );
 };
@@ -64,4 +58,25 @@ Blog.propTypes = {
   removable: PropTypes.bool.isRequired
 };
 
-export default Blog;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    userId: state.user.userId,
+    blog: state.blogs.find(blog => blog.id === ownProps.id)
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    likeBlog: (blog) => {
+      dispatch(likeBlog(blog));
+    },
+    removeBlog: (blog) => {
+      dispatch(removeBlog(blog));
+    }
+  }
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Blog);

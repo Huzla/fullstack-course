@@ -1,4 +1,5 @@
 .blog-item {
+  display: block;
   padding: 3px;
   border: 1px solid black;
   margin: 2px;

@@ -12,6 +12,7 @@ import useField from "./hooks/useField.js";
 import Togglable from "./components/Utils/Togglable.js";
 import LoginForm from "./components/LoginView/LoginForm.js";
 import BlogList from "./components/BlogView/BlogList.js";
+import Blog from "./components/BlogView/Blog.js";
 import BlogForm from "./components/BlogView/BlogForm.js";
 import Notification from "./components/Notification/Notification.js";
 import UserList from "./components/UserView/UserList.js";
@@ -117,13 +118,15 @@ const App = (props) => {
               <Togglable buttonLabel="add blog">
               <BlogForm title={ excludeReset(title) } author={ excludeReset(author) } url={ excludeReset(url) } { ...{ handleBlogSubmit } }/>
               </Togglable>
-              <BlogList userId={ props.user.userId }/>
+              <BlogList/>
             </div>
           ) }
           />
+          <Route exact path="/blogs/:id" render={ ({ match }) => <Blog id={ match.params.id } full="true"/> } />
 
           <Route exact path="/users" render={() => <UserList /> } />
           <Route exact path="/users/:id" render={ ({ match }) => <User id={ match.params.id } full="true"/> } />
+
 
         </Router>
         :
