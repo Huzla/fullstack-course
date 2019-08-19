@@ -4,6 +4,7 @@ import { setNotification } from "./reducers/notificationReducer.js";
 import { likeBlog, createBlog, initBlogs } from "./reducers/blogReducer.js";
 import { initUser, logout, login } from "./reducers/loginReducer.js";
 import { initUsers } from "./reducers/userReducer.js";
+import { initComments } from "./reducers/commentReducer.js";
 import {
   BrowserRouter as Router,
   Route, Link
@@ -34,6 +35,7 @@ const App = (props) => {
     try {
       props.initBlogs();
       props.initUsers();
+      props.initComments();
     }
     catch (err) {
       handleError(err);
@@ -145,5 +147,6 @@ export default connect(({ user }) => { return { user } }, {
   initUser,
   logout,
   login,
-  initUsers
+  initUsers,
+  initComments
 })(App)

@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { likeBlog, removeBlog } from "../../reducers/blogReducer.js";
 import PropTypes from "prop-types";
 import React from "react";
+import Comments from "./Comments.js";
 import "./css/Blog.css";
 
 const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
@@ -35,6 +36,7 @@ const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
           :
           <></>
       }
+      <Comments blog={ blog.id }/>
     </div>
   );
 
@@ -53,9 +55,9 @@ const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  handleLike: PropTypes.func.isRequired,
-  handleRemove: PropTypes.func.isRequired,
-  removable: PropTypes.bool.isRequired
+  likeBlog: PropTypes.func.isRequired,
+  removeBlog: PropTypes.func.isRequired,
+  userId: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {
