@@ -36,7 +36,7 @@ const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
           :
           <></>
       }
-      <Comments blog={ blog.id }/>
+      <Comments blog={ blog }/>
     </div>
   );
 

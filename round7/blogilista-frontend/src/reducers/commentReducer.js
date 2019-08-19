@@ -28,10 +28,10 @@ export const initComments = () => {
   };
 };
 
-export const createComment = (content) => {
+export const createComment = (message, blog) => {
   return async (dispatch) => {
     try {
-      const data = await commentService.create(content);
+      const data = await commentService.create({ message, blog });
 
       dispatch({
         type: "CREATE_COMMENT",
