@@ -17,8 +17,6 @@ const BlogList = ({ blogs }) => {
 
 BlogList.propTypes = {
   blogs: PropTypes.array.isRequired,
-  likeBlog: PropTypes.func.isRequired,
-  userId: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => {

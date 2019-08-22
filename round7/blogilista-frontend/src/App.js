@@ -18,7 +18,7 @@ import BlogForm from "./components/BlogView/BlogForm.js";
 import Notification from "./components/Notification/Notification.js";
 import UserList from "./components/UserView/UserList.js";
 import User from "./components/UserView/User.js";
-import "./App.css";
+import { Container } from 'semantic-ui-react'
 
 const App = (props) => {
   const username = useField("text");
@@ -101,7 +101,7 @@ const App = (props) => {
   };
 
   return (
-    <div className="App">
+    <Container>
       <Notification/>
 
       { (props.user) ?
@@ -135,7 +135,7 @@ const App = (props) => {
         :
         <LoginForm password={ excludeReset(password) } username={ excludeReset(username) } { ...{ handleLogin } } />
       }
-    </div>
+    </Container>
   );
 };
 
