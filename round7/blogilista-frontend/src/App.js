@@ -111,25 +111,25 @@ const App = (props) => {
         <Grid.Row>
         { (props.user) ?
           <Router>
-            <Grid.Column width={ 3 }>
+            <Grid.Column width={ 1 }>
               <Navbar handleLogout={ handleLogout } name={ props.user.name }/>
             </Grid.Column>
 
-            <Grid.Column width={ 12 }>
-            <Route exact path="/" render={ () =>(
-              <div>
-                <Header as="h2">Blogs</Header>
-                <Togglable buttonLabel="add blog">
-                <BlogForm title={ excludeReset(title) } author={ excludeReset(author) } url={ excludeReset(url) } { ...{ handleBlogSubmit } }/>
-                </Togglable>
-                <BlogList/>
-              </div>
-            ) }
-            />
-            <Route exact path="/blogs/:id" render={ ({ match }) => <Blog id={ match.params.id } full="true"/> } />
+            <Grid.Column width={ 15 }>
+              <Route exact path="/" render={ () =>(
+                <div>
+                  <Header as="h2">Blogs</Header>
+                  <Togglable buttonLabel="add blog">
+                  <BlogForm title={ excludeReset(title) } author={ excludeReset(author) } url={ excludeReset(url) } { ...{ handleBlogSubmit } }/>
+                  </Togglable>
+                  <BlogList/>
+                </div>
+              ) }
+              />
+              <Route exact path="/blogs/:id" render={ ({ match }) => <Blog id={ match.params.id } full="true"/> } />
 
-            <Route exact path="/users" render={() => <UserList /> } />
-            <Route exact path="/users/:id" render={ ({ match }) => <User id={ match.params.id } full="true"/> } />
+              <Route exact path="/users" render={() => <UserList /> } />
+              <Route exact path="/users/:id" render={ ({ match }) => <User id={ match.params.id } full="true"/> } />
             </Grid.Column>
 
           </Router>
