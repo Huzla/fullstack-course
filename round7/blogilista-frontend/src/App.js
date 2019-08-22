@@ -7,7 +7,7 @@ import { initUsers } from "./reducers/userReducer.js";
 import { initComments } from "./reducers/commentReducer.js";
 import {
   BrowserRouter as Router,
-  Route, Link
+  Route
 } from "react-router-dom";
 import useField from "./hooks/useField.js";
 import Togglable from "./components/Utils/Togglable.js";
@@ -18,6 +18,7 @@ import BlogForm from "./components/BlogView/BlogForm.js";
 import Notification from "./components/Notification/Notification.js";
 import UserList from "./components/UserView/UserList.js";
 import User from "./components/UserView/User.js";
+import Navbar from "./components/Navbar/Navbar.js";
 import { Container } from 'semantic-ui-react'
 
 const App = (props) => {
@@ -106,14 +107,7 @@ const App = (props) => {
 
       { (props.user) ?
         <Router>
-          <nav>
-            <Link to="/">Blogs</Link>
-            <Link to="/users">Users</Link>
-            <span>
-              <span>Logged in as <strong>{ props.user.name }</strong></span>
-              <button onClick={ handleLogout }>Logout</button>
-            </span>
-          </nav>
+          <Navbar handleLogout={ handleLogout } name={ props.user.name }/>
 
           <Route exact path="/" render={ () =>(
             <div>
