@@ -48,13 +48,12 @@ const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
 
   return (
   <>
-    { (blog) ? (full) ? fullBlogElement() : minimizedBlogElement() : null }
+    { (blog) ? ((full) ? fullBlogElement() : minimizedBlogElement()) : null }
   </>
   );
 };
 
 Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
   likeBlog: PropTypes.func.isRequired,
   removeBlog: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired

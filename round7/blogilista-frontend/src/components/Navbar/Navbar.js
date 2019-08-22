@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import {  Button, Header, Icon, Image, Menu, Segment, Sidebar } from "semantic-ui-react";
 
 const Navbar = ({ handleLogout, name }) => {
   return (
     <nav>
+    
       <Link to="/">Blogs</Link>
       <Link to="/users">Users</Link>
       <span>

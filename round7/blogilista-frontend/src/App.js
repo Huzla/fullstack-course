@@ -19,7 +19,7 @@ import Notification from "./components/Notification/Notification.js";
 import UserList from "./components/UserView/UserList.js";
 import User from "./components/UserView/User.js";
 import Navbar from "./components/Navbar/Navbar.js";
-import { Container } from 'semantic-ui-react'
+import { Container, Header, Grid } from "semantic-ui-react";
 
 const App = (props) => {
   const username = useField("text");
@@ -103,32 +103,41 @@ const App = (props) => {
 
   return (
     <Container>
-      <Notification/>
+      <Grid stackable columns={ 5 }>
+        <Grid.Row>
+          <Notification/>
+        </Grid.Row>
 
-      { (props.user) ?
-        <Router>
-          <Navbar handleLogout={ handleLogout } name={ props.user.name }/>
+        <Grid.Row>
+        { (props.user) ?
+          <Router>
+            <Grid.Column width={ 3 }>
+              <Navbar handleLogout={ handleLogout } name={ props.user.name }/>
+            </Grid.Column>
 
-          <Route exact path="/" render={ () =>(
-            <div>
-              <h2>Blogs</h2>
-              <Togglable buttonLabel="add blog">
-              <BlogForm title={ excludeReset(title) } author={ excludeReset(author) } url={ excludeReset(url) } { ...{ handleBlogSubmit } }/>
-              </Togglable>
-              <BlogList/>
-            </div>
-          ) }
-          />
-          <Route exact path="/blogs/:id" render={ ({ match }) => <Blog id={ match.params.id } full="true"/> } />
+            <Grid.Column width={ 12 }>
+            <Route exact path="/" render={ () =>(
+              <div>
+                <Header as="h2">Blogs</Header>
+                <Togglable buttonLabel="add blog">
+                <BlogForm title={ excludeReset(title) } author={ excludeReset(author) } url={ excludeReset(url) } { ...{ handleBlogSubmit } }/>
+                </Togglable>
+                <BlogList/>
+              </div>
+            ) }
+            />
+            <Route exact path="/blogs/:id" render={ ({ match }) => <Blog id={ match.params.id } full="true"/> } />
 
-          <Route exact path="/users" render={() => <UserList /> } />
-          <Route exact path="/users/:id" render={ ({ match }) => <User id={ match.params.id } full="true"/> } />
+            <Route exact path="/users" render={() => <UserList /> } />
+            <Route exact path="/users/:id" render={ ({ match }) => <User id={ match.params.id } full="true"/> } />
+            </Grid.Column>
 
-
-        </Router>
-        :
-        <LoginForm password={ excludeReset(password) } username={ excludeReset(username) } { ...{ handleLogin } } />
-      }
+          </Router>
+          :
+          <LoginForm password={ excludeReset(password) } username={ excludeReset(username) } { ...{ handleLogin } } />
+        }
+        </Grid.Row>
+      </Grid>
     </Container>
   );
 };
