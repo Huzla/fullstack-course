@@ -25,15 +25,12 @@ const Navbar = ({ handleLogout, name }) => {
           </Segment>
 
           <Segment inverted>
-            <span>
-              <span>Logged in as:</span>
-              <br/>
+              <div>Logged in as:</div>
               <strong>{ name }</strong>
-              <Button onClick={ handleLogout } primary icon labelPosition="right">
+              <Button onClick={ handleLogout } basic color="blue" icon labelPosition="right" fluid>
                 <Icon name="sign out" />
                 Logout
               </Button>
-            </span>
           </Segment>
 
           <Segment color="blue">

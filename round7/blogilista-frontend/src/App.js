@@ -103,7 +103,7 @@ const App = (props) => {
 
   return (
     <Container>
-      <Grid stackable columns={ 5 }>
+      <Grid centered stackable columns={ 5 }>
         <Grid.Row>
           <Notification/>
         </Grid.Row>
