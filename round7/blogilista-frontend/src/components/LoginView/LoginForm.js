@@ -1,28 +1,29 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { Button, Header, Form, Container, Label } from "semantic-ui-react";
 
 const LoginForm = ({ username, password, handleLogin }) => {
   return (
-    <div>
-      <h2>Please login</h2>
-      <form onSubmit={ handleLogin }>
-        <div>
-          username
+    <Container textAlign="justified">
+      <Header as="h1" textAlign="center">Please login</Header>
+      <Form onSubmit={ handleLogin }>
+        <Form.Field>
           <input
             { ...username }
             name="Username"
           />
-        </div>
-        <div>
-          password
+          <Label pointing color="black">username</Label>
+        </Form.Field>
+        <Form.Field>
           <input
             { ...password }
             name="Password"
           />
-        </div>
-        <button type="submit">login</button>
-      </form>
-    </div>
+          <Label pointing color="black">password</Label>
+        </Form.Field>
+        <Button type="submit" textAlign="center" basic positive fluid>login</Button>
+      </Form>
+    </Container>
   );
 };
 

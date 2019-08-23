@@ -109,6 +109,7 @@ const App = (props) => {
           { (props.user) ?
             <Router>
             <Navbar handleLogout={ handleLogout } name={ props.user.name }>
+            <Container>
               <Notification/>
 
                 <Route exact path="/" render={ () =>(
@@ -125,6 +126,7 @@ const App = (props) => {
 
                 <Route exact path="/users" render={() => <UserList /> } />
                 <Route exact path="/users/:id" render={ ({ match }) => <User id={ match.params.id } full="true"/> } />
+                </Container>
               </Navbar>
             </Router>
             :
