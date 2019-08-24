@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import "./css/Notification.css";
+import { Message } from "semantic-ui-react";
 
 const Notification = ({ type, message }) => {
 
@@ -9,9 +9,11 @@ const Notification = ({ type, message }) => {
     return null;
 
   return (
-    <div id="notification" className={ type }>
-      { message }
-    </div>
+    <Message positive={ type === "success" } negative={ type === "error" }>
+      <Message.Header>
+        { message }
+      </Message.Header>
+    </Message>
   );
 };
 
