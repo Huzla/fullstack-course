@@ -109,8 +109,8 @@ const App = (props) => {
           { (props.user) ?
             <Router>
             <Navbar handleLogout={ handleLogout } name={ props.user.name }>
+            <Notification/>
               <Container width="50%">
-                <Notification/>
 
                 <Route exact path="/" render={ () =>(
                   <div>
@@ -130,7 +130,10 @@ const App = (props) => {
               </Navbar>
             </Router>
             :
-            <LoginForm password={ excludeReset(password) } username={ excludeReset(username) } { ...{ handleLogin } } />
+            <div>
+              <Notification/>
+              <LoginForm password={ excludeReset(password) } username={ excludeReset(username) } { ...{ handleLogin } } />
+            </div>
           }
         </Grid.Column>
       </Grid.Row>
