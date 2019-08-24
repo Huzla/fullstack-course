@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import React from "react";
-//import "./css/Blog.css";
+import { Table, Header } from "semantic-ui-react";
 
 const User = ({ name, blogs, id, full }) => {
 
@@ -20,15 +20,29 @@ const User = ({ name, blogs, id, full }) => {
   );
 
   const listUserElement = () => (
-    <div className="user-list-item">
-      <a href={ "/users/" + id }>{ name }</a>
-      <strong>{ blogs.length }</strong>
-    </div>
+    <Table.Row>
+      <Table.Cell>
+        <a href={ "/users/" + id }>{ name }</a>
+      </Table.Cell>
+
+      <Table.Cell>
+        { blogs.length }
+      </Table.Cell>
+    </Table.Row>
   );
 
-  return (
-    <> { (name) ? (full) ? fullUserElement() : listUserElement() : null } </>
-  );
+  if (name) {
+    if (full) {
+      return fullUserElement();
+    }
+    else {
+      return listUserElement();
+    }
+  }
+  else {
+    return null
+  }
+
 };
 
 User.propTypes = {
