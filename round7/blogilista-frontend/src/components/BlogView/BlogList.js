@@ -1,10 +1,16 @@
 import { connect } from "react-redux";
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Blog from "./Blog.js";
-import { List, Segment } from "semantic-ui-react";
+import { List, Segment, Grid, Pagination } from "semantic-ui-react";
 
 const BlogList = ({ blogs }) => {
+  const [visiblePage, setVisiblePage] = useState(1);
+
+  const changePage = (event) => {
+    setVisiblePage(Number(event.target.attributes.value.value));
+  };
+
   const copy = [...blogs];
   copy.sort((a, b) => b.likes - a.likes);
 
@@ -16,9 +22,13 @@ const BlogList = ({ blogs }) => {
   return (
     <Segment inverted size="big">
       <List divided inverted relaxed>
-        { result }
+        { result.slice(10*(visiblePage - 1), 10*visiblePage) }
       </List>
+      <Grid centered>
+          <Pagination onPageChange={ changePage } defaultActivePage={ visiblePage } totalPages={ Math.ceil(result.length/10) } inverted />
+      </Grid>
     </Segment>
+
   );
 };
 

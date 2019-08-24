@@ -21,7 +21,7 @@ const LoginForm = ({ username, password, handleLogin }) => {
           />
           <Label pointing color="black">password</Label>
         </Form.Field>
-        <Button type="submit" textAlign="center" basic positive fluid>login</Button>
+        <Button type="submit" basic positive fluid>login</Button>
       </Form>
     </Container>
   );

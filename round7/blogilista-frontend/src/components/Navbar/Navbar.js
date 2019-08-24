@@ -33,11 +33,12 @@ const Navbar = ({ handleLogout, name, children }) => {
             </Button>
         </Segment>
 
-        <Segment color="black">
+        <Segment size="large" color="black">
           <Icon name="archive" />
           <Link to="/">Blogs</Link>
         </Segment>
-        <Segment color="black">
+
+        <Segment size="large" color="black">
           <Icon name="address book outline" />
           <Link to="/users">Users</Link>
         </Segment>
