@@ -1,33 +1,37 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { Button, Header, Form, Label } from "semantic-ui-react";
 
 const BlogForm = ({ author, title, url, handleBlogSubmit }) => (
   <div>
-    <h3>Create blog</h3>
-    <form onSubmit={ handleBlogSubmit }>
-      <div>
-        <label htmlFor="title">Title:</label>
+    <Header as="h3">Create blog</Header>
+    <Form onSubmit={ handleBlogSubmit }>
+      <Form.Field>
         <input
           { ...title }
           name="title"
         />
-      </div>
-      <div>
-        <label htmlFor="author">Author:</label>
+        <Label pointing color="black">Title</Label>
+      </Form.Field>
+
+      <Form.Field>
         <input
           { ...author }
           name="author"
         />
-      </div>
-      <div>
-        <label htmlFor="url">Url:</label>
+        <Label pointing color="black">Author</Label>
+      </Form.Field>
+
+      <Form.Field>
         <input
           { ...url }
           name="url"
         />
-      </div>
-      <button type="submit">Create</button>
-    </form>
+        <Label pointing color="black">Url</Label>
+      </Form.Field>
+
+      <Button basic fluid positive type="submit">Create</Button>
+    </Form>
   </div>
 );
 
