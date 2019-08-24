@@ -3,41 +3,77 @@ import { likeBlog, removeBlog } from "../../reducers/blogReducer.js";
 import PropTypes from "prop-types";
 import React from "react";
 import Comments from "./Comments.js";
-import { List, Icon } from "semantic-ui-react";
+import {
+  List,
+  Icon,
+  Label,
+  Grid,
+  Container,
+  Header,
+  Card,
+  Button
+} from "semantic-ui-react";
 
 const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
 
   const fullBlogElement = () => (
-    <div>
-      <h2>
-        <strong>{ blog.title }</strong>
-      </h2>
+    <>
+      <Header as="h1" block inverted textAlign="center">
+        Blog Page
+      </Header>
+    <Container>
+      <Grid stackable centered columns={ 2 }>
+        <Grid.Column width={ 5 }>
+          <Card>
+            <Card.Content>
+              {
+                (userId === blog.user.userId) ?
+                <Button onClick={ () => removeBlog(blog) } basic icon size="small" floated="right" negative >
+                <Icon name="remove" />
+                </Button>
+                :
+                <></>
+              }
+              <Card.Header>
+                <Header as="h4">
+                  { blog.title }
+                </Header>
+              </Card.Header>
+              <Card.Meta>Title</Card.Meta>
 
-      <div>
-        author: <em>{ blog.author }</em>
-      </div>
+              <Card.Description>
+                <div>
+                  Author: <strong>{ blog.title }</strong>
+                </div>
+                Added by <em>{ blog.user.name }</em>
+                <div>
+                  Visit site: <a href={ blog.url }>{ blog.url }</a>
+                </div>
 
-      <div>
-        <a href={ blog.url }>{ blog.url }</a>
-      </div>
+              </Card.Description>
 
-      <div>
-        <span>{ blog.likes }</span> likes <button className="blog-item-button" onClick={ () => likeBlog(blog) }>Like</button>
-      </div>
+            </Card.Content>
 
-      <div>
-        added by <em>{ blog.user.name }</em>
-      </div>
-      {
-        (userId === blog.user.userId) ?
-          <div>
-            <button onClick={ () => removeBlog(blog) } className="blog-item-button" title="remove">&#9932;</button>
-          </div>
-          :
-          <></>
-      }
-      <Comments blog={ blog }/>
-    </div>
+            <Card.Content extra>
+              <Button as="div" onClick={ () => likeBlog(blog) } labelPosition="right">
+                <Button basic positive>
+                  <Icon name="like" />
+                  Like
+                </Button>
+                <Label as="a" basic color="green" pointing="left">
+                  { blog.likes }
+                </Label>
+              </Button>
+            </Card.Content>
+          </Card>
+        </Grid.Column>
+
+        <Grid.Column width={ 11 }>
+          <Comments blog={ blog }/>
+        </Grid.Column>
+      </Grid>
+      </Container>
+    </>
   );
 
   const minimizedBlogElement = () => (

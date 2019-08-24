@@ -1,9 +1,24 @@
 import { connect } from "react-redux";
 import { createComment } from "../../reducers/commentReducer.js";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
+import {
+  List,
+  Header,
+  Form,
+  Button,
+  Pagination,
+  Segment,
+  Grid
+} from "semantic-ui-react";
 
 const Comments = ({ comments, blog, createComment }) => {
+  const [visiblePage, setVisiblePage] = useState(1);
+  const numOfItems = 10;
+
+  const changePage = (event) => {
+    setVisiblePage(Number(event.target.attributes.value.value));
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -13,18 +28,26 @@ const Comments = ({ comments, blog, createComment }) => {
     createComment(content, blog.id);
   };
 
+  const result = comments.map(comment => <List.Item key={ comment.id }>{ comment.message }</List.Item>)
   return (
     <div>
-      <h3>Comments</h3>
+      <Header as="h2">Comments</Header>
 
-      <form onSubmit={ handleSubmit }>
-        <input type="text" name="comment" />
-        <button>Add comment</button>
-      </form>
+      <Form onSubmit={ handleSubmit }>
+        <Form.Field>
+          <input placeholder="Leave a comment" type="text" name="comment" />
+        </Form.Field>
+        <Button basic color="black">Add comment</Button>
+      </Form>
       { (comments.length)
-        ? <ul>
-          { comments.map(comment => <li key={ comment.id }>{ comment.message }</li>) }
-        </ul>
+        ? <Segment inverted size="big">
+          <List divided inverted relaxed>
+            { result.slice(numOfItems*(visiblePage - 1), numOfItems*visiblePage) }
+          </List>
+          <Grid centered>
+              <Pagination onPageChange={ changePage } defaultActivePage={ visiblePage } totalPages={ Math.ceil(result.length/numOfItems) } inverted />
+          </Grid>
+        </Segment>
         : <div>No comments yet</div>
       }
     </div>
