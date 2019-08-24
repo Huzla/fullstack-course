@@ -3,14 +3,12 @@ import React, { useState } from "react";
 import {
   Button,
   Segment,
-  Icon
+  Icon,
+  Transition
   } from "semantic-ui-react";
 
 const Togglable = (props) => {
   const [visible, setVisible] = useState(false);
-
-  const hideWhenVisible = { display: visible ? "none" : "" };
-  const showWhenVisible = { display: visible ? "" : "none" };
 
   const toggleVisibility = () => {
     setVisible(!visible);
@@ -18,21 +16,15 @@ const Togglable = (props) => {
 
   return (
     <Segment>
-      <div style={ hideWhenVisible }>
-        <Button basic icon color="black" onClick={ toggleVisibility }>
-        <Icon name={ props.buttonLabel } />
-        </Button>
-      </div>
-
-      <div style={ showWhenVisible }>
+      <Transition visible={ visible } animation="slide down" duration={ 500 }>
         <Segment>
-          { props.children }
+        { props.children }
         </Segment>
+      </Transition>
 
-        <Button basic icon negative onClick={ toggleVisibility }>
-          <Icon name="cancel" />
-        </Button>
-      </div>
+      <Button negative={ visible } basic icon color="black" onClick={ toggleVisibility }>
+        <Icon name={ (!visible) ? props.buttonLabel : "cancel" } />
+      </Button>
     </Segment>
   );
 };
