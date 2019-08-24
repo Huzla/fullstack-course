@@ -2,17 +2,24 @@ import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
 import Blog from "./Blog.js";
+import { List, Segment } from "semantic-ui-react";
 
 const BlogList = ({ blogs }) => {
   const copy = [...blogs];
   copy.sort((a, b) => b.likes - a.likes);
 
-  let result = copy.map((blog) => <Blog
+  let result = copy.map((blog) =><Blog
     key={ blog.id }
     id={ blog.id }
     />);
 
-  return (result);
+  return (
+    <Segment inverted size="big">
+      <List divided inverted relaxed>
+        { result }
+      </List>
+    </Segment>
+  );
 };
 
 BlogList.propTypes = {

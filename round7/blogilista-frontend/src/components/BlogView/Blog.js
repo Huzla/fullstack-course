@@ -3,7 +3,7 @@ import { likeBlog, removeBlog } from "../../reducers/blogReducer.js";
 import PropTypes from "prop-types";
 import React from "react";
 import Comments from "./Comments.js";
-import "./css/Blog.css";
+import { List, Icon } from "semantic-ui-react";
 
 const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
 
@@ -41,9 +41,13 @@ const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
   );
 
   const minimizedBlogElement = () => (
-    <a className="blog-item" href={ "/blogs/" + blog.id }>
-      <strong>{ blog.title }</strong> <em>{ blog.author }</em>
-    </a>
+    <List.Item>
+      <List.Header as="a" href={ "/blogs/" + blog.id }>
+        { blog.title }
+        <Icon name="chevron right" />
+      </List.Header>
+      <List.Description>{ blog.author }</List.Description>
+    </List.Item>
   );
 
   return (
