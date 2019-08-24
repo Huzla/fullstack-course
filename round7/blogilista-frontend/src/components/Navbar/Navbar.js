@@ -7,6 +7,7 @@ import {
   Icon,
   Segment,
   Sidebar,
+  Container
   } from "semantic-ui-react";
 
 const Navbar = ({ handleLogout, name, children }) => {
@@ -14,9 +15,9 @@ const Navbar = ({ handleLogout, name, children }) => {
 
   return (
     <Sidebar.Pushable>
-      <Sidebar as={ Segment } vertical visible width="thin">
+      <Sidebar as={ Segment } vertical visible>
         <Segment>
-          <Header as="h1" icon>
+          <Header as="h1" icon textAlign="center">
             <Icon name="money bill alternate outline" />
             B10G$
             <Header.Subheader>Blog or Die</Header.Subheader>
@@ -26,26 +27,24 @@ const Navbar = ({ handleLogout, name, children }) => {
         <Segment inverted>
             <div>Logged in as:</div>
             <strong>{ name }</strong>
-            <Button onClick={ handleLogout } basic color="blue" icon labelPosition="right" fluid>
+            <Button onClick={ handleLogout } basic inverted color="black" icon labelPosition="right" fluid>
               <Icon name="sign out" />
               Logout
             </Button>
         </Segment>
 
-        <Segment color="blue">
+        <Segment color="black">
           <Icon name="archive" />
           <Link to="/">Blogs</Link>
         </Segment>
-        <Segment color="blue">
+        <Segment color="black">
           <Icon name="address book outline" />
           <Link to="/users">Users</Link>
         </Segment>
       </Sidebar>
 
       <Sidebar.Pusher>
-        <Segment>
         { children }
-        </Segment>
       </Sidebar.Pusher>
     </Sidebar.Pushable>
   );

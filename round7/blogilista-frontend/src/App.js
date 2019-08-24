@@ -109,13 +109,13 @@ const App = (props) => {
           { (props.user) ?
             <Router>
             <Navbar handleLogout={ handleLogout } name={ props.user.name }>
-            <Container>
-              <Notification/>
+              <Container width="50%">
+                <Notification/>
 
                 <Route exact path="/" render={ () =>(
                   <div>
-                    <Header as="h2">Blogs</Header>
-                    <Togglable buttonLabel="add blog">
+                    <Header as="h1" block inverted textAlign="center">Blogs</Header>
+                    <Togglable buttonLabel="add">
                     <BlogForm title={ excludeReset(title) } author={ excludeReset(author) } url={ excludeReset(url) } { ...{ handleBlogSubmit } }/>
                     </Togglable>
                     <BlogList/>

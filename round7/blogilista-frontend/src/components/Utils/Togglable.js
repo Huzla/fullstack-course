@@ -1,5 +1,10 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+import {
+  Button,
+  Segment,
+  Icon
+  } from "semantic-ui-react";
 
 const Togglable = (props) => {
   const [visible, setVisible] = useState(false);
@@ -12,15 +17,23 @@ const Togglable = (props) => {
   };
 
   return (
-    <div>
+    <Segment>
       <div style={ hideWhenVisible }>
-        <button onClick={ toggleVisibility }>{ props.buttonLabel }</button>
+        <Button basic icon color="black" onClick={ toggleVisibility }>
+        <Icon name={ props.buttonLabel } />
+        </Button>
       </div>
+
       <div style={ showWhenVisible }>
-        { props.children }
-        <button onClick={ toggleVisibility }>cancel</button>
+        <Segment>
+          { props.children }
+        </Segment>
+
+        <Button basic icon negative onClick={ toggleVisibility }>
+          <Icon name="cancel" />
+        </Button>
       </div>
-    </div>
+    </Segment>
   );
 };
 

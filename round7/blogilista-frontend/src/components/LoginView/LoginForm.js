@@ -5,7 +5,7 @@ import { Button, Header, Form, Container, Label } from "semantic-ui-react";
 const LoginForm = ({ username, password, handleLogin }) => {
   return (
     <Container textAlign="justified">
-      <Header as="h1" textAlign="center">Please login</Header>
+      <Header as="h1" inverted block textAlign="center">Please login</Header>
       <Form onSubmit={ handleLogin }>
         <Form.Field>
           <input
