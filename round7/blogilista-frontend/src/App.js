@@ -22,6 +22,8 @@ import Navbar from "./components/Navbar/Navbar.js";
 import { Container, Header, Grid } from "semantic-ui-react";
 import "./App.css";
 
+import PropTypes from "prop-types";
+
 const App = (props) => {
   const username = useField("text");
   const password = useField("password");
@@ -59,10 +61,11 @@ const App = (props) => {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      props.login({
+      await props.login({
         userId: username.value,
         password: password.value,
       });
+
       username.reset();
       password.reset();
       handleSuccess("Logged in");
@@ -139,6 +142,13 @@ const App = (props) => {
       </Grid.Row>
     </Grid>
   );
+};
+
+UserList.propTypes = {
+  initUser: PropTypes.func.isRequired,
+  likeBlog: PropTypes.func.isRequired,
+  createBlog: PropTypes.func.isRequired,
+  initUser: PropTypes.func.isRequired,
 };
 
 export default connect(({ user }) => { return { user } }, {
