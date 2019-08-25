@@ -2,19 +2,19 @@ import blogService from "../services/blogs.js";
 
 const blogReducer = (state = [], action) => {
   switch (action.type) {
-    case "INIT_BLOGS":
-      return action.data;
+  case "INIT_BLOGS":
+    return action.data;
 
-    case "CREATE_BLOG":
-      return [...state, action.data];
+  case "CREATE_BLOG":
+    return [...state, action.data];
 
-    case "REMOVE_BLOG":
-      return state.filter(blog => blog.id !== action.data.id);
+  case "REMOVE_BLOG":
+    return state.filter(blog => blog.id !== action.data.id);
 
-    case "LIKE":
-      return state.map(blog => { return { ...blog, likes: (blog.id === action.data.id) ? blog.likes + 1 : blog.likes } });
+  case "LIKE":
+    return state.map(blog => { return { ...blog, likes: (blog.id === action.data.id) ? blog.likes + 1 : blog.likes }; });
 
-    default: return state;
+  default: return state;
   }
 };
 
@@ -55,7 +55,7 @@ export const removeBlog = (blog) => {
     try {
       if (window.confirm(`Do you really want to remove ${ blog.title } by ${ blog.author }`)) {
         await blogService.remove(blog.id);
-        
+
         dispatch({
           type: "REMOVE_BLOG",
           data: { id: blog.id }

@@ -28,7 +28,8 @@ const Comments = ({ comments, blog, createComment }) => {
     createComment(content, blog.id);
   };
 
-  const result = comments.map(comment => <List.Item key={ comment.id }>{ comment.message }</List.Item>)
+  const result = comments.map(comment => <List.Item key={ comment.id }>{ comment.message }</List.Item>);
+
   return (
     <div>
       <Header as="h2">Comments</Header>
@@ -45,7 +46,7 @@ const Comments = ({ comments, blog, createComment }) => {
             { result.slice(numOfItems*(visiblePage - 1), numOfItems*visiblePage) }
           </List>
           <Grid centered>
-              <Pagination onPageChange={ changePage } defaultActivePage={ visiblePage } totalPages={ Math.ceil(result.length/numOfItems) } inverted />
+            <Pagination onPageChange={ changePage } defaultActivePage={ visiblePage } totalPages={ Math.ceil(result.length/numOfItems) } inverted />
           </Grid>
         </Segment>
         : <div>No comments yet</div>
@@ -56,23 +57,24 @@ const Comments = ({ comments, blog, createComment }) => {
 
 Comments.propTypes = {
   comments: PropTypes.array.isRequired,
+  blog: PropTypes.object.isRequired,
+  createComment: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {
 
   return {
     comments: state.comments.filter(comment => comment.blog.toString() === ownProps.blog.id.toString()),
-  }
+  };
 };
 
 
 const mapDispatchToProps = dispatch => {
   return {
     createComment: (content, blog) => {
-      dispatch(createComment(content, blog))
+      dispatch(createComment(content, blog));
     }
-
-  }
+  };
 };
 
 export default connect(

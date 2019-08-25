@@ -2,13 +2,13 @@ import commentService from "../services/comments.js";
 
 const commentReducer = (state = [], action) => {
   switch (action.type) {
-    case "INIT_COMMENTS":
-      return action.data;
+  case "INIT_COMMENTS":
+    return action.data;
 
-    case "CREATE_COMMENT":
-      return [...state, action.data];
+  case "CREATE_COMMENT":
+    return [...state, action.data];
 
-    default: return state;
+  default: return state;
   }
 };
 

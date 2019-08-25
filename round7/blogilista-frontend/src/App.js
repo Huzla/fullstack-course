@@ -32,7 +32,7 @@ const App = (props) => {
   const url = useField("url");
 
   useEffect(() => {
-    props.initUser()
+    props.initUser();
   }, []);
 
   useEffect(() => {
@@ -111,24 +111,24 @@ const App = (props) => {
         <Grid.Column width={ 16 }>
           { (props.user) ?
             <Router>
-            <Navbar handleLogout={ handleLogout } name={ props.user.name }>
-            <Notification/>
-              <Container width="50%">
+              <Navbar handleLogout={ handleLogout } name={ props.user.name }>
+                <Notification/>
+                <Container width="50%">
 
-                <Route exact path="/" render={ () =>(
-                  <div>
-                    <Header as="h1" block inverted textAlign="center">Blogs</Header>
-                    <Togglable buttonLabel="add">
-                    <BlogForm title={ excludeReset(title) } author={ excludeReset(author) } url={ excludeReset(url) } { ...{ handleBlogSubmit } }/>
-                    </Togglable>
-                    <BlogList/>
-                  </div>
-                ) }
-                />
-                <Route exact path="/blogs/:id" render={ ({ match }) => <Blog id={ match.params.id } full="true"/> } />
+                  <Route exact path="/" render={ () => (
+                    <div>
+                      <Header as="h1" block inverted textAlign="center">Blogs</Header>
+                      <Togglable buttonLabel="add">
+                        <BlogForm title={ excludeReset(title) } author={ excludeReset(author) } url={ excludeReset(url) } { ...{ handleBlogSubmit } }/>
+                      </Togglable>
+                      <BlogList/>
+                    </div>
+                  ) }
+                  />
+                  <Route exact path="/blogs/:id" render={ ({ match }) => <Blog id={ match.params.id } full="true"/> } />
 
-                <Route exact path="/users" render={() => <UserList /> } />
-                <Route exact path="/users/:id" render={ ({ match }) => <User id={ match.params.id } full="true"/> } />
+                  <Route exact path="/users" render={() => <UserList /> } />
+                  <Route exact path="/users/:id" render={ ({ match }) => <User id={ match.params.id } full="true"/> } />
                 </Container>
               </Navbar>
             </Router>
@@ -144,14 +144,20 @@ const App = (props) => {
   );
 };
 
-UserList.propTypes = {
+App.propTypes = {
   initUser: PropTypes.func.isRequired,
   likeBlog: PropTypes.func.isRequired,
+  initBlogs: PropTypes.func.isRequired,
+  initUsers: PropTypes.func.isRequired,
+  initComments: PropTypes.func.isRequired,
+  setNotification: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
   createBlog: PropTypes.func.isRequired,
-  initUser: PropTypes.func.isRequired,
 };
 
-export default connect(({ user }) => { return { user } }, {
+export default connect(({ user }) => { return { user }; }, {
   likeBlog,
   createBlog,
   initBlogs,
@@ -161,4 +167,4 @@ export default connect(({ user }) => { return { user } }, {
   login,
   initUsers,
   initComments
-})(App)
+})(App);

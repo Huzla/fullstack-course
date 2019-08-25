@@ -3,13 +3,13 @@ import blogService from "../services/blogs.js";
 
 const loginReducer = (state = null, action) => {
   switch (action.type) {
-    case "INIT_USER":
-      return action.data;
+  case "INIT_USER":
+    return action.data;
 
-    case "LOG_OUT":
-      return null;
+  case "LOG_OUT":
+    return null;
 
-    default: return state;
+  default: return state;
   }
 };
 

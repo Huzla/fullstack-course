@@ -1,7 +1,6 @@
 import React from "react";
 import Blog from "../Blog.js";
 import { render, fireEvent } from "@testing-library/react";
-import { prettyDOM } from "@testing-library/dom";
 
 describe("<Blog />", () => {
   let component;
@@ -44,7 +43,7 @@ describe("<Blog />", () => {
   test("displays correct information in minimized component", () => {
     const div = component.container.querySelector(".blog-item");
 
-    expect(div).toContainHTML(`<strong>${ info.blog.title }</strong> <em>${ info.blog.author }</em>`)
+    expect(div).toContainHTML(`<strong>${ info.blog.title }</strong> <em>${ info.blog.author }</em>`);
   });
 
   test("clicking minimized item displays maximized item", () => {

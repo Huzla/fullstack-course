@@ -28,10 +28,10 @@ const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
             <Card.Content>
               {
                 (userId === blog.user.userId) ?
-                <Button onClick={ () => removeBlog(blog) } basic icon size="small" floated="right" negative >
-                <Icon name="remove" />
-                </Button>
-                :
+                  <Button onClick={ () => removeBlog(blog) } basic icon size="small" floated="right" negative >
+                    <Icon name="remove" />
+                  </Button>
+                  :
                 <></>
               }
               <Card.Header>
@@ -72,7 +72,7 @@ const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
           <Comments blog={ blog }/>
         </Grid.Column>
       </Grid>
-      </Container>
+    </Container>
     </>
   );
 
@@ -96,14 +96,16 @@ const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
 Blog.propTypes = {
   likeBlog: PropTypes.func.isRequired,
   removeBlog: PropTypes.func.isRequired,
-  userId: PropTypes.string.isRequired
+  userId: PropTypes.string.isRequired,
+  blog: PropTypes.object.isRequired,
+  full: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {
   return {
     userId: state.user.userId,
     blog: state.blogs.find(blog => blog.id === ownProps.id)
-  }
+  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -114,7 +116,7 @@ const mapDispatchToProps = dispatch => {
     removeBlog: (blog) => {
       dispatch(removeBlog(blog));
     }
-  }
+  };
 };
 
 export default connect(

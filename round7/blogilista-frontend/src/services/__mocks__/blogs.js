@@ -1,4 +1,3 @@
-let token = "";
 
 const blogs = [
   {
@@ -38,8 +37,10 @@ const blogs = [
 
 const getAll = () => new Promise(resolve => resolve(blogs));
 
-const setToken = (token) => {
-  token = token;
-}
+let token = "";
+
+const setToken = (inputToken) => {
+  token = inputToken;
+};
 
 export default { getAll, setToken };

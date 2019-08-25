@@ -1,23 +1,37 @@
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import React from "react";
-import { Table, Header } from "semantic-ui-react";
+import React, { useState } from "react";
+import { Table, Header, Container, List, Segment, Grid, Pagination } from "semantic-ui-react";
 
 const User = ({ name, blogs, id, full }) => {
+  const [visiblePage, setVisiblePage] = useState(1);
+  const numOfItems = 10;
+  const changePage = (event) => {
+    setVisiblePage(Number(event.target.attributes.value.value));
+  };
 
-  const fullUserElement = () => (
-    <div>
-      <h2>{ name }</h2>
-      <div>
-        <h3>Added blogs</h3>
-        <ul>
-          {
-            blogs.map(blogs => <li>{ blogs.title }</li>)
-          }
-        </ul>
-      </div>
-    </div>
-  );
+  const fullUserElement = () => {
+    const result = blogs.map(blog => <List.Item key={ blog.id }>{ blog.title }</List.Item>);
+
+    return (
+      <Container>
+        <Header as="h1" block inverted textAlign="center">{ name }</Header>
+        <div>
+          <Header as="h2">Added blogs</Header>
+          <Segment inverted>
+            <List divided inverted relaxed>
+              {
+                result.slice(numOfItems*(visiblePage - 1), numOfItems*visiblePage)
+              }
+            </List>
+            <Grid centered>
+              <Pagination onPageChange={ changePage } defaultActivePage={ visiblePage } totalPages={ Math.ceil(result.length/numOfItems) } inverted />
+            </Grid>
+          </Segment>
+        </div>
+      </Container>
+    );
+  };
 
   const listUserElement = () => (
     <Table.Row>
@@ -40,7 +54,7 @@ const User = ({ name, blogs, id, full }) => {
     }
   }
   else {
-    return null
+    return null;
   }
 
 };

@@ -17,7 +17,7 @@ const UserList = ({ users }) => {
   let result = copy.map((user) => <User
     key={ user.id }
     id={ user.id }
-     />);
+  />);
 
   return (
     <div>

@@ -5,7 +5,7 @@ import {
   Segment,
   Icon,
   Transition
-  } from "semantic-ui-react";
+} from "semantic-ui-react";
 
 const Togglable = (props) => {
   const [visible, setVisible] = useState(false);
@@ -18,7 +18,7 @@ const Togglable = (props) => {
     <Segment>
       <Transition visible={ visible } animation="slide down" duration={ 500 }>
         <Segment>
-        { props.children }
+          { props.children }
         </Segment>
       </Transition>
 

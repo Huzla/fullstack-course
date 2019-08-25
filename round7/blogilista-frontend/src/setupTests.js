@@ -14,6 +14,7 @@ const localStorageMock = {
 Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
 const originalError = console.error;
+
 beforeAll(() => {
   console.error = (...args) => {
     if (/Warning.*not wrapped in act/.test(args[0])) {

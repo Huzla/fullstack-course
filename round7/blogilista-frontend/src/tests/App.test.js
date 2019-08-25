@@ -37,8 +37,8 @@ describe("<App />", () => {
     const component = render(
       <App />
     );
-    component.rerender(<App />);
-    
+    component.rerender(<App/>);
+
     await waitForElement(
       () => component.getByText("Blogs")
     );

@@ -14,10 +14,10 @@ const BlogList = ({ blogs }) => {
   const copy = [...blogs];
   copy.sort((a, b) => b.likes - a.likes);
 
-  let result = copy.map((blog) =><Blog
+  let result = copy.map((blog) => <Blog
     key={ blog.id }
     id={ blog.id }
-    />);
+  />);
 
   return (
     <Segment inverted size="big">
@@ -25,7 +25,7 @@ const BlogList = ({ blogs }) => {
         { result.slice(10*(visiblePage - 1), 10*visiblePage) }
       </List>
       <Grid centered>
-          <Pagination onPageChange={ changePage } defaultActivePage={ visiblePage } totalPages={ Math.ceil(result.length/10) } inverted />
+        <Pagination onPageChange={ changePage } defaultActivePage={ visiblePage } totalPages={ Math.ceil(result.length/10) } inverted />
       </Grid>
     </Segment>
 

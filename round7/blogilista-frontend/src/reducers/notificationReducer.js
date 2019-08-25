@@ -1,15 +1,15 @@
 const notificationReducer = (state = { type: "", message: "" }, action) => {
   switch (action.type) {
-    case "SET_NOTIFICATION":
-      return action.data;
+  case "SET_NOTIFICATION":
+    return action.data;
 
-    case "CLEAR_NOTIFICATION":
-      return { type: "", message: "" };
-    default: return state;
+  case "CLEAR_NOTIFICATION":
+    return { type: "", message: "" };
+  default: return state;
   }
 };
 
-let timer = '';
+let timer = null;
 
 export const setNotification = (type, message, timeOutInSeconds = 5) => {
   return async (dispatch) => {
@@ -24,7 +24,7 @@ export const setNotification = (type, message, timeOutInSeconds = 5) => {
       timer = setTimeout(() => {
         dispatch({
           type: "CLEAR_NOTIFICATION"
-        })
+        });
       }, 1000*timeOutInSeconds);
     }
     catch (err) {

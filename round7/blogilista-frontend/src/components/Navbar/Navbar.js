@@ -1,4 +1,4 @@
-import React, { createRef }  from "react";
+import React  from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import {
@@ -6,12 +6,10 @@ import {
   Header,
   Icon,
   Segment,
-  Sidebar,
-  Container
-  } from "semantic-ui-react";
+  Sidebar
+} from "semantic-ui-react";
 
 const Navbar = ({ handleLogout, name, children }) => {
-  const contextRef = createRef();
 
   return (
     <Sidebar.Pushable>
@@ -25,12 +23,12 @@ const Navbar = ({ handleLogout, name, children }) => {
         </Segment>
 
         <Segment inverted>
-            <div>Logged in as:</div>
-            <strong>{ name }</strong>
-            <Button onClick={ handleLogout } basic inverted color="black" icon labelPosition="right" fluid>
-              <Icon name="sign out" />
-              Logout
-            </Button>
+          <div>Logged in as:</div>
+          <strong>{ name }</strong>
+          <Button onClick={ handleLogout } basic inverted color="black" icon labelPosition="right" fluid>
+            <Icon name="sign out" />
+            Logout
+          </Button>
         </Segment>
 
         <Segment size="large" color="black">
@@ -53,7 +51,9 @@ const Navbar = ({ handleLogout, name, children }) => {
 
 Navbar.propTypes = {
   handleLogout: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  children: PropTypes.object.isRequired,
+
 };
 
 export default Navbar;
