@@ -1,5 +1,8 @@
 import { connect } from "react-redux";
 import { likeBlog, removeBlog } from "../../reducers/blogReducer.js";
+import {
+  Link
+} from "react-router-dom";
 import PropTypes from "prop-types";
 import React from "react";
 import Comments from "./Comments.js";
@@ -78,8 +81,8 @@ const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
 
   const minimizedBlogElement = () => (
     <List.Item>
-      <List.Header as="a" href={ "/blogs/" + blog.id }>
-        { blog.title }
+      <List.Header as="a">
+        <Link to={ "/blogs/" + blog.id }>{ blog.title }</Link>
         <Icon name="chevron right" />
       </List.Header>
       <List.Description>{ blog.author }</List.Description>

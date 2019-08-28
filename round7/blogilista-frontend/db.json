@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "message": "Fine I guess",
+      "id": 0,
+      "blog": "5d3c1155ec561512db9df392"
+    },
+    {
+      "message": "Kinda lame",
+      "id": 1,
+      "blog": "5d3c1155ec561512db9df392"
+    },
+    {
+      "message": "I liked it",
+      "id": 2,
+      "blog": "5d3c1155ec561512db9df392"
+    },
+    {
+      "message": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+      "id": 3,
+      "blog": "5d3c1155ec561512db9df392"
+    },
+    {
+      "message": "Premature optimization is the root of all evil.",
+      "id": 4,
+      "blog": "5d3c10a3ec561512db9df391"
+    },
+    {
+      "message": "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
+      "id": 5,
+      "blog": "5d3c10a3ec561512db9df391"
+    },
+    {
+      "message": "Testaajat testaavat",
+      "blog": "5d3c10a3ec561512db9df391",
+      "id": 6
+    },
+    {
+      "message": "Testaus on taistelua",
+      "blog": "5d3c10a3ec561512db9df391",
+      "id": 7
+    },
+    {
+      "message": "testatus",
+      "blog": "5d3c10a3ec561512db9df391",
+      "id": 8
+    },
+    {
+      "message": "ole hiljaa",
+      "blog": "5d3c10a3ec561512db9df391",
+      "id": 9
+    },
+    {
+      "message": "testi",
+      "blog": "5d3c10a3ec561512db9df391",
+      "id": 10
+    },
+    {
+      "message": "testi",
+      "blog": "5d3c10a3ec561512db9df391",
+      "id": 11
+    },
+    {
+      "message": "testi",
+      "blog": "5d3c10a3ec561512db9df391",
+      "id": 12
+    },
+    {
+      "message": "testi",
+      "blog": "5d3c10a3ec561512db9df391",
+      "id": 13
+    },
+    {
+      "message": "testi",
+      "blog": "5d3c10a3ec561512db9df391",
+      "id": 14
+    },
+    {
+      "message": "kiva",
+      "blog": "5d66c34628156e14d02c9e76",
+      "id": 15
+    }
+  ]
+}

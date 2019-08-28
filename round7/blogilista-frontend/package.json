@@ -17,6 +17,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "customBuild": "webpack --mode=production",
+    "customStart": "webpack-dev-server --mode=development",
     "test": "react-scripts test",
     "server": "json-server -p3002 db.json",
     "eslint": "eslint .",
@@ -39,9 +41,18 @@
   },
   "proxy": "http://localhost:3003",
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
     "@testing-library/jest-dom": "^4.0.0",
     "@testing-library/react": "^8.0.7",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
     "eslint-plugin-jest": "^22.14.0",
-    "json-server": "^0.15.0"
+    "json-server": "^0.15.0",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7"
   }
 }

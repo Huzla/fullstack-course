@@ -1,5 +1,8 @@
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import {
+  Link
+} from "react-router-dom";
 import React, { useState } from "react";
 import { Table, Header, Container, List, Segment, Grid, Pagination } from "semantic-ui-react";
 
@@ -36,7 +39,7 @@ const User = ({ name, blogs, id, full }) => {
   const listUserElement = () => (
     <Table.Row>
       <Table.Cell>
-        <a href={ "/users/" + id }>{ name }</a>
+        <Link to={ "/users/" + id }>{ name }</Link>
       </Table.Cell>
 
       <Table.Cell>
