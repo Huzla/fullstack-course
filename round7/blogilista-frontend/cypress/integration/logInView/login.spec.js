@@ -1,5 +1,17 @@
 describe("Log in page", function() {
-  beforeEach(function() {    cy.visit("http://localhost:3000");  })
+  beforeEach(function() {
+    cy.request("POST", "http://localhost:3003/api/testing/reset");
+
+    const user = {
+      name: "Teppo Testaaja",
+      userId: "Teppo123",
+      password: "salasana"
+    };
+
+    cy.request("POST", "http://localhost:3003/api/users/", user);
+    cy.visit("http://localhost:3000");
+  });
+
   it("log in page can be opened", function() {
     cy.contains("Please login");
   });

@@ -5,7 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const { MONGO_URI } = require("./").config;
 const { ErrorHandler } = require("../errors");
-const middleware = require('./middleware.js');
+const middleware = require("./middleware.js");
 const routes = require("../routes");
 
 mongoose.connect(MONGO_URI, { useNewUrlParser: true, useCreateIndex: true })
@@ -22,6 +22,9 @@ app.use(middleware.getTokenFrom);
 app.use("/api/blogs/", routes.apiBlogs);
 app.use("/api/users/", routes.apiUsers);
 app.use("/login", routes.login);
+
+if (process.env.NODE_ENV === "test")
+  app.use("/api/testing/", routes.apiTesting);
 
 app.use(ErrorHandler);
 
