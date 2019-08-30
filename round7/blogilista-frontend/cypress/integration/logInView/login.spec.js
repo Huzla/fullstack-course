@@ -38,4 +38,21 @@ describe("Log in page", function() {
 
       cy.contains("Logged in as:");
   });
+
+  it("users can log out", function() {
+    //Expected username and password
+    cy.get("[data-test-input='username']")
+      .type("Teppo123");
+
+      cy.get("[data-test-input='password']")
+        .type("salasana");
+
+      cy.get("[data-test-button='login']")
+        .click();
+
+      cy.contains("Logout")
+        .click();
+
+      cy.contains("Please login");
+  });
 });
