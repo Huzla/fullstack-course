@@ -10,6 +10,7 @@ const BlogForm = ({ author, title, url, handleBlogSubmit }) => (
         <input
           { ...title }
           name="title"
+          data-test-input="title"
         />
         <Label pointing color="black">Title</Label>
       </Form.Field>
@@ -18,6 +19,7 @@ const BlogForm = ({ author, title, url, handleBlogSubmit }) => (
         <input
           { ...author }
           name="author"
+          data-test-input="author"
         />
         <Label pointing color="black">Author</Label>
       </Form.Field>
@@ -26,11 +28,12 @@ const BlogForm = ({ author, title, url, handleBlogSubmit }) => (
         <input
           { ...url }
           name="url"
+          data-test-input="url"
         />
         <Label pointing color="black">Url</Label>
       </Form.Field>
 
-      <Button basic fluid positive type="submit">Create</Button>
+      <Button basic fluid positive type="submit" data-test-button="blog-form-submit">Create</Button>
     </Form>
   </div>
 );

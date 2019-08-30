@@ -21,7 +21,7 @@ const BlogList = ({ blogs }) => {
 
   return (
     <Segment inverted size="big">
-      <List divided inverted relaxed>
+      <List divided inverted relaxed data-test-list="blog-list">
         { result.slice(10*(visiblePage - 1), 10*visiblePage) }
       </List>
       <Grid centered>

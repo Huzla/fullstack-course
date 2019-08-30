@@ -86,7 +86,7 @@ const App = (props) => {
     event.preventDefault();
 
     try {
-      props.createBlog({ title: title.value, author: author.value, url: url.value });
+      await props.createBlog({ title: title.value, author: author.value, url: url.value });
 
       handleSuccess(`New blog ${ title.value } by ${ author.value } added.`);
       title.reset();
@@ -94,7 +94,7 @@ const App = (props) => {
       url.reset();
     }
     catch (err) {
-      handleError(err.message);
+      handleError(err);
     }
   };
 

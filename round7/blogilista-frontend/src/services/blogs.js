@@ -13,12 +13,17 @@ const getAll = () => {
 };
 
 const create = async newObject => {
-  const config = {
-    headers: { Authorization: token },
-  };
+  try {
+    const config = {
+      headers: { Authorization: token },
+    };
 
-  const res = await axios.post(baseUrl, newObject, config);
-  return res.data;
+    const res = await axios.post(baseUrl, newObject, config);
+    return res.data;
+  }
+  catch (err) {
+    throw Error("Invalid blog data");
+  }
 };
 
 const replace = async oldObject => {

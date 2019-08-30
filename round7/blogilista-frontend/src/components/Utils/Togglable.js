@@ -22,7 +22,7 @@ const Togglable = (props) => {
         </Segment>
       </Transition>
 
-      <Button negative={ visible } basic icon color="black" onClick={ toggleVisibility }>
+      <Button negative={ visible } data-test-button="blog-form-toggler" basic icon color="black" onClick={ toggleVisibility }>
         <Icon name={ (!visible) ? props.buttonLabel : "cancel" } />
       </Button>
     </Segment>

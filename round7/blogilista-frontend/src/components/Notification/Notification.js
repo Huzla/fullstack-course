@@ -9,7 +9,7 @@ const Notification = ({ type, message }) => {
     return null;
 
   return (
-    <Message positive={ type === "success" } negative={ type === "error" }>
+    <Message positive={ type === "success" } negative={ type === "error" } data-test-notification={ type } >
       <Message.Header>
         { message }
       </Message.Header>
