@@ -11,6 +11,7 @@ const LoginForm = ({ username, password, handleLogin }) => {
           <input
             { ...username }
             name="Username"
+            data-test-input="username"
           />
           <Label pointing color="black">username</Label>
         </Form.Field>
@@ -18,10 +19,11 @@ const LoginForm = ({ username, password, handleLogin }) => {
           <input
             { ...password }
             name="Password"
+            data-test-input="password"
           />
           <Label pointing color="black">password</Label>
         </Form.Field>
-        <Button type="submit" basic positive fluid>login</Button>
+        <Button type="submit" basic positive fluid data-test-button="login">login</Button>
       </Form>
     </Container>
   );
