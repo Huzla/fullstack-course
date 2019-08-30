@@ -59,11 +59,11 @@ const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
 
             <Card.Content extra>
               <Button as="div" onClick={ () => likeBlog(blog) } labelPosition="right">
-                <Button basic positive>
+                <Button basic positive data-test-button="like">
                   <Icon name="like" />
                   Like
                 </Button>
-                <Label as="a" basic color="green" pointing="left">
+                <Label as="a" basic color="green" pointing="left" data-test-label="likes">
                   { blog.likes }
                 </Label>
               </Button>
@@ -80,9 +80,9 @@ const Blog = ({ blog, likeBlog, removeBlog, userId, full }) => {
   );
 
   const minimizedBlogElement = () => (
-    <List.Item>
+    <List.Item data-test-item="blog">
       <List.Header as="a">
-        <Link to={ "/blogs/" + blog.id }>{ blog.title }</Link>
+        <Link data-test-link="blog" to={ "/blogs/" + blog.id }>{ blog.title }</Link>
         <Icon name="chevron right" />
       </List.Header>
       <List.Description>{ blog.author }</List.Description>

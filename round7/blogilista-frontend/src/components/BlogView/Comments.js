@@ -36,13 +36,13 @@ const Comments = ({ comments, blog, createComment }) => {
 
       <Form onSubmit={ handleSubmit }>
         <Form.Field>
-          <input placeholder="Leave a comment" type="text" name="comment" />
+          <input placeholder="Leave a comment" type="text" name="comment" data-test-input="comment" />
         </Form.Field>
-        <Button basic color="black">Add comment</Button>
+        <Button basic color="black" data-test-button="comment">Add comment</Button>
       </Form>
       { (comments.length)
         ? <Segment inverted size="big">
-          <List divided inverted relaxed>
+          <List divided inverted relaxed data-test-list="comments">
             { result.slice(numOfItems*(visiblePage - 1), numOfItems*visiblePage) }
           </List>
           <Grid centered>
