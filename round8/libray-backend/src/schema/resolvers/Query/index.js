@@ -5,9 +5,11 @@ const bookCount = () => services.books.getAll().length;
 const authorCount =  () => services.authors.getAll().length;
 
 const allBooks = (root, args) => {
-  const books = services.books.getAll();
+  let books = services.books.getAll();
+  books =  (typeof args.author !== "undefined") ? books.filter(book => book.author === args.author) : books;
+  books =  (typeof args.genre !== "undefined") ? books.filter(book => book.genres.includes(args.genre)) : books;
 
-  return (typeof args.author !== "undefined") ? books.filter(book => book.author === args.author) : books;
+  return books;
 };
 
 const allAuthors = () => services.authors.getAll();
