@@ -58,6 +58,9 @@ let books = [
 
 const getAll = () => books;
 
+const getByField = (field, value) => books.filter(book => book[field] === value);
+
 module.exports = {
-  getAll
+  getAll,
+  getByField
 };

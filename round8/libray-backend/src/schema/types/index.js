@@ -1,4 +1,5 @@
 module.exports = [
   require("./Query"),
-  require("./Book")
+  require("./Book"),
+  require("./Author"),
 ];
