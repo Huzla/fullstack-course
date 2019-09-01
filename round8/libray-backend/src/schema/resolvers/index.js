@@ -1,5 +1,6 @@
 module.exports = {
   Query: require("./Query"),
   Book: require("./Book"),
-  Author: require("./Author")
+  Author: require("./Author"),
+  Mutation: require("./Mutation")
 };

@@ -1,3 +1,5 @@
+const uuidv1 = require("uuid/v1");
+const { UserInputError } = require("apollo-server");
 /*
  * It would be more sensible to assosiate book and the author by saving
  * the author id instead of the name to the book.
@@ -60,7 +62,21 @@ const getAll = () => books;
 
 const getByField = (field, value) => books.filter(book => book[field] === value);
 
+const addNew = (content) => {
+  if (books.map(book => book.title).includes(content.title))
+    throw new UserInputError("Title must b unique", {
+      invalidArgs: content.title
+    });
+
+  const newBook = { ...content, id: uuidv1() };
+
+  books = books.concat(newBook);
+
+  return newBook;
+};
+
 module.exports = {
   getAll,
-  getByField
+  getByField,
+  addNew
 };

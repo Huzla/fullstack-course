@@ -1,3 +1,5 @@
+const uuidv1 = require("uuid/v1");
+
 let authors = [
   {
     name: "Robert Martin",
@@ -26,6 +28,18 @@ let authors = [
 
 const getAll = () => authors;
 
+const findByField = (field, value) => authors.find(author => author[field] === value);
+
+const addNew = (content) => {
+  const newAuthor = { ...content, id: uuidv1() };
+
+  authors = authors.concat(newAuthor);
+
+  return newAuthor;
+};
+
 module.exports = {
-  getAll
+  getAll,
+  findByField,
+  addNew
 };
