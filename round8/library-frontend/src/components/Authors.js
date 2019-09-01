@@ -1,36 +1,65 @@
 import React, { useState } from "react";
+import { Segment, Header, Table } from "semantic-ui-react";
 
-const Authors = (props) => {
-  if (!props.show) {
+const Authors = ({ result, show }) => {
+  if (!show) {
     return null;
   }
-  const authors = [];
+
+  if (result.loading) {
+    return (
+      <Segment loading>
+        <Header as="h2" block>Authors</Header>
+
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Name</Table.HeaderCell>
+              <Table.HeaderCell>Born</Table.HeaderCell>
+              <Table.HeaderCell>Books</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+        </Table>
+      </Segment>
+    );
+  }
+
+
+  const authors = result.data.allAuthors.map(a => (
+    <Table.Row key={ a.id }>
+      <Table.Cell>
+        { a.name }
+      </Table.Cell>
+
+      <Table.Cell>
+        { a.born || "unknown" }
+      </Table.Cell>
+
+      <Table.Cell>
+        { a.bookCount }
+      </Table.Cell>
+    </Table.Row>
+  ));
 
   return (
-    <div>
-      <h2>authors</h2>
-      <table>
-        <tbody>
-          <tr>
-            <th></th>
-            <th>
-              born
-            </th>
-            <th>
-              books
-            </th>
-          </tr>
-          { authors.map(a =>
-            <tr key={ a.name }>
-              <td>{ a.name }</td>
-              <td>{ a.born }</td>
-              <td>{ a.bookCount }</td>
-            </tr>
-          ) }
-        </tbody>
-      </table>
+    <Segment>
+      <Header as="h2" block>Authors</Header>
 
-    </div>
+      <Table>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Name</Table.HeaderCell>
+            <Table.HeaderCell>Born</Table.HeaderCell>
+            <Table.HeaderCell>Books</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+
+        <Table.Body>
+          { authors }
+        </Table.Body>
+      </Table>
+
+    </Segment>
   );
 };
 

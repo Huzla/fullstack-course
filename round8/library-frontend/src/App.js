@@ -1,22 +1,44 @@
 import React, { useState } from "react";
-import { Container } from "semantic-ui-react";
+import { Container, Button } from "semantic-ui-react";
+import { Query } from "react-apollo";
+import { gql } from "apollo-boost";
 import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
+
+const ALL_AUTHORS = gql`
+{
+  allAuthors  {
+    name
+    born
+    bookCount
+    id
+  }
+}
+`;
+
+
 const App = () => {
   const [page, setPage] = useState("authors");
 
   return (
     <Container>
       <div>
-        <button onClick={ () => setPage("authors") }>authors</button>
-        <button onClick={ () => setPage("books") }>books</button>
-        <button onClick={ () => setPage("add") }>add book</button>
+        <Button color="violet" active={ (page === "authors") ? true : false } onClick={ () => setPage("authors") }>authors</Button>
+        <Button color="violet" active={ (page === "books") ? true : false } onClick={ () => setPage("books") }>books</Button>
+        <Button color="violet" active={ (page === "add") ? true : false } onClick={ () => setPage("add") }>add book</Button>
       </div>
 
-      <Authors
-        show={ page === "authors" }
-      />
+      <Query query={ ALL_AUTHORS }>
+        {
+          (result) => (
+            <Authors
+              show={ page === "authors" }
+              result={ result }
+            />
+          )
+        }
+      </Query>
 
       <Books
         show={ page === "books" }
