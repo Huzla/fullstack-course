@@ -38,8 +38,23 @@ const addNew = (content) => {
   return newAuthor;
 };
 
+const editField = (name, field, newValue) => {
+  const editMe = findByField("name", name);
+
+  if (!editMe)
+    return null;
+
+  const copy = { ...editMe };
+  copy[field] = newValue;
+  
+  authors = authors.map(a => (a.name === name) ? copy : a);
+
+  return copy;
+};
+
 module.exports = {
   getAll,
   findByField,
-  addNew
+  addNew,
+  editField
 };
