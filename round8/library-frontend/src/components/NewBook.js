@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Segment, Form, Button, Label } from "semantic-ui-react";
 
 const NewBook = (props) => {
   const [title, setTitle] = useState("");
@@ -14,7 +15,9 @@ const NewBook = (props) => {
   const submit = async (e) => {
     e.preventDefault();
 
-    console.log("add book...");
+    await props.addBook({
+     variables: { title, author, published: Number(published), genres }
+   })
 
     setTitle("");
     setPublished("");
@@ -29,43 +32,53 @@ const NewBook = (props) => {
   }
 
   return (
-    <div>
-      <form onSubmit={ submit }>
-        <div>
-          title
+    <Segment>
+      <Form onSubmit={ submit }>
+        <Form.Field>
+          <Label color="black" htmlFor="title">title</Label>
           <input
             value={ title }
             onChange={ ({ target }) => setTitle(target.value) }
+            name="title"
           />
-        </div>
-        <div>
-          author
+        </Form.Field>
+
+        <Form.Field>
+          <Label color="black" htmlFor="author">author</Label>
           <input
             value={ author }
+            name="author"
             onChange={ ({ target }) => setAuhtor(target.value) }
           />
-        </div>
-        <div>
-          published
+        </Form.Field>
+
+        <Form.Field>
+          <Label color="black" htmlFor="published">published</Label>
           <input
             type="number"
             value={ published }
+            name="published"
             onChange={ ({ target }) => setPublished(target.value) }
           />
-        </div>
-        <div>
+        </Form.Field>
+
+        <Form.Field>
+          <Label color="black" htmlFor="genre">genre</Label>
           <input
             value={ genre }
+            name="genre"
             onChange={ ({ target }) => setGenre(target.value) }
           />
-          <button onClick={ addGenre } type="button">add genre</button>
-        </div>
-        <div>
-          genres: { genres.join(" ") }
-        </div>
-        <button type="submit">create book</button>
-      </form>
-    </div>
+          <Button onClick={ addGenre } type="button">Add genre</Button>
+
+          <Segment>
+          Genres: { genres.join(" ") }
+          </Segment>
+        </Form.Field>
+
+        <Button fluid size="big" positive type="submit">Create book</Button>
+      </Form>
+    </Segment>
   );
 };
 
