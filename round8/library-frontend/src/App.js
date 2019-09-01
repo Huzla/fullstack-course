@@ -1,13 +1,13 @@
 import React, { useState } from "react";
+import { Container } from "semantic-ui-react";
 import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
-
 const App = () => {
   const [page, setPage] = useState("authors");
 
   return (
-    <div>
+    <Container>
       <div>
         <button onClick={ () => setPage("authors") }>authors</button>
         <button onClick={ () => setPage("books") }>books</button>
@@ -26,7 +26,7 @@ const App = () => {
         show={ page === "add" }
       />
 
-    </div>
+    </Container>
   );
 };
 
