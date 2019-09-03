@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Button } from "semantic-ui-react";
+import { Container, Button, Message } from "semantic-ui-react";
 import { Query, Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import Authors from "./components/Authors";
@@ -21,7 +21,9 @@ const ALL_BOOKS = gql`
 {
   allBooks  {
     title
-    author
+    author {
+      name
+    }
     published
     id
   }
@@ -37,7 +39,6 @@ mutation createBook($title: String!, $author: String!, $published: Int!, $genres
     genres: $genres
   ) {
     title
-    author
     published
     id
   }
@@ -54,21 +55,42 @@ mutation editAuthor($name: String!, $born: Int!) {
 }
 `
 
+
 const App = () => {
   const [page, setPage] = useState("authors");
+  const [notification, setNotification] = useState({});
+  const [notificationTimer, setNotificationTimer] = useState(null);
+
+  const showNotification = (error, message) => {
+    setNotification({ error, message });
+
+    setNotificationTimer(setTimeout(() => {
+      setNotification({});
+      setNotificationTimer(null);
+    }, 5000));
+
+  };
+
+  const handleError = (err) => {
+    showNotification(true, err.message);
+  };
 
   return (
     <Container>
+      <Message hidden={ notificationTimer === null } floating error={ notification.error } positive={ !notification.error }>
+        { notification.message }
+      </Message>
+
       <div>
         <Button color="violet" active={ (page === "authors") ? true : false } onClick={ () => setPage("authors") }>authors</Button>
         <Button color="violet" active={ (page === "books") ? true : false } onClick={ () => setPage("books") }>books</Button>
         <Button color="violet" active={ (page === "add") ? true : false } onClick={ () => setPage("add") }>add book</Button>
       </div>
 
-      <Mutation mutation={ EDIT_BIRTH } refetchQueries={[{ query: ALL_AUTHORS }]}>
+      <Mutation mutation={ EDIT_BIRTH } refetchQueries={ [{ query: ALL_AUTHORS }] } onError={ handleError }>
         {
           (editAuthor) => (
-            <Query query={ ALL_AUTHORS }>
+            <Query query={ ALL_AUTHORS } onError={ handleError }>
             {
               (result) => (
                 <Authors
@@ -83,7 +105,7 @@ const App = () => {
         }
       </Mutation>
 
-      <Query query={ ALL_BOOKS }>
+      <Query query={ ALL_BOOKS } onError={ handleError }>
         {
           (result) => (
             <Books
@@ -94,7 +116,7 @@ const App = () => {
         }
       </Query>
 
-      <Mutation mutation={ CREATE_BOOK } refetchQueries={[{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]}>
+      <Mutation mutation={ CREATE_BOOK } refetchQueries={ [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }] } onError={ handleError }>
         {
           (addBook) => (
             <NewBook

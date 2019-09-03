@@ -32,7 +32,7 @@ const Books = ({ result, show }) => {
       </Table.Cell>
 
       <Table.Cell>
-        { b.author }
+        { b.author.name }
       </Table.Cell>
 
       <Table.Cell>
