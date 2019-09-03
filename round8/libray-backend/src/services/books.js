@@ -3,7 +3,7 @@ const { UserInputError } = require("apollo-server");
 
 const getAll = () => Book.find({}).populate("author");
 
-const getByField = (field, value) => Book.find({ [field]: value });
+const getByField = (field, value) => Book.find({ [field]: value }).populate("author");
 
 const addNew = async (content) => {
   const someBook = await Book.findOne({ title: content.title });
