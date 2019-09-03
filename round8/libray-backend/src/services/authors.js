@@ -2,7 +2,7 @@ const { Author } = require("../models");
 
 const getAll = () => Author.find({});
 
-const findByField = (field, value) => Author.find({ [field]: value });
+const findByField = async (field, value) => Author.find({ [field]: value });
 
 const addNew = (content) => {
   const newAuthor = new Author(content);
@@ -11,7 +11,7 @@ const addNew = (content) => {
 };
 
 const editField = async (name, field, newValue) => {
-  const editMe = await findByField("name", name);
+  const editMe = (await findByField("name", name))[0];
 
   if (!editMe)
     return null;

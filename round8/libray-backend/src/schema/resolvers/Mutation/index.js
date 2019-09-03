@@ -1,12 +1,15 @@
 const services = require("../../../services");
 
 //Validation should probably be done in a separate module.
-const addBook = (root, args) => {
+const addBook = async (root, args) => {
+  let author = (await services.authors.findByField("name", args.author))[0];
 
-  if (!services.authors.findByField("name", args.author))
-    services.authors.addNew({ name: args.author });
+  if (!(author))
+    author = await services.authors.addNew({ name: args.author });
 
-  return services.books.addNew(args);
+  const content = { ...args, author: author._id };
+
+  return services.books.addNew(content);
 };
 
 const editAuthor = (root, args) => services.authors.editField(args.name, "born", args.setBornTo);

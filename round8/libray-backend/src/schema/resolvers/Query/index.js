@@ -1,6 +1,10 @@
 const services = require("../../../services");
 
-const bookCount = () => services.books.getAll().length;
+const bookCount = async () => {
+  const books = await services.books.getAll();
+
+  return books.length;
+};
 
 const authorCount = async () => {
   const authors = await services.authors.getAll();
@@ -8,10 +12,11 @@ const authorCount = async () => {
   return authors.length;
 };
 
-const allBooks = (root, args) => {
-  let books = services.books.getAll();
-  books =  (typeof args.author !== "undefined") ? books.filter(book => book.author === args.author) : books;
-  books =  (typeof args.genre !== "undefined") ? books.filter(book => book.genres.includes(args.genre)) : books;
+const allBooks = async (root, args) => {
+  let books = await services.books.getAll();
+
+  books = (typeof args.author !== "undefined") ? books.filter(book => book.author.name === args.author) : books;
+  books = (typeof args.genre !== "undefined") ? books.filter(book => book.genres.includes(args.genre)) : books;
 
   return books;
 };
