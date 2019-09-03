@@ -23,8 +23,8 @@ const allBooks = async (root, args) => {
 
 const allAuthors = () => services.authors.getAll();
 
-const me = () => {
-  return null;
+const me = (root, args, context) => {
+  return context.currentUser;
 };
 
 module.exports = {

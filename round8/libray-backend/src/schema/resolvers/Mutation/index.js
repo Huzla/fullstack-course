@@ -1,7 +1,14 @@
+require("dotenv").config();
+const { AuthenticationError } = require("apollo-server");
 const services = require("../../../services");
+const jwt = require("jsonwebtoken");
 
 //Validation should probably be done in a separate module.
 const addBook = async (root, args) => {
+  if (!context.currentUser) {
+    throw new AuthenticationError("Authentication required");
+  }
+
   let author = (await services.authors.findByField("name", args.author))[0];
   let newAuthor = false;
 
@@ -23,15 +30,30 @@ const addBook = async (root, args) => {
   }
 };
 
-const createUser = (root, args) => {
-  return null;
+const createUser = async (root, args) => services.users.addNew(args);
+
+const login = async (root, args) => {
+  const user = (await services.users.findByField("username", args.username))[0];
+
+  if ( !user || args.password !== "SalaisinSana" ) {
+     throw new UserInputError("Incorrect credentials")
+   }
+
+   const userForToken = {
+     username: user.username,
+     id: user._id,
+   }
+
+   return { value: jwt.sign(userForToken, process.env.JWT_SECRET) };
 };
 
-const login = (root, args) => {
-  return null;
-};
+const editAuthor = (root, args, context) => {
+  if (!context.currentUser) {
+    throw new AuthenticationError("Authentication required");
+  }
 
-const editAuthor = (root, args) => services.authors.editField(args.name, "born", args.setBornTo);
+  services.authors.editField(args.name, "born", args.setBornTo)
+};
 
 module.exports = {
   addBook,
