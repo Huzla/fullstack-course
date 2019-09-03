@@ -23,9 +23,14 @@ const allBooks = async (root, args) => {
 
 const allAuthors = () => services.authors.getAll();
 
+const me = () => {
+  return null;
+};
+
 module.exports = {
   bookCount,
   authorCount,
   allBooks,
-  allAuthors
+  allAuthors,
+  me
 };

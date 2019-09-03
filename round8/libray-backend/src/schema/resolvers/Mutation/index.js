@@ -18,14 +18,24 @@ const addBook = async (root, args) => {
   catch (err) {
     if (newAuthor)
       await author.remove();
-      
+
     throw err;
   }
+};
+
+const createUser = (root, args) => {
+  return null;
+};
+
+const login = (root, args) => {
+  return null;
 };
 
 const editAuthor = (root, args) => services.authors.editField(args.name, "born", args.setBornTo);
 
 module.exports = {
   addBook,
-  editAuthor
+  editAuthor,
+  createUser,
+  login
 };
