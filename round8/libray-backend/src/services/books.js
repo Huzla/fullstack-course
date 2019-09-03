@@ -15,7 +15,14 @@ const addNew = async (content) => {
 
   let newBook = new Book(content);
 
-  newBook = await newBook.save();
+  try {
+    newBook = await newBook.save();
+  }
+  catch (err) {
+    throw new UserInputError(err.message, {
+      invalidArgs: content
+    });
+  }
 
   return Book.populate(newBook, { path: "author" });
 };

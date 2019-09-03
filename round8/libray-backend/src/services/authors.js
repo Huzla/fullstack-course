@@ -1,4 +1,5 @@
 const { Author } = require("../models");
+const { UserInputError } = require("apollo-server");
 
 const getAll = () => Author.find({});
 
@@ -7,7 +8,14 @@ const findByField = async (field, value) => Author.find({ [field]: value });
 const addNew = (content) => {
   const newAuthor = new Author(content);
 
-  return newAuthor.save();
+  try {
+    return newAuthor.save();
+  }
+  catch (err) {
+    throw new UserInputError(err.message, {
+      invalidArgs: content
+    });
+  }
 };
 
 const editField = async (name, field, newValue) => {
