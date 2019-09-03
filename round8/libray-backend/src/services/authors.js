@@ -1,55 +1,24 @@
-const uuidv1 = require("uuid/v1");
+const { Author } = require("../models");
 
-let authors = [
-  {
-    name: "Robert Martin",
-    id: "afa51ab0-344d-11e9-a414-719c6709cf3e",
-    born: 1952,
-  },
-  {
-    name: "Martin Fowler",
-    id: "afa5b6f0-344d-11e9-a414-719c6709cf3e",
-    born: 1963
-  },
-  {
-    name: "Fyodor Dostoevsky",
-    id: "afa5b6f1-344d-11e9-a414-719c6709cf3e",
-    born: 1821
-  },
-  {
-    name: "Joshua Kerievsky", // birthyear not known
-    id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
-  },
-  {
-    name: "Sandi Metz", // birthyear not known
-    id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
-  },
-];
+const getAll = () => Author.find({});
 
-const getAll = () => authors;
-
-const findByField = (field, value) => authors.find(author => author[field] === value);
+const findByField = (field, value) => Author.find({ [field]: value });
 
 const addNew = (content) => {
-  const newAuthor = { ...content, id: uuidv1() };
+  const newAuthor = new Author(content);
 
-  authors = authors.concat(newAuthor);
-
-  return newAuthor;
+  return newAuthor.save();
 };
 
-const editField = (name, field, newValue) => {
-  const editMe = findByField("name", name);
+const editField = async (name, field, newValue) => {
+  const editMe = await findByField("name", name);
 
   if (!editMe)
     return null;
 
-  const copy = { ...editMe };
-  copy[field] = newValue;
-  
-  authors = authors.map(a => (a.name === name) ? copy : a);
+  editMe[field] = newValue;
 
-  return copy;
+  return editMe.save();
 };
 
 module.exports = {

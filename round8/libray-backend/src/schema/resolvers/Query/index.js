@@ -2,7 +2,11 @@ const services = require("../../../services");
 
 const bookCount = () => services.books.getAll().length;
 
-const authorCount =  () => services.authors.getAll().length;
+const authorCount = async () => {
+  const authors = await services.authors.getAll();
+
+  return authors.length;
+};
 
 const allBooks = (root, args) => {
   let books = services.books.getAll();

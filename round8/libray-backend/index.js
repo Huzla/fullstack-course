@@ -5,9 +5,9 @@ const mongoose = require("mongoose");
 
 mongoose.set("useFindAndModify", false);
 
-console.log("connecting to", MONGO_URI);
+console.log("connecting to",  process.env.MONGO_URI);
 
-mongoose.connect(MONGO_URI, { useNewUrlParser: true })
+mongoose.connect( process.env.MONGO_URI, { useNewUrlParser: true })
   .then(() => {
     console.log("connected to MongoDB");
   })
