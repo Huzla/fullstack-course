@@ -92,9 +92,12 @@ const App = ({ client }) => {
     client.resetStore();
   };
 
-  const loginButton = () => (
+  const restricedActions = () => (
     (token) ?
-    <Button color="purple" size="large" floated="right" onClick={ () => logout() }>logout</Button>
+    <>
+      <Button color="violet" active={ (page === "add") ? true : false } onClick={ () => setPage("add") }>add book</Button>
+      <Button color="purple" size="large" floated="right" onClick={ () => logout() }>logout</Button>
+    </>
     :
     <Button color="pink" size="large" floated="right" active={ (page === "login") ? true : false } onClick={ () => setPage("login") }>login</Button>
   );
@@ -108,8 +111,7 @@ const App = ({ client }) => {
       <div>
         <Button color="violet" active={ (page === "authors") ? true : false } onClick={ () => setPage("authors") }>authors</Button>
         <Button color="violet" active={ (page === "books") ? true : false } onClick={ () => setPage("books") }>books</Button>
-        <Button color="violet" active={ (page === "add") ? true : false } onClick={ () => setPage("add") }>add book</Button>
-        { loginButton() }
+        { restricedActions() }
       </div>
 
       <Mutation mutation={ LOGIN } onError={ handleError }>
@@ -136,6 +138,7 @@ const App = ({ client }) => {
               (result) => (
                 <Authors
                 show={ page === "authors" }
+                loggedIn={ token !== null }
                 result={ result }
                 editAuthor={ editAuthor }
                 />

@@ -10,7 +10,7 @@ import {
   Form
 } from "semantic-ui-react";
 
-const Authors = ({ result, show, editAuthor }) => {
+const Authors = ({ result, show, editAuthor, loggedIn }) => {
   const [selection, setSelection] = useState(null);
   const [born, setBorn] = useState("");
 
@@ -51,6 +51,22 @@ const Authors = ({ result, show, editAuthor }) => {
     setBorn(null);
   };
 
+  const bornIn = (author) => (
+    (loggedIn) ?
+    <Button as="div" labelPosition="left">
+      <Label pointing="right">
+        { author.born || "unknown" }
+      </Label>
+      <Button color="purple" onClick={ () => editBorn(author) }>
+        Edit
+      </Button>
+    </Button>
+    :
+    <Label>
+      { author.born || "unknown" }
+    </Label>
+  )
+
   const authors = result.data.allAuthors.map(a => (
     <Table.Row key={ a.id }>
       <Table.Cell>
@@ -58,14 +74,7 @@ const Authors = ({ result, show, editAuthor }) => {
       </Table.Cell>
 
       <Table.Cell>
-        <Button as="div" labelPosition="left">
-          <Label pointing="right">
-            { a.born || "unknown" }
-          </Label>
-          <Button color="purple" onClick={ () => editBorn(a) }>
-            Edit
-          </Button>
-        </Button>
+        { bornIn(a) }
       </Table.Cell>
 
       <Table.Cell>
