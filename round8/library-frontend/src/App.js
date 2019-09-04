@@ -72,7 +72,7 @@ const App = () => {
   };
 
   const handleError = (err) => {
-    showNotification(true, err.graphQLErrors[0].message);
+    showNotification(true, (err.graphQLErrors[0]) ? err.graphQLErrors[0].message : err.message);
   };
 
   return (
