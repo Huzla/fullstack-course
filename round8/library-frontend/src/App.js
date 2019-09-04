@@ -5,6 +5,7 @@ import { gql } from "apollo-boost";
 import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
+import LoginForm from "./components/LoginForm.js";
 
 const ALL_AUTHORS = gql`
 {
@@ -43,7 +44,7 @@ mutation createBook($title: String!, $author: String!, $published: Int!, $genres
     id
   }
 }
-`
+`;
 
 const EDIT_BIRTH = gql`
 mutation editAuthor($name: String!, $born: Int!) {
@@ -53,13 +54,23 @@ mutation editAuthor($name: String!, $born: Int!) {
     id
   }
 }
-`
+`;
+
+const LOGIN = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password)  {
+      value
+    }
+  }
+`;
 
 
-const App = () => {
+const App = ({ client }) => {
   const [page, setPage] = useState("authors");
   const [notification, setNotification] = useState({});
   const [notificationTimer, setNotificationTimer] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("library-user-token") || null);
+
 
   const showNotification = (error, message) => {
     setNotification({ error, message });
@@ -75,6 +86,19 @@ const App = () => {
     showNotification(true, (err.graphQLErrors[0]) ? err.graphQLErrors[0].message : err.message);
   };
 
+  const logout = () => {
+    setToken(null);
+    localStorage.clear();
+    client.resetStore();
+  };
+
+  const loginButton = () => (
+    (token) ?
+    <Button color="purple" size="large" floated="right" onClick={ () => logout() }>logout</Button>
+    :
+    <Button color="pink" size="large" floated="right" active={ (page === "login") ? true : false } onClick={ () => setPage("login") }>login</Button>
+  );
+
   return (
     <Container>
       <Message hidden={ notificationTimer === null } floating error={ notification.error } positive={ !notification.error }>
@@ -85,7 +109,24 @@ const App = () => {
         <Button color="violet" active={ (page === "authors") ? true : false } onClick={ () => setPage("authors") }>authors</Button>
         <Button color="violet" active={ (page === "books") ? true : false } onClick={ () => setPage("books") }>books</Button>
         <Button color="violet" active={ (page === "add") ? true : false } onClick={ () => setPage("add") }>add book</Button>
+        { loginButton() }
       </div>
+
+      <Mutation mutation={ LOGIN } onError={ handleError }>
+        {
+          (login) => (
+            <LoginForm
+              show={ page === "login" }
+              login={ login }
+              setToken={ (token) => {
+                setToken(token);
+                setPage("authors");
+              } }
+
+            />
+          )
+        }
+      </Mutation>
 
       <Mutation mutation={ EDIT_BIRTH } refetchQueries={ [{ query: ALL_AUTHORS }] } onError={ handleError }>
         {

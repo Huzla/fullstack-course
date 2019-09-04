@@ -5,7 +5,8 @@ import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { setContext } from "apollo-link-context";
-import { ApolloProvider } from "react-apollo";
+import { ApolloProvider, ApolloConsumer } from "react-apollo";
+
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
@@ -29,7 +30,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={ client }>
-    <App />
+    <ApolloConsumer>
+      { (client) => <App client={ client }/> }
+    </ApolloConsumer>
   </ApolloProvider>,
   document.getElementById("root")
 );

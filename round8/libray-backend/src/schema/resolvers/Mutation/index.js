@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { AuthenticationError } = require("apollo-server");
+const { AuthenticationError, UserInputError } = require("apollo-server");
 const services = require("../../../services");
 const jwt = require("jsonwebtoken");
 
@@ -36,15 +36,15 @@ const login = async (root, args) => {
   const user = (await services.users.findByField("username", args.username))[0];
 
   if ( !user || args.password !== "SalaisinSana" ) {
-     throw new UserInputError("Incorrect credentials")
-   }
+    throw new UserInputError("Incorrect credentials")
+  }
 
-   const userForToken = {
-     username: user.username,
-     id: user._id,
-   }
+  const userForToken = {
+    username: user.username,
+    id: user._id,
+  };
 
-   return { value: jwt.sign(userForToken, process.env.JWT_SECRET) };
+  return { value: jwt.sign(userForToken, process.env.JWT_SECRET) };
 };
 
 const editAuthor = (root, args, context) => {
