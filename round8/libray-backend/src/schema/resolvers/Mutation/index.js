@@ -4,7 +4,7 @@ const services = require("../../../services");
 const jwt = require("jsonwebtoken");
 
 //Validation should probably be done in a separate module.
-const addBook = async (root, args) => {
+const addBook = async (root, args, context) => {
   if (!context.currentUser) {
     throw new AuthenticationError("Authentication required");
   }
