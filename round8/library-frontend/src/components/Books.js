@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Segment, Header, Table, Checkbox, Button } from "semantic-ui-react";
 
-const Books = ({ result, show }) => {
+const Books = ({ result, show, user }) => {
   const [chosenGenres, setChosenGenres] = useState([]);
   const [filterGenres, setFilterGenres] = useState([]);
+  const [checkAll, setCheckAll] = useState(false);
+
 
   if (!show) {
     return null;
@@ -61,14 +63,27 @@ const Books = ({ result, show }) => {
 
   const allGenres = Array.from(new Set([].concat.apply([], result.data.allBooks.map(b => b.genres))));
 
-  const genres = allGenres.map(g => <Checkbox toggle checked={ filterGenres.includes(g) } key={ g } label={ g } onChange={ handleGenreCheck }/>);
+  const genres = allGenres.map(g => <Checkbox toggle readOnly={ checkAll } checked={ filterGenres.includes(g) } key={ g } label={ g } onChange={ handleGenreCheck }/>);
 
   const selectAllGenres = (event, data) => {
+    setCheckAll(data.checked);
+
     if (data.checked)
       return setFilterGenres(allGenres);
 
     setFilterGenres(chosenGenres);
   };
+
+  const selectRecommended = () => {
+    setFilterGenres([user.favoriteGenre]);
+  };
+
+  const recommendedView = () => (
+    <Segment>
+      <Header as="h4">Your favorite genre is: <strong>{ user.favoriteGenre }</strong></Header>
+      <Button color="violet" disabled={ checkAll } onClick={ selectRecommended } fluid>Recommended</Button>
+    </Segment>
+  )
 
   return (
     <Segment>
@@ -76,8 +91,12 @@ const Books = ({ result, show }) => {
 
       <Segment>
         <Header as="h3" block>Filter by genre</Header>
-        <Checkbox color="violet" toggle onChange={ selectAllGenres } label="All"/>
 
+        {
+          (user) ? recommendedView() : null
+        }
+
+        <Checkbox toggle onChange={ selectAllGenres } label="All"/>
         <Segment>
           { genres }
         </Segment>

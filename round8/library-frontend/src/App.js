@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Button, Message } from "semantic-ui-react";
 import { Query, Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
@@ -65,12 +65,31 @@ const LOGIN = gql`
   }
 `;
 
+const ME = gql`
+{
+  me {
+    favoriteGenre
+    username
+  }
+}
+`;
+
 
 const App = ({ client }) => {
   const [page, setPage] = useState("authors");
   const [notification, setNotification] = useState({});
   const [notificationTimer, setNotificationTimer] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("library-user-token") || null);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    if (token) {
+      client.query({ query: ME })
+      .then((res) => {
+        setUser(res.data.me);
+      })
+    }
+  }, [token, client]);
 
 
   const showNotification = (error, message) => {
@@ -89,6 +108,7 @@ const App = ({ client }) => {
 
   const logout = () => {
     setToken(null);
+    setUser(null);
     localStorage.clear();
     client.resetStore();
   };
@@ -156,6 +176,7 @@ const App = ({ client }) => {
             <Books
             show={ page === "books" }
             result={ result }
+            user={ user }
             />
           )
         }

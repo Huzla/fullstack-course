@@ -25,7 +25,7 @@ const server = new ApolloServer({
 
     if (auth && auth.toLowerCase().startsWith("bearer ")) {
       const decodedToken = jwt.verify(auth.substring(7), process.env.JWT_SECRET);
-      const currentUser = await findByField("_id", decodedToken.id);
+      const currentUser = (await findByField("_id", decodedToken.id))[0];
       return { currentUser };
     }
   }
