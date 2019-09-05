@@ -1,6 +1,5 @@
 const { AuthenticationError, UserInputError } = require("apollo-server");
-const { PubSub } = require("apollo-server");
-const pubsub = new PubSub();
+const pubsub = require("../pubsub.js");
 const services = require("../../../services");
 const jwt = require("jsonwebtoken");
 

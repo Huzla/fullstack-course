@@ -1,5 +1,4 @@
-const { PubSub } = require("apollo-server");
-const pubsub = new PubSub();
+const pubsub = require("../pubsub.js");
 
 const bookAdded = {
   subscribe: () => pubsub.asyncIterator(["BOOK_ADDED"])

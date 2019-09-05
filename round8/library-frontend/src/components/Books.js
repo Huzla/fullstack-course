@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Segment, Header, Table, Checkbox, Button } from "semantic-ui-react";
 
-const Books = ({ result, show, user }) => {
+const Books = ({ result, show, user, subscribeToBookAdded }) => {
   const [chosenGenres, setChosenGenres] = useState([]);
   const [filterGenres, setFilterGenres] = useState([]);
   const [checkAll, setCheckAll] = useState(false);
 
+  useEffect(() => {
+    subscribeToBookAdded();
+  }, []);
 
   if (!show) {
     return null;

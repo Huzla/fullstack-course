@@ -1,4 +1,4 @@
 require("fs")
   .readdirSync(__dirname)
-  .filter(str => str !== "index.js")
+  .filter(str => /^(.(?!\.js$))+$/.test(str))
   .forEach(str => { exports[str] = require("./" + str) });

@@ -18,18 +18,25 @@ const ALL_AUTHORS = gql`
 }
 `;
 
+const BOOK_DETAILS = gql`
+fragment BookDetails on Book {
+  title
+  author {
+    name
+  }
+  published
+  genres
+  id
+}
+`;
+
 const ALL_BOOKS = gql`
 {
-  allBooks  {
-    title
-    author {
-      name
-    }
-    published
-    genres
-    id
+  allBooks {
+    ...BookDetails
   }
 }
+${ BOOK_DETAILS }
 `;
 
 const CREATE_BOOK = gql`
@@ -40,11 +47,19 @@ mutation createBook($title: String!, $author: String!, $published: Int!, $genres
     published: $published,
     genres: $genres
   ) {
-    title
-    published
-    id
+    ...BookDetails
   }
 }
+${ BOOK_DETAILS }
+`;
+
+const BOOK_ADDED = gql`
+subscription {
+  bookAdded {
+    ...BookDetails
+  }
+}
+${ BOOK_DETAILS }
 `;
 
 const EDIT_BIRTH = gql`
@@ -73,6 +88,7 @@ const ME = gql`
   }
 }
 `;
+
 
 
 const App = ({ client }) => {
@@ -104,6 +120,10 @@ const App = ({ client }) => {
 
   const handleError = (err) => {
     showNotification(true, (err.graphQLErrors[0]) ? err.graphQLErrors[0].message : err.message);
+  };
+
+  const handleInfo = (message) => {
+    showNotification(false, message);
   };
 
   const logout = () => {
@@ -177,12 +197,29 @@ const App = ({ client }) => {
             show={ page === "books" }
             result={ result }
             user={ user }
+            subscribeToBookAdded={
+              () =>
+              result.subscribeToMore({
+                document: BOOK_ADDED,
+                updateQuery: (prev, { subscriptionData }) => {
+                  if (!subscriptionData.data)
+                    return prev;
+
+                  const newBook = subscriptionData.data.bookAdded;
+                  handleInfo(`Added new book '${ newBook.title }'`);
+
+                  return Object.assign({}, prev, {
+                    allBooks: [...prev.allBooks, newBook]
+                  });
+                }
+              })
+            }
             />
           )
         }
       </Query>
 
-      <Mutation mutation={ CREATE_BOOK } refetchQueries={ [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }] } onError={ handleError }>
+      <Mutation mutation={ CREATE_BOOK } refetchQueries={ [{ query: ALL_AUTHORS }] } onError={ handleError }>
         {
           (addBook) => (
             <NewBook
