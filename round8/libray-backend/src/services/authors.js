@@ -1,7 +1,7 @@
 const { Author } = require("../models");
 const { UserInputError } = require("apollo-server");
 
-const getAll = () => Author.find({});
+const getAll = () => Author.find({}).populate("bookCount").exec();
 
 const findByField = async (field, value) => Author.find({ [field]: value });
 

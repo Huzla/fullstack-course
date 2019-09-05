@@ -8,6 +8,8 @@ const Books = ({ result, show, user, subscribeToBookAdded }) => {
 
   useEffect(() => {
     subscribeToBookAdded();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!show) {
