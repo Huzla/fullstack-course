@@ -1,6 +1,4 @@
-module.exports = {
-  Query: require("./Query"),
-  Book: require("./Book"),
-  Author: require("./Author"),
-  Mutation: require("./Mutation")
-};
+require("fs")
+  .readdirSync(__dirname)
+  .filter(str => str !== "index.js")
+  .forEach(str => { exports[str] = require("./" + str) });

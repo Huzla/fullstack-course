@@ -1,5 +1,6 @@
-require("dotenv").config();
 const { AuthenticationError, UserInputError } = require("apollo-server");
+const { PubSub } = require("apollo-server");
+const pubsub = new PubSub();
 const services = require("../../../services");
 const jwt = require("jsonwebtoken");
 
@@ -20,7 +21,11 @@ const addBook = async (root, args, context) => {
   const content = { ...args, author: author._id };
 
   try {
-    return services.books.addNew(content);
+    const bookAdded = await services.books.addNew(content);
+
+    pubsub.publish("BOOK_ADDED", { bookAdded });
+
+    return bookAdded;
   }
   catch (err) {
     if (newAuthor)

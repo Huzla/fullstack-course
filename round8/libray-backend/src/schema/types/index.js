@@ -1,8 +1,4 @@
-module.exports = [
-  require("./Query"),
-  require("./Book"),
-  require("./Author"),
-  require("./Mutation"),
-  require("./User"),
-  require("./Token"),
-];
+module.exports = require("fs")
+  .readdirSync(__dirname)
+  .filter(str => str !== "index.js")
+  .map(str => require("./" + str));
